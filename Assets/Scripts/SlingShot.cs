@@ -40,7 +40,7 @@ public class SlingShot : MonoBehaviour
             direction.y = 0;
 
             horizontalDistance = direction.magnitude * 1;
-            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, new Vector3(-direction.x, 0, -direction.z), Time.deltaTime * 10000);
+            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, new Vector3(-direction.x, 0, -direction.z), Time.deltaTime * 10);
         }
 
         if (Input.GetMouseButtonUp(0))
