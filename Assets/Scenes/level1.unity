@@ -1377,6 +1377,11 @@ PrefabInstance:
       objectReference: {fileID: 279401163}
     - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
         type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
+        type: 3}
       propertyPath: Coordinates
       value: 
       objectReference: {fileID: 0}
@@ -2104,6 +2109,11 @@ PrefabInstance:
       objectReference: {fileID: 279401163}
     - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
         type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
+        type: 3}
       propertyPath: Coordinates
       value: 
       objectReference: {fileID: 0}
@@ -2201,6 +2211,11 @@ PrefabInstance:
       propertyPath: Input
       value: 
       objectReference: {fileID: 279401163}
+    - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
         type: 3}
       propertyPath: Coordinates
