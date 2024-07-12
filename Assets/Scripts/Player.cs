@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private float dashDuration = 0.2f;
     private float turnSmoothTime = 0.1f;
     private bool isDashing = false;
+  
 
 
     private void Awake()
