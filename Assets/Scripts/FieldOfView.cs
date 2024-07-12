@@ -11,7 +11,7 @@ public class FieldOfView : MonoBehaviour
     [SerializeField] private LayerMask targetMask;
     [SerializeField] private LayerMask obstructionMask;
     float timeElapsed;
-    float timeToCheck = 1f;
+    [SerializeField] private float timeToCheck;
 
     public bool canseePlayer;
     private void Start()
