@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Input : MonoBehaviour
+public class Input1 : MonoBehaviour
 {
     private PlayerMovement inputActions;
     public event EventHandler OnDash;

@@ -3,81 +3,79 @@ using UnityEngine;
 
 public class SlingShot : MonoBehaviour
 {
-    // List to hold instantiated stones
-    private List<GameObject> stones = new List<GameObject>();
-
-    // Prefab for the stone
     public GameObject stonePrefab;
-
-    // Variables to track mouse positions
+    [SerializeField] public GameObject landPosition;
     private Vector3 initialMousePosition;
     private Vector3 finalMousePosition;
-
-    // Sensitivity factor for slingshot power
     public float sensitivity = 1000.0f;
-
-    // Reference to the stone being launched
     private GameObject currentStone;
-
-    // Fixed height for the stone
     public float stoneHeight = 10.0f;
+    [SerializeField] public float angle = 75f, gravity = 20f;
+    Vector3 currentVelocity;
+    private CharacterController characterController;
+    float horizontalDistance;
+    float speed;
+    Vector3 direction;
 
-    // Angle for the projectile launch
-    [SerializeField] private float launchAngle = 45.0f;
+    private void Awake()
+    {
+        // Any initialization if needed
+    }
 
-    // Update is called once per frame
     void Update()
     {
         // Detect mouse click
-        if (UnityEngine.Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             // Get the initial mouse position
-            initialMousePosition = UnityEngine.Input.mousePosition;
+            initialMousePosition = Input.mousePosition;
             Debug.Log("initialMousePosition: " + initialMousePosition);
-
-            // Instantiate a new stone at the slingshot's position
-            currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * stoneHeight, Quaternion.identity);
-            stones.Add(currentStone);
         }
 
-        // Detect mouse button release
-        if (UnityEngine.Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButton(0))
         {
-            // Get the final mouse position
-            finalMousePosition = UnityEngine.Input.mousePosition;
+            Vector3 currentMousePosition = Input.mousePosition;
+            direction = initialMousePosition - currentMousePosition;
+            direction.z = direction.y;
+            direction.y = 0;
 
-            // Calculate the direction and power of the shot
-            Vector3 direction = initialMousePosition - finalMousePosition;
-            direction.z = direction.y; // Swap y and z for 2D simulation in 3D space
-            direction.y = 0; // Set y to zero for force calculations
-            Vector3 force = direction * sensitivity;
-
-            // Convert launch angle from degrees to radians
-            float angleInRadians = launchAngle * Mathf.Deg2Rad;
-
-            // Adjust force for angle
-            float forceMagnitude = force.magnitude;
-            Vector3 forceAtAngle = new Vector3(-force.x, Mathf.Sin(angleInRadians) * forceMagnitude, -force.z);
-
-            // Apply force to the stone's Rigidbody
-            Rigidbody rb = currentStone.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-                rb.AddForce(forceAtAngle, ForceMode.Impulse);
-                Debug.Log("Force added: " + forceAtAngle);
-            }
-
-            // Clear the reference to the current stone
-            currentStone = null;
+            horizontalDistance = direction.magnitude * 1;
+            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, new Vector3(-direction.x, 0, -direction.z), Time.deltaTime * 10000);
         }
 
-        // Update the position of the stone being dragged
-        if (currentStone != null && !UnityEngine.Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
-            Vector3 currentMousePosition = UnityEngine.Input.mousePosition;
-            Vector3 offset = (initialMousePosition - currentMousePosition) * sensitivity;
-            currentStone.transform.position = new Vector3(transform.position.x + offset.x, stoneHeight, transform.position.z + offset.y);
+            currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
+            characterController = currentStone.GetComponent<CharacterController>();
+            finalMousePosition = Input.mousePosition;
+
+            direction = initialMousePosition - finalMousePosition;
+            direction.z = direction.y;
+            direction.y = 0;
+
+            shoot();
         }
+
+        if (currentStone != null)
+        {
+            currentVelocity.y -= gravity * Time.deltaTime;
+            characterController.Move(currentVelocity * Time.deltaTime);
+        }
+    }
+
+    void shoot()
+    {
+        horizontalDistance = direction.magnitude * 1;
+        landPosition.transform.position = new Vector3(-direction.x, 0, -direction.z);
+        direction = new Vector3(-direction.x, 0, -direction.z).normalized;
+        Debug.Log("direction: " + direction);
+        Debug.Log("horizontalDistance: " + horizontalDistance);
+        speed = horizontalDistance * gravity;
+        speed /= Mathf.Sin(2 * angle * (Mathf.PI / 180f));
+        speed = Mathf.Sqrt(speed);
+        float verticalSpeed = Mathf.Sin(angle * (Mathf.PI / 180f)) * speed;
+        float horizontalSpeed = Mathf.Cos(angle * (Mathf.PI / 180f)) * speed;
+
+        currentVelocity = new Vector3(horizontalSpeed * direction.x, verticalSpeed, horizontalSpeed * direction.z);
     }
 }
