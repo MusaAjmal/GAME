@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
-    [SerializeField] private Input Input;
+    [SerializeField] private Input1 Input;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private CharacterController characterController;
