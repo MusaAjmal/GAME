@@ -222,7 +222,7 @@ Transform:
   m_GameObject: {fileID: 443193079}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -9.99, y: 5.7, z: 0}
+  m_LocalPosition: {x: -9.99, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -391,8 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ddad5c511793a468bb8c50bf37a373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stonePrefab: {fileID: 7822764563616565532, guid: d8ef51c87a45fbd45b02af87a82d5a20,
-    type: 3}
+  throwablePrefab: {fileID: 0}
   landPosition: {fileID: 933690048}
   sensitivity: 0.1
   stoneHeight: 1
@@ -603,7 +602,7 @@ Transform:
   m_GameObject: {fileID: 955723655}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2, y: -1, z: 0}
   m_LocalScale: {x: 28.250788, y: 28.250788, z: 28.250788}
   m_ConstrainProportionsScale: 1
   m_Children: []
