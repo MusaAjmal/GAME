@@ -76,6 +76,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movePoints: []
   moveSpeed: 0
+  noiseRadius: 8
+  objectMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &3394458991241596084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +101,8 @@ MonoBehaviour:
   obstructionMask:
     serializedVersion: 2
     m_Bits: 0
+  timeToCheck: 0
+  canseePlayer: 0
 --- !u!1 &8170374083235587902
 GameObject:
   m_ObjectHideFlags: 0
