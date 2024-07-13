@@ -9,9 +9,11 @@ public class Player : MonoBehaviour
     public static Player Instance { get; private set; }
 
     [SerializeField] private Input1 Input;
+    [SerializeField] public float pickupDistance;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private CharacterController characterController;
+    public Inventory inventory;
     [SerializeField] private Transform cam;
     private float dashDistance = 5f;
     private float dashDuration = 0.2f;
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        inventory = new Inventory();
         Input.OnDash += Input_OnDash;
     }
 
@@ -58,6 +61,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        inventory.GetAllItems();
         MovePlayer();
         
     }

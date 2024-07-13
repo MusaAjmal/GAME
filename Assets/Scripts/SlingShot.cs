@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SlingShot : MonoBehaviour
 {
-    public GameObject stonePrefab;
+    public GameObject throwablePrefab;
     [SerializeField] public GameObject landPosition;
     private Vector3 initialMousePosition;
     private Vector3 finalMousePosition;
@@ -45,15 +45,21 @@ public class SlingShot : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
-            characterController = currentStone.GetComponent<CharacterController>();
-            finalMousePosition = Input.mousePosition;
+            throwablePrefab = GameObject.FindWithTag(Player.Instance.inventory.equippedItem);
+            if (Player.Instance.inventory.HasItem(throwablePrefab.tag))
+            {
+                currentStone = Instantiate(throwablePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
+                characterController = currentStone.GetComponent<CharacterController>();
+                finalMousePosition = Input.mousePosition;
 
-            direction = initialMousePosition - finalMousePosition;
-            direction.z = direction.y;
-            direction.y = 0;
+                direction = initialMousePosition - finalMousePosition;
+                direction.z = direction.y;
+                direction.y = 0;
 
-            shoot();
+                shoot();
+                Player.Instance.inventory.UseItem();
+            }
+            
         }
 
         if (currentStone != null)
