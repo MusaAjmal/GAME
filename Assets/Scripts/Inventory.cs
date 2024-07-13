@@ -1,32 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private static Inventory instance;
+   
     private static string equippedItem;
 
     [SerializeField] private Dictionary<string, int> items = new Dictionary<string, int>();
+    
 
-    public static Inventory Instance
+    public static Inventory Instance { get; private set; }
+    private void Awake()
     {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<Inventory>();
-                if (instance == null)
-                {
-                    GameObject singletonObject = new GameObject();
-                    instance = singletonObject.AddComponent<Inventory>();
-                    singletonObject.name = "Inventory (Singleton)";
-                    DontDestroyOnLoad(singletonObject);
-                }
-            }
-            return instance;
-        }
+        Instance = this;
     }
+  
 
     public void GetAllItems()
     {

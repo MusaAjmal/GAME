@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26167b0df9112841916437d0d4b737a, type: 3}
   m_Name: Stone
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 0}
-  sprite: {fileID: 0}
-  ObjectName: 
+  Prefab: {fileID: 7261698824456725810, guid: d8ef51c87a45fbd45b02af87a82d5a20, type: 3}
+  sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  ObjectName: Stone
