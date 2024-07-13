@@ -16,9 +16,7 @@ public class Items : MonoBehaviour
         {
             Player.Instance.inventory.AddItem(gameObject.tag);
             Destroy(gameObject);
-            Player.Instance.inventory.SortItems();
-            Player.Instance.inventory.equippedItem = Player.Instance.inventory.GetFirstItem();
-
+           
         }
        
     }

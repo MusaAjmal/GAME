@@ -61,7 +61,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        inventory.GetAllItems();
+        Debug.Log(Instance.inventory.equippedItem);
+        
         MovePlayer();
         
     }

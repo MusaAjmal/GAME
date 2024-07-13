@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 public class Inventory : MonoBehaviour
 {
 
-    public string equippedItem;
+    public string equippedItem = "Bone";
 
     [SerializeField] private Dictionary<string, int> items = new Dictionary<string, int>();
     
@@ -20,10 +20,6 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-       
-            equippedItem = GetFirstItem();
-           Debug.Log("HI MOM " + equippedItem);
-        
         
     }
 
@@ -59,45 +55,9 @@ public class Inventory : MonoBehaviour
     {
         equippedItem = itemName;
     }
-    public Dictionary<string, int> SortItems()
-    {
-        // Convert dictionary to a list of key-value pairs
-        List<KeyValuePair<string, int>> sortedItemsList = new List<KeyValuePair<string, int>>(items);
+    
 
-        // Sort the list based on value first, then key
-        sortedItemsList.Sort((pair1, pair2) =>
-        {
-            int countComparison = pair1.Value.CompareTo(pair2.Value);
-            if (countComparison == 0)
-            {
-                return pair1.Key.CompareTo(pair2.Key);
-            }
-            return countComparison;
-        });
-
-        // Convert the sorted list back to a dictionary
-        Dictionary<string, int> sortedItems = new Dictionary<string, int>();
-        foreach (var pair in sortedItemsList)
-        {
-            sortedItems.Add(pair.Key, pair.Value);
-        }
-
-        return sortedItems;
-    }
-
-    public string GetFirstItem()
-    {
-        if (items.Count > 0)
-        {
-            var enumerator = items.GetEnumerator();
-            enumerator.MoveNext(); // Move to the first element
-            var firstItem = enumerator.Current;
-            Debug.Log("HI MOM !" + firstItem.Key);
-            return firstItem.Key;
-        }
-        return "No items in inventory.";
-    }
-
+   
     public string GetEquipedItem()
     {
         return equippedItem;
@@ -123,12 +83,9 @@ public class Inventory : MonoBehaviour
         {
             Debug.Log("Item " + equippedItem + " not found in inventory");
         }
-        items = SortItems();
+        
     }
-    public bool HasItem(string itemName)
-    {
-        return items.ContainsKey(itemName);
-    }
+   
 
     public void AddItem(string itemName)
     {

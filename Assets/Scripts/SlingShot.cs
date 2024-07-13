@@ -46,8 +46,7 @@ public class SlingShot : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             throwablePrefab = GameObject.FindWithTag(Player.Instance.inventory.equippedItem);
-            if (Player.Instance.inventory.HasItem(throwablePrefab.tag))
-            {
+            Debug.Log(throwablePrefab.tag);
                 currentStone = Instantiate(throwablePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
                 characterController = currentStone.GetComponent<CharacterController>();
                 finalMousePosition = Input.mousePosition;
@@ -58,7 +57,7 @@ public class SlingShot : MonoBehaviour
 
                 shoot();
                 Player.Instance.inventory.UseItem();
-            }
+            
             
         }
 
