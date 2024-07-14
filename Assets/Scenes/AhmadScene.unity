@@ -397,6 +397,10 @@ MonoBehaviour:
   stoneHeight: 1
   angle: 75
   gravity: 20
+  stonePrefab: {fileID: 7822764563616565532, guid: d8ef51c87a45fbd45b02af87a82d5a20,
+    type: 3}
+  BonePrefab: {fileID: 481727648245056054, guid: b5ace4465ad6627488305b5583dc4838,
+    type: 3}
 --- !u!1 &933690048
 GameObject:
   m_ObjectHideFlags: 0

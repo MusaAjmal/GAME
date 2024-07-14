@@ -8,12 +8,12 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
-    [SerializeField] private Input1 Input;
+    [SerializeField] private Input1 Input1;
     [SerializeField] public float pickupDistance;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private CharacterController characterController;
-    public Inventory inventory;
+    
     [SerializeField] private Transform cam;
     private float dashDistance = 5f;
     private float dashDuration = 0.2f;
@@ -29,8 +29,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        inventory = new Inventory();
-        Input.OnDash += Input_OnDash;
+        
+        Input1.OnDash += Input_OnDash;
     }
 
     private void Input_OnDash(object sender, System.EventArgs e)
@@ -61,14 +61,14 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(Instance.inventory.equippedItem);
         
+
         MovePlayer();
         
     }
     private void MovePlayer()
     {
-        Vector2 inputVector = Input.Move();
+        Vector2 inputVector = Input1.Move();
         Vector3 MovementVector = new Vector3(inputVector.x,0,inputVector.y);
         
         if(MovementVector.magnitude >= 0.1f)

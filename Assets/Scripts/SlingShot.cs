@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class SlingShot : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class SlingShot : MonoBehaviour
     float horizontalDistance;
     float speed;
     Vector3 direction;
+    public GameObject stonePrefab;
+
+    public GameObject BonePrefab;
+
 
     private void Awake()
     {
@@ -43,12 +48,31 @@ public class SlingShot : MonoBehaviour
             landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, new Vector3(-direction.x, 0, -direction.z), Time.deltaTime * 10);
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            throwablePrefab = GameObject.FindWithTag(Player.Instance.inventory.equippedItem);
-            Debug.Log(throwablePrefab.tag);
-                currentStone = Instantiate(throwablePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
-                characterController = currentStone.GetComponent<CharacterController>();
+        /* if (Input.GetMouseButtonUp(0))
+         {
+             if(Player.Instance.inventory.equippedItem == "Stone") {
+
+                 if (Player.Instance.inventory.GetItem("Stone") > 0)
+                 {
+                     currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
+                 }
+
+             }
+             else  if(Player.Instance.inventory.equippedItem == "Bone")
+             {
+
+                 if (Player.Instance.inventory.GetItem("Bone") > 0)
+                 {
+                     currentStone = Instantiate(BonePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
+                 }
+
+
+
+             } 
+
+        // Debug.Log(throwablePrefab.tag);
+
+        characterController = currentStone.GetComponent<CharacterController>();
                 finalMousePosition = Input.mousePosition;
 
                 direction = initialMousePosition - finalMousePosition;
@@ -56,16 +80,41 @@ public class SlingShot : MonoBehaviour
                 direction.y = 0;
 
                 shoot();
-                Player.Instance.inventory.UseItem();
-            
-            
-        }
+            Player.Instance.inventory.UseItem();
+
+
+
+
+
+
+
+        }*/
 
         if (currentStone != null)
         {
             currentVelocity.y -= gravity * Time.deltaTime;
             characterController.Move(currentVelocity * Time.deltaTime);
         }
+    }
+
+    GameObject FindPrefabWithTag(string tag)
+    {
+        // Load all prefabs in the Resources folder
+        GameObject[] allPrefabs = Resources.LoadAll<GameObject>("");
+        
+
+        // Find the prefab with the specified tag
+        foreach (GameObject prefab in allPrefabs)
+        {
+            Debug.Log(prefab.tag);  
+            if (prefab.CompareTag(tag))
+            {
+                
+                return prefab;
+            }
+        }
+       
+        return null;
     }
 
     void shoot()

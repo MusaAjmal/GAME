@@ -80,6 +80,8 @@ MonoBehaviour:
   objectMask:
     serializedVersion: 2
     m_Bits: 512
+  noiseDetected: 0
+  noiseAttentionTime: 2
 --- !u!114 &3394458991241596084
 MonoBehaviour:
   m_ObjectHideFlags: 0

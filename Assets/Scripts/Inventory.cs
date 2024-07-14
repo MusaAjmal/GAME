@@ -1,102 +1,145 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System.Globalization;
+using System;
 
 public class Inventory : MonoBehaviour
 {
 
-    public string equippedItem = "Bone";
+    public delegate void OnItemChanged();
+    public OnItemChanged OnItemChangedcallBack;
 
-    [SerializeField] private Dictionary<string, int> items = new Dictionary<string, int>();
-    
+    public List<ItemSO> items = new List<ItemSO>();
+    public ItemSO defaultItem;
 
-    public static Inventory Instance { get; private set; }
-    private void Awake()
+    public static Inventory Instance;
+    public void Awake()
     {
         Instance = this;
     }
-
     private void Update()
     {
-        
-    }
-
-
-    public void GetAllItems()
-    {
-        foreach (KeyValuePair<string, int> item in items)
+        if (Input.GetKeyDown(KeyCode.Y))
         {
-            Debug.Log(item.Key + " x" + item.Value);
+
+            Inventory.Instance.CycleItems();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+
+            Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
+        }
+    }
+    public void DisplayItems()
+    {
+        Debug.Log("Displaying Inventory Items:");
+        foreach (var item in items)
+        {
+            Debug.Log("Item: " + item.objectName + ", Quantity: " + item.objectCount);
         }
     }
 
-    public bool GetItem(string itemName)
+    public void add(ItemSO item)
     {
-        if (items.ContainsKey(itemName))
+
+        if (item.IsEquipable)
         {
-            int count = items[itemName];
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public void SetItem(string itemName, int count)
-    {
-        items[itemName] = count;
-        Debug.Log("Set " + itemName + " x" + count);
-    }
-
-    public void EquipItem(string itemName) 
-    {
-        equippedItem = itemName;
-    }
-    
-
-   
-    public string GetEquipedItem()
-    {
-        return equippedItem;
-    }
-
-    public void UseItem()
-    {
-
-       
-        if (items[equippedItem] > 1)
-        {
-            int count = items[equippedItem];
-     
-                count--;
-            if(items[equippedItem] == 0)  //remove that item from dictionary
+            if (items.Contains(item))
             {
-                items.Remove(equippedItem);
+                IncrementItem(item.objectName);
+                OnItemChangedcallBack?.Invoke();
+                Debug.Log("ADDED ITEM " + item.objectName);
             }
-                items[equippedItem] = count;
-                Debug.Log("Used " + equippedItem + " x1");
+            else
+            {
+                items.Add(item);
+                OnItemChangedcallBack?.Invoke();
+                Debug.Log("ADDED ITEM " + item.objectName);
+            }
+        }
+       
+        
+    }
+
+    private void IncrementItem(string name)
+    {
+
+        ItemSO existingItem = items.Find(itemso => itemso.objectName == name);
+
+        if (existingItem != null)
+        {
+            existingItem.objectCount += 1;
+            Debug.Log("Modified item: " + existingItem.objectName + " to quantity " + existingItem.objectCount);
         }
         else
         {
-            Debug.Log("Item " + equippedItem + " not found in inventory");
+            Debug.LogWarning("Item not found: " + name);
+        }
+    }
+
+    public void RemoveItem(ItemSO item)
+    {
+        if (items!= null)
+        {
+            ItemSO existingItem = items.Find(itemso => itemso.objectName == item.objectName);
+            if (existingItem != null)
+            {
+                // Decrement the quantity
+                existingItem.objectCount--;
+                OnItemChangedcallBack?.Invoke();
+
+                // If the quantity becomes zero, remove the item from the list
+                if (existingItem.objectCount <= 0)
+                {
+                    items.Remove(existingItem);
+                    OnItemChangedcallBack?.Invoke();
+                    Debug.Log("Removed item: " + item.objectName);
+                }
+                else
+                {
+                    Debug.Log("Decremented item: " + item.objectName + " to quantity " + existingItem.objectCount);
+                }
+            }
+        }
+        
+
+        
+        else
+        {
+            Debug.LogWarning("Item not found: " + item.objectName);
         }
         
     }
-   
-
-    public void AddItem(string itemName)
+    public void CycleItems()
     {
-        if (items.ContainsKey(itemName))
+        if (defaultItem == null && items.Count > 0)
         {
-            items[itemName]++;
+            defaultItem = items[0]; // Set the default item to the first item in the list
+            Debug.Log("Set default item to: " + defaultItem.objectName);
+        }
+        else if (items.Count > 1)
+        {
+            int currentIndex = items.IndexOf(defaultItem);
+            int nextIndex = (currentIndex + 1) % items.Count; // Get the next item index, wrapping around using modulus
+            defaultItem = items[nextIndex];
+            Debug.Log("Set default item to next in cycle: " + defaultItem.objectName);
+        }
+        else if(items.Count == 1)
+        {
+            defaultItem = items[0];
+            Debug.Log("Set default item to: " + defaultItem.objectName);
         }
         else
         {
-            items[itemName] = 1;
+            Debug.LogWarning("Inventory does not contain enough items to cycle.");
         }
-        Debug.Log("Added " + itemName + " x1");
+       
     }
+
 }
+
+

@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5d9d10d77cea6741b88d7490b085c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemSO: {fileID: 11400000, guid: 0f3ffa0696379eb49b3f0b1ac1204819, type: 2}
   IsEquipable: 1
   IsDecoration: 0
   canbeToggled: 0
