@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a4ae15a527d6744a4f915075042360, type: 3}
   m_Name: Bone
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 247eac84975088f4385d65cf95d46e1a, type: 3}
   prefab: {fileID: 7454456054228736401, guid: b5ace4465ad6627488305b5583dc4838, type: 3}
   objectName: Bone
-  objectCount: -3
+  objectCount: 2
   IsEquipable: 1
   IsDecoration: 0
   canbeToggled: 0

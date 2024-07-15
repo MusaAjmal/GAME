@@ -15,7 +15,7 @@ public class Items : MonoBehaviour
         if (itemSO.IsEquipable)
         {
            
-            Inventory.Instance.add(itemSO);
+            Inventory.Instance.AddItem(itemSO);
             
 
 
