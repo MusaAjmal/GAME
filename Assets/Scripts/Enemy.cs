@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        CheckNoise();
+        //CheckNoise();
 
         switch (currentState)
         {
@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
                 break;
         }
 
-        ChasePlayer();
+       // ChasePlayer();
     }
 
     private void Patrol()

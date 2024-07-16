@@ -3,30 +3,44 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-
+using System;
 public class Items : MonoBehaviour
 {
-    [SerializeField] private bool IsEquipable;
-    [SerializeField] private bool IsDecoration;
-    [SerializeField] private bool canbeToggled;
+    [SerializeField] public ItemSO itemSO;
+   
+   
 
     private void pickup()
     {
-        if (IsEquipable)
+        if (itemSO.IsEquipable)
         {
-            Player.Instance.inventory.AddItem(gameObject.tag);
-            Destroy(gameObject);
+           
+            Inventory.Instance.AddItem(itemSO);
+            
+
+
+            Destroy(gameObject); //instead of destroying we change the parent of the transform
            
         }
        
     }
+    private void Start()
+    {
+        
+
+
+    }
+
+
 
     private void Update()
     {
+        
         if (Input.GetMouseButtonDown(2)) // 2 corresponds to the middle mouse button
         {
             OnMiddleMouseDown();
         }
+       
     }
 
 
@@ -38,4 +52,17 @@ public class Items : MonoBehaviour
     
     }
 
+    public override bool Equals(object obj)
+    {
+        if (obj is Items)
+        {
+            return this.itemSO.objectName.Equals(((Items)obj).itemSO.objectName, StringComparison.OrdinalIgnoreCase);
+        }
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return itemSO.objectName.ToLower().GetHashCode();
+    }
 }

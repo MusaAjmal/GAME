@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class SlingShot : MonoBehaviour
 {
@@ -80,6 +81,26 @@ public class SlingShot : MonoBehaviour
                 characterController.Move(currentVelocity * Time.deltaTime);
 /*            }*/
         }
+    }
+
+    GameObject FindPrefabWithTag(string tag)
+    {
+        // Load all prefabs in the Resources folder
+        GameObject[] allPrefabs = Resources.LoadAll<GameObject>("");
+        
+
+        // Find the prefab with the specified tag
+        foreach (GameObject prefab in allPrefabs)
+        {
+            Debug.Log(prefab.tag);  
+            if (prefab.CompareTag(tag))
+            {
+                
+                return prefab;
+            }
+        }
+       
+        return null;
     }
 
     void shoot()
