@@ -86,7 +86,7 @@ MonoBehaviour:
   distractionMask:
     serializedVersion: 2
     m_Bits: 1024
-  collisionRange: 15
+  collisionRange: 10
   noiseDetected: 0
   noiseAttentionTime: 2
 --- !u!114 &3394458991241596084
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 8
-  angle: 39
+  angle: 24
   playerRef: {fileID: 0}
   targetMask:
     serializedVersion: 2
@@ -110,7 +110,7 @@ MonoBehaviour:
   obstructionMask:
     serializedVersion: 2
     m_Bits: 256
-  timeToCheck: 1
+  timeToCheck: 1.2
   canseePlayer: 0
 --- !u!1 &8170374083235587902
 GameObject:

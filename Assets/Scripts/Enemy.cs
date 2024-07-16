@@ -136,6 +136,7 @@ public class Enemy : MonoBehaviour
             {
                 if (collider.gameObject.layer == LayerMask.NameToLayer("Object")) // Replace "YourLayerName" with the actual layer name
                 {
+                    Debug.Log("Noise Detected");
                     // Check if there is no obstruction between the current object and the detected object
                     Vector3 directionToTarget = collider.transform.position - transform.position;
                     float distanceToTarget = directionToTarget.magnitude;
