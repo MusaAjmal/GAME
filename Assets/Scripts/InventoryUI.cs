@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-
+using UnityEditor.Rendering.BuiltIn.ShaderGraph;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -23,47 +24,62 @@ public class InventoryUI : MonoBehaviour
         Inventory.OnItemRemovedcallBack += UpdateUIonRemove;
 
         inventorySlots = objectsParent.GetComponentsInChildren<InventorySlot>();
+        ClearCount();
+    }
+
+    private void ClearCount()
+    {
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+
+           
+            
+                inventorySlots[i].Clear();
+            
+
+        }
     }
 
     private void UpdateUIonRemove() // Remove Item
     {
         List<ItemSO> allItems = Inventory.GetAllItems();
-
+        int stoneCount = Inventory.Instance.stoneStack.Count;
+        int boneCount = Inventory.Instance.otherItemsStack.Count;
+        Debug.Log("NUMBER OF STONES = " + stoneCount);
+        Debug.Log("NUMBER OF BONES = " + boneCount);
         for (int i = 0; i < inventorySlots.Length; i++)
         {
-            if (i < allItems.Count)
+            if (inventorySlots[i].item != null)
             {
-                ItemSO currentItem = allItems[i];
-                InventorySlot slot = inventorySlots[i];
-
-                if (slot.item != null && slot.item.objectName == currentItem.objectName)
+                if (inventorySlots[i].item.objectName == "Stone")
                 {
-                    // Decrement the item count
-                    if (currentItem.objectCount > 0)
+                    inventorySlots[i].text.text = stoneCount.ToString();
+                    if (inventorySlots[i].text.text.Equals("0"))
                     {
-                        currentItem.objectCount--;
-                        Debug.Log("Decremented item count: " + currentItem.objectName + " to " + currentItem.objectCount);
-
-                        if (currentItem.objectCount == 0)
-                        {
-                            // Remove the item from the slot if count reaches zero
-                            slot.Clear();
-                            Debug.Log("Removed item from inventory: " + currentItem.objectName);
-                        }
-                        else
-                        {
-                            // Update the slot count
-                            slot.IncrementCount();
-                        }
+                        inventorySlots[i].Clear();
+                        isStoneSet = false; 
+                        iterator = 0;
+                       
+                    }
+                }
+              else if (inventorySlots[i].item.objectName == "Bone")
+                {
+                    inventorySlots[i].text.text = boneCount.ToString();
+                    if (inventorySlots[i].text.text.Equals("0"))
+                    {
+                        inventorySlots[i].Clear();
+                        isBoneSet = false;
+                        iterator = 0;
+                       
                     }
                 }
             }
-            else
-            {
-                inventorySlots[i].Clear();
-            }
         }
+
+
+
     }
+
 
     public void Update()
     {
@@ -77,7 +93,7 @@ public class InventoryUI : MonoBehaviour
         int boneCount = Inventory.Instance.otherItemsStack.Count;
         Debug.Log("NUMBER OF STONES = " + stoneCount);
         Debug.Log("NUMBER OF BONES = " + boneCount);
-       for(int i = 0; i<=1; i++) {
+       for(int i = 0; i< inventorySlots.Length; i++) {
             if (inventorySlots[i].item != null)
             {
                 if (inventorySlots[i].item.objectName == "Stone")
@@ -113,17 +129,24 @@ public class InventoryUI : MonoBehaviour
                     {
                         inventorySlots[iterator].addItem(stoneItem);
                         isStoneSet = true;
+                          stoneItem = null;
                         iterator++;
                     }
                     if (boneItem != null && !isBoneSet)
                     {
                         inventorySlots[iterator].addItem(boneItem);
                         isBoneSet = true;
+                    boneItem = null;
                         iterator++;
 
                     }
                 }
             }
+        else
+        {
+            iterator++;
+        }
+         
         }
     }
 

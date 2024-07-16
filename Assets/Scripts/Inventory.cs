@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using System;
+using System.Linq;
+using UnityEngine.Analytics;
+using Unity.VisualScripting.Dependencies.Sqlite;
 
 public class Inventory : MonoBehaviour
 {
@@ -23,6 +26,14 @@ public class Inventory : MonoBehaviour
     {
         Instance = this;
     }
+    private void setDefaultItem()
+    {
+        List<ItemSO> allItems = GetAllItems();
+        if (defaultItem == null && allItems.Count > 0) 
+        {
+            defaultItem = allItems[0];
+        }
+    }
 
     private void Update()
     {
@@ -32,8 +43,12 @@ public class Inventory : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
+            if(Instance.defaultItem != null) {
+                Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
+            }
         }
+            
+        setDefaultItem();
     }
 
     public void DisplayItems()
@@ -41,13 +56,13 @@ public class Inventory : MonoBehaviour
         Debug.Log("Displaying Stone Stack Items:");
         foreach (var item in stoneStack)
         {
-            Debug.Log("Item: " + item.objectName + ", Count: " + item.objectCount);
+            Debug.Log("Item: " + item.objectName);
         }
 
         Debug.Log("Displaying Other Items Stack:");
         foreach (var item in otherItemsStack)
         {
-            Debug.Log("Item: " + item.objectName + ", Count: " + item.objectCount);
+            Debug.Log("Item: " + item.objectName);
         }
     }
 
@@ -75,12 +90,22 @@ public class Inventory : MonoBehaviour
         if (item.objectName == "Stone" && stoneStack.Count > 0)
         {
             ItemSO removedItem = stoneStack.Pop();
+            if (removedItem == defaultItem && stoneStack.Count == 0)
+            {
+                defaultItem = null;
+                CycleItems();// Reset defaultItem if it's removed
+            }
             OnItemRemovedcallBack?.Invoke();
             Debug.Log("Removed stone item: " + removedItem.objectName);
         }
-        else if (otherItemsStack.Count > 0)
+        else if (otherItemsStack.Contains(item))
         {
             ItemSO removedItem = otherItemsStack.Pop();
+            if (removedItem == defaultItem && otherItemsStack.Count== 0)
+            {
+                defaultItem = null;
+                CycleItems();// Reset defaultItem if it's removed
+            }
             OnItemRemovedcallBack?.Invoke();
             Debug.Log("Removed other item: " + removedItem.objectName);
         }
@@ -90,72 +115,54 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void DisplayList(List<ItemSO> allItems)
+    {
+        
+        foreach (ItemSO item in allItems)
+        {
+            Debug.Log(item.objectName);
+        }
+    }
+
     public void CycleItems()
     {
-        Stack<ItemSO> tempStack = new Stack<ItemSO>();
+        List<ItemSO> allItems = GetAllItems();
+        List<ItemSO> uniqueItems = allItems
+            .GroupBy(item => item.objectName)
+            .Select(group => group.First())
+            .ToList();
 
-        if (defaultItem == null && (stoneStack.Count > 0 || otherItemsStack.Count > 0))
+        if (defaultItem == null && uniqueItems.Count > 0)
         {
-            defaultItem = stoneStack.Count > 0 ? stoneStack.Peek() : otherItemsStack.Peek();
+            defaultItem = uniqueItems[0];
             Debug.Log("Set default item to: " + defaultItem.objectName);
             return;
         }
 
-        if (stoneStack.Contains(defaultItem))
+        if (uniqueItems.Contains(defaultItem))
         {
-            while (stoneStack.Count > 0)
+            int currentIndex = -1;
+
+            // Manually find the index of defaultItem
+            for (int i = 0; i < uniqueItems.Count; i++)
             {
-                ItemSO item = stoneStack.Pop();
-                tempStack.Push(item);
-                if (item == defaultItem)
+                if (uniqueItems[i].objectName.Equals(defaultItem.objectName))
                 {
+                    currentIndex = i;
                     break;
                 }
             }
 
-            while (tempStack.Count > 0)
+            // If the item was found in the list, cycle to the next item
+            if (currentIndex != -1)
             {
-                stoneStack.Push(tempStack.Pop());
-            }
-
-            if (stoneStack.Count > 0)
-            {
-                defaultItem = stoneStack.Peek();
-            }
-            else if (otherItemsStack.Count > 0)
-            {
-                defaultItem = otherItemsStack.Peek();
+                int nextIndex = (currentIndex + 1) % uniqueItems.Count;
+                defaultItem = uniqueItems[nextIndex];
+                Debug.Log("Cycled to next item: " + defaultItem.objectName);
             }
         }
-        else if (otherItemsStack.Contains(defaultItem))
-        {
-            while (otherItemsStack.Count > 0)
-            {
-                ItemSO item = otherItemsStack.Pop();
-                tempStack.Push(item);
-                if (item == defaultItem)
-                {
-                    break;
-                }
-            }
-
-            while (tempStack.Count > 0)
-            {
-                otherItemsStack.Push(tempStack.Pop());
-            }
-
-            if (otherItemsStack.Count > 0)
-            {
-                defaultItem = otherItemsStack.Peek();
-            }
-            else if (stoneStack.Count > 0)
-            {
-                defaultItem = stoneStack.Peek();
-            }
-        }
-
-        Debug.Log("Set default item to next in cycle: " + defaultItem.objectName);
     }
+
 
     public List<ItemSO> GetAllItems()
     {

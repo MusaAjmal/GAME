@@ -29,6 +29,7 @@ public class InventorySlot : MonoBehaviour
         item = newItem;
         icon.sprite = item.sprite;
         icon.enabled = true;
+        text.enabled = true;
         text.text = count.ToString();
     }
 
@@ -38,10 +39,10 @@ public class InventorySlot : MonoBehaviour
         item = null;
         icon.sprite = null;
         icon.enabled = false;
-        count = 0; // Reset count if needed
+        // Reset count if needed
         if (text != null)
         {
-            text.text = "0";
+            text.enabled = false;
         }
     }
 }
