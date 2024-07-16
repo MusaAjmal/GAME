@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        //CheckNoise();
+        CheckNoise();
 
         switch (currentState)
         {
@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
         }
 
        // ChasePlayer();
+
     }
 
     private void Patrol()
@@ -127,6 +128,7 @@ public class Enemy : MonoBehaviour
 
         if (rangeChecks.Length != 0)
         {
+
             GameObject targetObject = null;
             Vector3 targetPosition = Vector3.zero;
 
@@ -214,12 +216,12 @@ public class Enemy : MonoBehaviour
     public void CheckDistraction(Vector3 noisePosition, GameObject throwableObject)
     {
 
-        if (Vector3.Distance(transform.position, noisePosition) > collisionRange)
+/*        if (Vector3.Distance(transform.position, noisePosition) > collisionRange)
         {
-            Debug.Log("Distraction is out of range.");
+            Debug.Log("Distraction is out of range. " + noisePosition + " current pos: " + transform.position + " range " + collisionRange);
             return;
         }
-
+*/
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, distractionMask);
 
         if (rangeChecks.Length != 0)

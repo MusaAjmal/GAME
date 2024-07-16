@@ -7,7 +7,7 @@ public class Stone : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        Debug.Log("Collison Happened!");
+        Debug.Log("Collison Happened!" + gameObject.tag);
         Debug.Log(collision.gameObject.layer);
 
         if (collision.gameObject.CompareTag("Stone"))

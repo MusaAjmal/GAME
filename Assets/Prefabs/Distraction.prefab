@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7910317163926130627}
   - component: {fileID: 6262292896414542924}
   - component: {fileID: 509956725985230278}
+  - component: {fileID: 2058746418202446375}
   m_Layer: 10
   m_Name: Distraction
   m_TagString: Distraction
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.8797, y: 2.8797, z: 2.8797}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -94,7 +95,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -103,5 +104,17 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 0.73
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2058746418202446375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707705178510588414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ba129e291fd42e458f4dbb6812f2ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
