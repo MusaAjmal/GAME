@@ -1,23 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class SlingShot : MonoBehaviour
 {
-    public GameObject throwablePrefab;
+    public GameObject stonePrefab;
     [SerializeField] public GameObject landPosition;
-    private Vector3 initialMousePosition;
-    private Vector3 finalMousePosition;
-    public float sensitivity = 500.0f; // Updated sensitivity value
-    private GameObject currentStone;
+    public float sensitivity = 1000.0f;
     public float stoneHeight = 10.0f;
     [SerializeField] public float angle = 75f, gravity = 20f;
-    Vector3 currentVelocity;
+
+    private Vector3 initialMousePosition;
+    private Vector3 finalMousePosition;
+    private GameObject currentStone;
     private CharacterController characterController;
-    float horizontalDistance;
-    float speed;
-    Vector3 direction;
-    private bool isStoneReleased = false;
+    private Vector3 currentVelocity;
+    private float horizontalDistance;
+    private float speed;
+    private Vector3 direction;
 
     private void Awake()
     {
@@ -26,93 +25,84 @@ public class SlingShot : MonoBehaviour
 
     void Update()
     {
-        // Detect mouse click
+        HandleMouseInput();
+        UpdateCurrentStonePosition();
+    }
+
+    private void HandleMouseInput()
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            // Get the initial mouse position
-            initialMousePosition = Input.mousePosition;
-            Debug.Log("initialMousePosition: " + initialMousePosition);
+            SetInitialMousePosition();
         }
 
         if (Input.GetMouseButton(0))
         {
-            Vector3 currentMousePosition = Input.mousePosition;
-            direction = initialMousePosition - currentMousePosition;
-            direction.z = direction.y;
-            direction.y = 0;
-
-            horizontalDistance = direction.magnitude * 1;
-            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, new Vector3(-direction.x, 0, -direction.z), Time.deltaTime * 6);
-            landPosition.SetActive(true); // Show landPosition
-        }
-        else
-        {
-            landPosition.SetActive(false); // Hide landPosition
+            UpdateLandPosition();
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (!isStoneReleased)
-            {
-                currentStone = Instantiate(throwablePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
-                characterController = currentStone.GetComponent<CharacterController>();
-                finalMousePosition = Input.mousePosition;
-
-                direction = initialMousePosition - finalMousePosition;
-                direction.z = direction.y;
-                direction.y = 0;
-
-                shoot();
-                Player.Instance.inventory.UseItem();
-
-                isStoneReleased = true;
-            }
+            LaunchStone();
         }
+    }
 
+    private void SetInitialMousePosition()
+    {
+        initialMousePosition = Input.mousePosition;
+        Debug.Log("initialMousePosition: " + initialMousePosition);
+    }
+
+    private void UpdateLandPosition()
+    {
+        Vector3 currentMousePosition = Input.mousePosition;
+        direction = initialMousePosition - currentMousePosition;
+        direction.z = direction.y;
+        direction.y = 0;
+
+        horizontalDistance = direction.magnitude * 1;
+        Vector3 targetPosition = new Vector3(-direction.x, 0, -direction.z);
+        landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 10);
+    }
+
+    private void LaunchStone()
+    {
+        currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * stoneHeight, Quaternion.identity);
+        characterController = currentStone.GetComponent<CharacterController>();
+        finalMousePosition = Input.mousePosition;
+
+        direction = initialMousePosition - finalMousePosition;
+        direction.z = direction.y;
+        direction.y = 0;
+
+        Vector3 targetPosition = new Vector3(-direction.x, 0, -direction.z);
+        landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 10);
+        CalculateAndSetVelocity();
+    }
+
+    private void UpdateCurrentStonePosition()
+    {
         if (currentStone != null)
         {
-/*            if (characterController.isGrounded)
-            {
-                currentVelocity = Vector3.zero;
-            }
-            else
-            {*/
-                currentVelocity.y -= gravity * Time.deltaTime;
-                characterController.Move(currentVelocity * Time.deltaTime);
-/*            }*/
+            currentVelocity.y -= gravity * Time.deltaTime;
+            characterController.Move(currentVelocity * Time.deltaTime);
         }
     }
 
-    GameObject FindPrefabWithTag(string tag)
+    private void CalculateAndSetVelocity()
     {
-        // Load all prefabs in the Resources folder
-        GameObject[] allPrefabs = Resources.LoadAll<GameObject>("");
-        
-
-        // Find the prefab with the specified tag
-        foreach (GameObject prefab in allPrefabs)
-        {
-            Debug.Log(prefab.tag);  
-            if (prefab.CompareTag(tag))
-            {
-                
-                return prefab;
-            }
-        }
-       
-        return null;
-    }
-
-    void shoot()
-    {
-        horizontalDistance = direction.magnitude * 1f;
-        landPosition.transform.position = new Vector3(-direction.x, 0, -direction.z);
+        horizontalDistance = direction.magnitude * 1;
+        Vector3 targetPosition = new Vector3(-direction.x, 0, -direction.z);
+        landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 10);
         direction = new Vector3(-direction.x, 0, -direction.z).normalized;
+
         Debug.Log("direction: " + direction);
         Debug.Log("horizontalDistance: " + horizontalDistance);
+
         speed = horizontalDistance * gravity;
         speed /= Mathf.Sin(2 * angle * (Mathf.PI / 180f));
         speed = Mathf.Sqrt(speed);
+
         float verticalSpeed = Mathf.Sin(angle * (Mathf.PI / 180f)) * speed;
         float horizontalSpeed = Mathf.Cos(angle * (Mathf.PI / 180f)) * speed;
 
