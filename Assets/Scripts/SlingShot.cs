@@ -29,8 +29,17 @@ public class SlingShot : MonoBehaviour
 
     void Update()
     {
+        if (Inventory.Instance.defaultItem != null)
+        {
+            stonePrefab = Inventory.Instance.defaultItem.prefab.gameObject;
+        }
         HandleMouseInput();
         UpdateCurrentStonePosition();
+    }
+    private void Start()
+    {
+        
+        
     }
 
     private void HandleMouseInput()
@@ -54,17 +63,28 @@ public class SlingShot : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
-            characterController = currentStone.GetComponent<CharacterController>();
-            finalMousePosition = Input.mousePosition;
+            if (stonePrefab != null) {
 
-            direction = initialMousePosition - finalMousePosition;
-            direction.z = direction.y;
-            direction.y = 0;
+                currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * (stoneHeight), Quaternion.identity);
+                characterController = currentStone.GetComponent<CharacterController>();
+                finalMousePosition = Input.mousePosition;
 
-            Vector3 targetPosition = new Vector3(-direction.x, 0, -direction.z);
-            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 10);
-            shoot();
+                direction = initialMousePosition - finalMousePosition;
+                direction.z = direction.y;
+                direction.y = 0;
+
+                Vector3 targetPosition = new Vector3(-direction.x, 0, -direction.z);
+                landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 10);
+                shoot();
+                stonePrefab = null; 
+                Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
+
+            }
+            else
+            {
+                Debug.Log("No Item Left To YEET");
+            }
+            
         }
     }
 
@@ -88,16 +108,24 @@ public class SlingShot : MonoBehaviour
 
     private void LaunchStone()
     {
-        currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * stoneHeight, Quaternion.identity);
-        characterController = currentStone.GetComponent<CharacterController>();
-        finalMousePosition = Input.mousePosition;
+        if (stonePrefab != null)
+        {
+            currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * stoneHeight, Quaternion.identity);
+            characterController = currentStone.GetComponent<CharacterController>();
+            finalMousePosition = Input.mousePosition;
 
-        direction = initialMousePosition - finalMousePosition;
-        direction.z = direction.y;
-        direction.y = 0;
+            direction = initialMousePosition - finalMousePosition;
+            direction.z = direction.y;
+            direction.y = 0;
 
-        Vector3 targetPosition = new Vector3(-direction.x, 0, -direction.z);
-        landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 10);
+            Vector3 targetPosition = new Vector3(-direction.x, 0, -direction.z);
+            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 10);
+        }
+        else
+        {
+            Debug.Log("No Item Left to Throw");
+        }
+       
        // CalculateAndSetVelocity();
     }
 
