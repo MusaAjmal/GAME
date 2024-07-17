@@ -8,7 +8,8 @@ public class InventorySlot : MonoBehaviour
     // Optional: Count icon
     public Text text; // Optional: Text for count display
     int count = 1; // Count of items (optional)
-
+    public Button button;
+    private ColorBlock defaultColor;
     // Increment count of items (optional)
     public void IncrementCount()
     {
@@ -20,6 +21,19 @@ public class InventorySlot : MonoBehaviour
         else
         {
             Debug.LogWarning("Count Text component not found in countIcon's children.");
+        }
+    }
+    public void Start()
+    {
+        button = GetComponentInChildren<Button>();
+        if (button != null)
+        {
+            // Store the original ColorBlock
+            defaultColor = button.colors;
+        }
+        else
+        {
+            Debug.LogError("Button component not found on the GameObject.");
         }
     }
 
@@ -43,6 +57,31 @@ public class InventorySlot : MonoBehaviour
         if (text != null)
         {
             text.enabled = false;
+        }
+    }
+    public void changeButtonColor()
+    {
+       
+        if (button != null)
+        {
+            ColorBlock cb = button.colors;
+            cb.normalColor = Color.red; // Colors use values between 0 and 1
+            button.colors = cb;
+        }
+        else
+        {
+            Debug.LogError("Button component not found on the GameObject." + this.name);
+        }
+    }
+    public void ResetColor()
+    {
+        if (button != null)
+        {
+            button.colors = defaultColor; 
+        }
+        else
+        {
+            Debug.LogError("Button component not found on the GameObject." + this.name);
         }
     }
 }

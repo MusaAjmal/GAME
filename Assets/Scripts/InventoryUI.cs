@@ -13,6 +13,7 @@ public class InventoryUI : MonoBehaviour
     public int iterator;
     public ItemSO boneItem;
     public ItemSO stoneItem;
+   
 
     public void Start()
     {
@@ -39,6 +40,35 @@ public class InventoryUI : MonoBehaviour
 
         }
     }
+    private void changeUIonSelectedItem()
+    {
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+
+
+
+            if (inventorySlots[i] != null)
+            {
+                if(Inventory.Instance.defaultItem != null && inventorySlots[i].item == Inventory.Instance.defaultItem)
+                {
+                    inventorySlots[i].changeButtonColor();
+                }
+                else
+                {
+                    inventorySlots[i].ResetColor();
+                }
+               
+            }
+
+
+
+        }
+    }
+    private void Update()
+    {
+        changeUIonSelectedItem();
+    }
+    
 
     private void UpdateUIonRemove() // Remove Item
     {
@@ -81,11 +111,7 @@ public class InventoryUI : MonoBehaviour
     }
 
 
-    public void Update()
-    {
-
-    }
-
+   
     private void UpdateUIonEquip()  // Add Item
     {
         List<ItemSO> allItems = Inventory.GetAllItems();
