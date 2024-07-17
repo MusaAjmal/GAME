@@ -144,6 +144,7 @@ public class Enemy : MonoBehaviour
 
                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
+                        Debug.Log("Object in range !!!!");
                         targetObject = collider.gameObject;
                         targetPosition = collider.transform.position;
                         break; // Found the target, no need to continue the loop
@@ -216,15 +217,10 @@ public class Enemy : MonoBehaviour
 
     public void CheckDistraction(Vector3 noisePosition, GameObject throwableObject)
     {
-
-/*        if (Vector3.Distance(transform.position, noisePosition) > collisionRange)
-        {
-            Debug.Log("Distraction is out of range. " + noisePosition + " current pos: " + transform.position + " range " + collisionRange);
-            return;
-        }
-*/
+        // Collider array to hold all colliders within the noiseRadius and on the distractionMask layer
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, distractionMask);
 
+        // Check if any colliders were found
         if (rangeChecks.Length != 0)
         {
             GameObject targetObject = null;
@@ -232,26 +228,36 @@ public class Enemy : MonoBehaviour
 
             foreach (Collider collider in rangeChecks)
             {
-                Debug.Log("Object is: " + collider.gameObject + " enemy is: " + gameObject.name);
+                Debug.Log("Object found in range: " + collider.gameObject.name);
 
+                // Check if the collider's gameObject is in the Distraction layer
                 if (collider.gameObject.layer == LayerMask.NameToLayer("Distraction"))
                 {
                     Vector3 directionToTarget = collider.transform.position - transform.position;
                     float distanceToTarget = directionToTarget.magnitude;
                     directionToTarget.Normalize();
 
+                    // Check if there's no obstruction between the enemy and the target
                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
                         targetObject = collider.gameObject;
                         targetPosition = collider.transform.position;
                         break;
                     }
+                    else
+                    {
+                        Debug.Log("Obstruction found between enemy and distraction: " + collider.gameObject.name);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Object not in Distraction layer: " + collider.gameObject.name);
                 }
             }
 
             if (targetObject != null)
             {
-                Debug.Log("Distraction detected at: " + noisePosition);
+                Debug.Log("Distraction detected at: " + targetPosition);
 
                 if (patrolReturnPosition == Vector3.zero)
                 {
@@ -260,15 +266,18 @@ public class Enemy : MonoBehaviour
                 }
 
                 StopAllCoroutines();
-                StartCoroutine(MoveToNoise(noisePosition, throwableObject));
+                StartCoroutine(MoveToNoise(targetPosition, targetObject));
             }
             else
             {
-                Debug.Log("No distraction detected.");
+                Debug.Log("No valid distraction target found.");
             }
         }
+        else
+        {
+            Debug.Log("No objects found in range.");
+        }
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("alooooooooooooooooooo");

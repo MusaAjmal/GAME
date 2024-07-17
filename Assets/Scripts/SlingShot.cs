@@ -7,14 +7,16 @@ public class SlingShot : MonoBehaviour
     [SerializeField] public GameObject landPosition;
     private Vector3 initialMousePosition;
     private Vector3 finalMousePosition;
-    public float sensitivity = 1000.0f;
+    private Vector3 currentVelocity;
+    [Range(0f, 1000f)]
+    public float sensitivity;
     private GameObject currentStone;
     public float stoneHeight = 10.0f;
     [SerializeField] public float angle = 75f, gravity = 20f;
 
-    private Vector3 initialMousePosition;
-    private Vector3 finalMousePosition;
-    private GameObject currentStone;
+   // private Vector3 initialMousePosition;
+    //private Vector3 finalMousePosition;
+    //private GameObject currentStone;
     private CharacterController characterController;
     float horizontalDistance;
     float speed;
@@ -96,7 +98,7 @@ public class SlingShot : MonoBehaviour
 
         Vector3 targetPosition = new Vector3(-direction.x, 0, -direction.z);
         landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 10);
-        CalculateAndSetVelocity();
+       // CalculateAndSetVelocity();
     }
 
     private void UpdateCurrentStonePosition()
