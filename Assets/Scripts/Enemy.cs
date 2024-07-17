@@ -134,6 +134,11 @@ public class Enemy : MonoBehaviour
 
             foreach (Collider collider in rangeChecks)
             {
+
+                if(collider.gameObject.name == "Torch")
+                {
+                    Debug.Log("Torch Detected by" + this.name);
+                }
                 if (collider.gameObject.layer == LayerMask.NameToLayer("Object")) // Replace "YourLayerName" with the actual layer name
                 {
                     Debug.Log("Noise Detected");
