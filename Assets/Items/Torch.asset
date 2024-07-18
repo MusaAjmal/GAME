@@ -19,3 +19,4 @@ MonoBehaviour:
   IsEquipable: 0
   IsDecoration: 0
   canbeToggled: 1
+  isActive: 0
