@@ -7,7 +7,7 @@ using System;
 public class Items : MonoBehaviour
 {
     [SerializeField] public ItemSO itemSO;
-   
+    public bool isOn;
    
 
     private void pickup()
@@ -26,7 +26,7 @@ public class Items : MonoBehaviour
     }
     private void Start()
     {
-        
+        isOn = true;
 
 
     }
@@ -40,7 +40,39 @@ public class Items : MonoBehaviour
         {
             OnMiddleMouseDown();
         }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            playerToggleItem();
+        }
        
+    }
+    private void toggle()
+    {
+        if (itemSO.canbeToggled)
+        {
+            if (isActive()) {
+                isOn = false;
+            }
+            else
+            {
+                isOn = true; 
+            }
+           
+        }
+    }
+    public bool isActive()
+    {
+        return isOn;
+    }
+    private void playerToggleItem()
+    {
+        if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
+        {
+            
+            toggle();
+            Debug.Log("Torch State: " + isOn);
+
+        }
     }
 
 

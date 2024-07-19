@@ -4,7 +4,7 @@ using UnityEngine;
 public class SlingShot : MonoBehaviour
 {
     public GameObject stonePrefab;
-    [SerializeField] public GameObject landPosition;
+   [SerializeField] public GameObject landPosition;
     private Vector3 initialMousePosition;
     private Vector3 finalMousePosition;
     private Vector3 currentVelocity;
