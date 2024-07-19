@@ -1,7 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class BigEnemy : MonoBehaviour
 {
     [SerializeField] private GameObject[] movePoints;
     [SerializeField] private float moveSpeed;
@@ -54,7 +55,7 @@ public class Enemy : MonoBehaviour
                 break;
         }
 
-       // ChasePlayer();
+        // ChasePlayer();
 
     }
 
@@ -135,7 +136,15 @@ public class Enemy : MonoBehaviour
             foreach (Collider collider in rangeChecks)
             {
 
-               
+                if (collider.gameObject.name == "Torch")
+                {
+                    Items i = collider.gameObject.GetComponent<Items>();
+                    if(!i.isActive())
+                    {
+                        Debug.Log(i.name + " Detected by " + this.name + "is not On");
+                    }
+                   
+                }
                 if (collider.gameObject.layer == LayerMask.NameToLayer("Object")) // Replace "YourLayerName" with the actual layer name
                 {
                     Debug.Log("Noise Detected");
@@ -157,8 +166,8 @@ public class Enemy : MonoBehaviour
             if (targetObject != null)
             {
                 throwableObject = targetObject;
-/*                Debug.Log("Noise detected at: " + targetPosition + " from " + targetObject.tag);
-*/                // Check if the target position is below the current object's position
+                /*                Debug.Log("Noise detected at: " + targetPosition + " from " + targetObject.tag);
+                */                // Check if the target position is below the current object's position
                 if (targetPosition.y < transform.position.y)
                 {
 
@@ -167,8 +176,9 @@ public class Enemy : MonoBehaviour
                     if (patrolReturnPosition == Vector3.zero)
                     {
                         patrolReturnPosition = transform.position;
-/*                        Debug.Log("Setting patrolReturnPosition to: " + patrolReturnPosition);
-*/                    }
+                        /*                        Debug.Log("Setting patrolReturnPosition to: " + patrolReturnPosition);
+                        */
+                    }
 
 
                     StopAllCoroutines();
@@ -177,17 +187,19 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-/*                Debug.Log("No unobstructed noise source found.");
-*/            }
+                /*                Debug.Log("No unobstructed noise source found.");
+                */
+            }
         }
         else
         {
-/*            Debug.Log("No noise detected.");
-*/        }
+            /*            Debug.Log("No noise detected.");
+            */
+        }
     }
 
 
-    public IEnumerator MoveToNoise(Vector3 noisePosition , GameObject throwableObject)
+    public IEnumerator MoveToNoise(Vector3 noisePosition, GameObject throwableObject)
     {
         currentState = EnemyState.Alerted;
 
@@ -200,8 +212,8 @@ public class Enemy : MonoBehaviour
             yield return null;
         }
 
-/*        yield return new WaitForSeconds(2f);
-*/        
+        /*        yield return new WaitForSeconds(2f);
+        */
         Destroy(throwableObject);
 
         while (Vector3.Distance(transform.position, patrolReturnPosition) > 0.1f)
@@ -286,5 +298,4 @@ public class Enemy : MonoBehaviour
     }
 
     public static bool ObjectIsInLayerMask(GameObject obj, LayerMask mask) => (mask.value & (1 << obj.layer)) != 0;
-
 }

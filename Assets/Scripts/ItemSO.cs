@@ -12,4 +12,5 @@ public class ItemSO : ScriptableObject
     [SerializeField] public bool IsEquipable;
     [SerializeField] public bool IsDecoration;
     [SerializeField] public bool canbeToggled;
+   
 }

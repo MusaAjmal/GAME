@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movePoints: []
   moveSpeed: 1.5
-  noiseRadius: 200
+  noiseRadius: 20
   objectMask:
     serializedVersion: 2
     m_Bits: 512
