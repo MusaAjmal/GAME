@@ -2654,6 +2654,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
         type: 3}
+      propertyPath: noiseRadius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
+        type: 3}
       propertyPath: movePoints.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -2738,7 +2743,7 @@ Transform:
   m_GameObject: {fileID: 1368762597}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.07, z: 0}
+  m_LocalPosition: {x: -0, y: 1.68, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2756,7 +2761,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ddad5c511793a468bb8c50bf37a373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stonePrefab: {fileID: 0}
+  stonePrefab: {fileID: 7822764563616565532, guid: d8ef51c87a45fbd45b02af87a82d5a20,
+    type: 3}
   landPosition: {fileID: 131132937}
   sensitivity: 229
   stoneHeight: 1
@@ -2778,7 +2784,7 @@ PrefabInstance:
     - target: {fileID: 7454456054228736401, guid: b5ace4465ad6627488305b5583dc4838,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.328583
+      value: -20.83
       objectReference: {fileID: 0}
     - target: {fileID: 7454456054228736401, guid: b5ace4465ad6627488305b5583dc4838,
         type: 3}
@@ -2788,7 +2794,7 @@ PrefabInstance:
     - target: {fileID: 7454456054228736401, guid: b5ace4465ad6627488305b5583dc4838,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.458062
+      value: 8.51
       objectReference: {fileID: 0}
     - target: {fileID: 7454456054228736401, guid: b5ace4465ad6627488305b5583dc4838,
         type: 3}
@@ -3455,7 +3461,7 @@ PrefabInstance:
     - target: {fileID: 7261698824456725810, guid: d8ef51c87a45fbd45b02af87a82d5a20,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.904169
+      value: -22.27
       objectReference: {fileID: 0}
     - target: {fileID: 7261698824456725810, guid: d8ef51c87a45fbd45b02af87a82d5a20,
         type: 3}
@@ -3465,7 +3471,7 @@ PrefabInstance:
     - target: {fileID: 7261698824456725810, guid: d8ef51c87a45fbd45b02af87a82d5a20,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.081377
+      value: 7.38
       objectReference: {fileID: 0}
     - target: {fileID: 7261698824456725810, guid: d8ef51c87a45fbd45b02af87a82d5a20,
         type: 3}
@@ -4053,7 +4059,7 @@ PrefabInstance:
     - target: {fileID: 7454456054228736401, guid: b5ace4465ad6627488305b5583dc4838,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.621628
+      value: -26.69
       objectReference: {fileID: 0}
     - target: {fileID: 7454456054228736401, guid: b5ace4465ad6627488305b5583dc4838,
         type: 3}
@@ -4063,7 +4069,7 @@ PrefabInstance:
     - target: {fileID: 7454456054228736401, guid: b5ace4465ad6627488305b5583dc4838,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.306904
+      value: 6.79
       objectReference: {fileID: 0}
     - target: {fileID: 7454456054228736401, guid: b5ace4465ad6627488305b5583dc4838,
         type: 3}
@@ -4202,6 +4208,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Coordinates
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
+        type: 3}
+      propertyPath: noiseRadius
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8743360957869047760, guid: 3bfcab89a782dcd4381b5c5a2f343be2,
         type: 3}

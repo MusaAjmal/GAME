@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
     private void MovePlayer()
     {
         Vector2 inputVector = Input1.Move();
-        Vector3 MovementVector = new Vector3(inputVector.x,0,inputVector.y);
+        Vector3 MovementVector = new Vector3(-(inputVector.x),0,-inputVector.y);
         
         if(MovementVector.magnitude >= 0.1f)
         {
