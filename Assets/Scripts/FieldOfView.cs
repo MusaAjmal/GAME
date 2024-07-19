@@ -36,7 +36,7 @@ public class FieldOfView : MonoBehaviour
 
         if (canseePlayer && timeElapsed >= timeToCheck)
         {
-            Debug.Log("GAME OVER !!! Defeated by " + GetComponent<Enemy>().name);
+            Debug.Log("GAME OVER !!! Defeated by " + name);
            
             timeElapsed = 0f;
         }
