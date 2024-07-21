@@ -25,7 +25,7 @@ public class SlingShot : MonoBehaviour
     }
     private void Start()
     {
-       
+
     }
 
     void Update()
@@ -50,8 +50,11 @@ public class SlingShot : MonoBehaviour
             direction.y = 0;
 
             horizontalDistance = direction.magnitude * 0.1f; // Adjust this factor to control sensitivity
-            Vector3 targetPosition = transform.position + new Vector3(-direction.x, 0, -direction.z).normalized * horizontalDistance;
-            landPosition.transform.position = targetPosition;
+            Vector3 targetPosition = transform.position + new Vector3(direction.x, 0, direction.z).normalized * horizontalDistance;
+            targetPosition.y = 0;
+
+            // Smoothly move the land position towards the target position using Lerp
+            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 7);
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -70,11 +73,11 @@ public class SlingShot : MonoBehaviour
                 shoot();
                 stonePrefab = null;
                 Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
-                
+
             }
             else
             {
-                Debug.Log("No ITEM in inventory left vvvvvto YEET");
+                Debug.Log("No ITEM in inventory left to YEET");
             }
         }
 
@@ -89,6 +92,7 @@ public class SlingShot : MonoBehaviour
     {
         horizontalDistance = direction.magnitude * 0.1f; // Adjust this factor to control sensitivity
         Vector3 targetPosition = transform.position + new Vector3(-direction.x, 0, -direction.z).normalized * horizontalDistance;
+        targetPosition.y = 0;
         direction = (targetPosition - transform.position).normalized;
 
         Debug.Log("direction: " + direction);
