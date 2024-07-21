@@ -120,9 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSO: {fileID: 11400000, guid: 0f3ffa0696379eb49b3f0b1ac1204819, type: 2}
-  IsEquipable: 1
-  IsDecoration: 0
-  canbeToggled: 0
+  isOn: 0
 --- !u!143 &-1936601277188755696
 CharacterController:
   m_ObjectHideFlags: 0

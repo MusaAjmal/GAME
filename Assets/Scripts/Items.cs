@@ -97,4 +97,8 @@ public class Items : MonoBehaviour
     {
         return itemSO.objectName.ToLower().GetHashCode();
     }
+  /*  private void OnCollisionEnter(Collision collision)
+    {
+        Destroy(this);
+    }*/
 }
