@@ -91,7 +91,7 @@ public class SlingShot : MonoBehaviour
     void shoot()
     {
         horizontalDistance = direction.magnitude * 0.1f; // Adjust this factor to control sensitivity
-        Vector3 targetPosition = transform.position + new Vector3(-direction.x, 0, -direction.z).normalized * horizontalDistance;
+        Vector3 targetPosition = transform.position + new Vector3(direction.x, 0, direction.z).normalized * horizontalDistance;
         targetPosition.y = 0;
         direction = (targetPosition - transform.position).normalized;
 
