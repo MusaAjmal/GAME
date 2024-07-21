@@ -74,7 +74,7 @@ public class SlingShot : MonoBehaviour
             }
             else
             {
-                Debug.Log("No ITEM in inventory left to YEET");
+                Debug.Log("No ITEM in inventory left vvvvvto YEET");
             }
         }
 
