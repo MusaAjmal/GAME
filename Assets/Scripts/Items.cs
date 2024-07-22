@@ -8,6 +8,7 @@ public class Items : MonoBehaviour
 {
     [SerializeField] public ItemSO itemSO;
     public bool isOn;
+
    
 
     private void pickup()
@@ -70,7 +71,8 @@ public class Items : MonoBehaviour
         {
             
             toggle();
-            Debug.Log("Torch State: " + isOn);
+            
+           
 
         }
     }
