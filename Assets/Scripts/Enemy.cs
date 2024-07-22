@@ -160,7 +160,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            if (targetObject != null && targetObject.tag == "Bone")
+            if (targetObject != null)
             {
                 throwableObject = targetObject;
 /*                Debug.Log("Noise detected at: " + targetPosition + " from " + targetObject.tag);
