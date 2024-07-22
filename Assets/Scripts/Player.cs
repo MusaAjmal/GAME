@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.Versioning;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,18 +6,20 @@ public class Player : MonoBehaviour
     public static Player Instance { get; private set; }
 
     [SerializeField] private Input1 Input1;
+    [SerializeField] private Rigidbody rb;
     [SerializeField] public float pickupDistance;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private CharacterController characterController;
-    
+
     [SerializeField] private Transform cam;
     private float dashDistance = 5f;
-    private float dashDuration = 0.2f;
+    private float dashDuration = 0.375f;
     private float turnSmoothTime = 0.1f;
     private bool isDashing = false;
-  
-
+    private bool canDash = true;
+    private float dashCooldown = 3f;
+    private bool canMove = true; // Flag to control movement
 
     private void Awake()
     {
@@ -29,25 +28,28 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        
         Input1.OnDash += Input_OnDash;
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Input_OnDash(object sender, System.EventArgs e)
     {
-        if (!isDashing)
+        if (canDash && !isDashing)
         {
             StartCoroutine(Dash());
         }
     }
+
     private IEnumerator Dash()
     {
         isDashing = true;
-        
+        canDash = false;
+        canMove = false; // Disable movement during dash
+
         Vector3 startPosition = transform.position;
         Vector3 endPosition = startPosition + transform.forward * dashDistance;
 
-        float elapsedTime = 0;
+        float elapsedTime = 0f;
         while (elapsedTime < dashDuration)
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / dashDuration);
@@ -57,52 +59,62 @@ public class Player : MonoBehaviour
 
         transform.position = endPosition;
         isDashing = false;
+        canMove = true; // Re-enable movement after dash
+
+        // Start cooldown timer
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 
     private void Update()
     {
-        
-
-        MovePlayer();
-        
-    }
-    private void MovePlayer()
-    {
-        //test
-        Vector2 inputVector = Input1.Move();
-        Vector3 MovementVector = new Vector3((inputVector.x),0,inputVector.y);
-        
-        if(MovementVector.magnitude >= 0.1f)
+        if (canMove)
         {
-            //TurnUsingMaths(MovementVector);
-            
-            TurnUsingBuiltInMethod(MovementVector);
-            characterController.Move(MovementVector * moveSpeed * Time.deltaTime);
-
-            
+            StartCoroutine(MovePlayer());
         }
-       // transform.position += MovementVector * moveSpeed * Time.deltaTime;
-        
     }
+
+    private IEnumerator MovePlayer()
+    {
+        Vector2 inputVector = Input1.Move();
+        Vector3 MovementVector = new Vector3(inputVector.x, 0, inputVector.y);
+
+        if (transform.position.y != 1.2f)
+        {
+            Vector3 temp = new Vector3(transform.position.x, 1.2f, transform.position.z);
+            transform.position = temp;
+        }
+        else
+        {
+            if (MovementVector.magnitude >= 0.1f)
+            {
+                TurnUsingBuiltInMethod(MovementVector);
+                characterController.Move(MovementVector * moveSpeed * Time.deltaTime);
+            }
+        }
+
+        yield return null;
+    }
+
     private void TurnUsingBuiltInMethod(Vector3 MovementVector)
     {
         transform.forward = Vector3.Slerp(transform.forward, MovementVector, rotateSpeed * Time.deltaTime);
     }
+
     private void TurnUsingMaths(Vector3 directionVector)
     {
-        if(directionVector.magnitude >= 0.1f)
+        if (directionVector.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(directionVector.x, directionVector.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotateSpeed, turnSmoothTime);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            transform.rotation = Quaternion.Euler (0,turnAngle, 0);
+            transform.rotation = Quaternion.Euler(0, turnAngle, 0);
             characterController.Move(moveDir * moveSpeed * Time.deltaTime);
-
         }
     }
+
     public Vector3 GetPosition()
     {
         return transform.position;
     }
-   
 }

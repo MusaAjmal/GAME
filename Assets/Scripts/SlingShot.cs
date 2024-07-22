@@ -18,6 +18,7 @@ public class SlingShot : MonoBehaviour
     float horizontalDistance;
     float speed;
     Vector3 direction;
+    private bool stoneInFlight = false;
 
     private void Awake()
     {
@@ -73,7 +74,7 @@ public class SlingShot : MonoBehaviour
                 shoot();
                 stonePrefab = null;
                 Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
-
+                stoneInFlight = true;
             }
             else
             {
@@ -81,10 +82,16 @@ public class SlingShot : MonoBehaviour
             }
         }
 
-        if (currentStone != null)
+        if (currentStone != null && stoneInFlight)
         {
             currentVelocity.y -= gravity * Time.deltaTime;
             characterController.Move(currentVelocity * Time.deltaTime);
+
+            // Check if the stone has landed
+            if (characterController.isGrounded)
+            {
+                LandStone();
+            }
         }
     }
 
@@ -103,5 +110,23 @@ public class SlingShot : MonoBehaviour
         float horizontalSpeed = Mathf.Cos(angle * Mathf.Deg2Rad) * speed;
 
         currentVelocity = new Vector3(horizontalSpeed * direction.x, verticalSpeed, horizontalSpeed * direction.z);
+    }
+
+    void LandStone()
+    {
+        stoneInFlight = false;
+        currentVelocity = Vector3.zero;
+        if(currentStone.tag != "Bone")
+        {
+            
+
+            Invoke("DestroyStone", 0.1f);
+        }
+        
+    }
+
+    void DestroyStone()
+    {
+        Destroy(currentStone);
     }
 }

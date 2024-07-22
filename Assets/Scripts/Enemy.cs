@@ -21,7 +21,8 @@ public class Enemy : MonoBehaviour
     public bool noiseDetected = false;
     [SerializeField] private float noiseAttentionTime = 2f;
     private GameObject throwableObject;
-
+    [SerializeField] private float playerDetectDistance;
+    private bool spotted;
 
     private enum EnemyState
     {
@@ -34,6 +35,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        spotted = false;    
         currentState = EnemyState.Patrolling;
         targetPoint = 0;
         patrolReturnPosition = transform.position;
@@ -42,11 +44,15 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         CheckNoise();
+        CheckPlayer();
 
         switch (currentState)
         {
             case EnemyState.Patrolling:
-                Patrol();
+                if (!spotted) {
+                    Patrol();
+                }
+                
                 break;
 
             case EnemyState.Alerted:
@@ -91,7 +97,7 @@ public class Enemy : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent(out Player player))
             {
-                Debug.Log("Chasing");
+               // Debug.Log("Chasing");
                 // Implement chasing logic here
             }
         }
@@ -138,7 +144,7 @@ public class Enemy : MonoBehaviour
                
                 if (collider.gameObject.layer == LayerMask.NameToLayer("Object")) // Replace "YourLayerName" with the actual layer name
                 {
-                    Debug.Log("Noise Detected");
+                    //Debug.Log("Noise Detected");
                     // Check if there is no obstruction between the current object and the detected object
                     Vector3 directionToTarget = collider.transform.position - transform.position;
                     float distanceToTarget = directionToTarget.magnitude;
@@ -146,7 +152,7 @@ public class Enemy : MonoBehaviour
 
                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
-                        Debug.Log("Object in range !!!!");
+                        //Debug.Log("Object in range !!!!");
                         targetObject = collider.gameObject;
                         targetPosition = collider.transform.position;
                         break; // Found the target, no need to continue the loop
@@ -184,6 +190,45 @@ public class Enemy : MonoBehaviour
         {
 /*            Debug.Log("No noise detected.");
 */        }
+    }
+
+    public void CheckPlayer()
+    {
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, playerDetectDistance);
+        Debug.Log(rangeChecks);
+
+        if (rangeChecks.Length != 0)
+        {
+            GameObject targetObject = null;
+            Vector3 targetPosition = Vector3.zero;
+
+            foreach (Collider collider in rangeChecks)
+            {
+                if (collider.CompareTag("Player"))
+                {
+                    Debug.Log("Player found");
+                    targetObject = collider.gameObject;
+                    targetPosition = collider.transform.position;
+                    float distanceToTarget = Vector3.Distance(targetPosition, transform.position);
+
+                    if (!Physics.Raycast(transform.position, targetPosition - transform.position, distanceToTarget, obstructionMask))
+                    {
+                        // Calculate the direction to the target
+                        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+
+                        // Calculate the desired rotation
+                        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+
+                        // Smoothly rotate towards the target rotation
+                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+
+                        spotted = true;
+                        Debug.Log("GAME OVER ENEMY SPOTTED YOU");
+                        break; // Found the target, no need to continue the loop
+                    }
+                }
+            }
+        }
     }
 
 
@@ -230,7 +275,7 @@ public class Enemy : MonoBehaviour
 
             foreach (Collider collider in rangeChecks)
             {
-                Debug.Log("Object found in range: " + collider.gameObject.name);
+                //Debug.Log("Object found in range: " + collider.gameObject.name);
 
                 // Check if the collider's gameObject is in the Distraction layer
                 if (collider.gameObject.layer == LayerMask.NameToLayer("Distraction"))
@@ -248,23 +293,23 @@ public class Enemy : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Obstruction found between enemy and distraction: " + collider.gameObject.name);
+                       // Debug.Log("Obstruction found between enemy and distraction: " + collider.gameObject.name);
                     }
                 }
                 else
                 {
-                    Debug.Log("Object not in Distraction layer: " + collider.gameObject.name);
+                  //  Debug.Log("Object not in Distraction layer: " + collider.gameObject.name);
                 }
             }
 
             if (targetObject != null)
             {
-                Debug.Log("Distraction detected at: " + targetPosition);
+               // Debug.Log("Distraction detected at: " + targetPosition);
 
                 if (patrolReturnPosition == Vector3.zero)
                 {
                     patrolReturnPosition = transform.position;
-                    Debug.Log("Setting patrolReturnPosition to: " + patrolReturnPosition);
+                   // Debug.Log("Setting patrolReturnPosition to: " + patrolReturnPosition);
                 }
 
                 StopAllCoroutines();
@@ -272,12 +317,12 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                Debug.Log("No valid distraction target found.");
+               // Debug.Log("No valid distraction target found.");
             }
         }
         else
         {
-            Debug.Log("No objects found in range.");
+           // Debug.Log("No objects found in range.");
         }
     }
     private void OnCollisionEnter(Collision collision)
