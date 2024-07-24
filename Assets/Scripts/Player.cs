@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private CharacterController characterController;
+    [SerializeField] private Joystick joystick;
 
     [SerializeField] private Transform cam;
     private float dashDistance = 5f;
@@ -76,9 +77,14 @@ public class Player : MonoBehaviour
 
     private IEnumerator MovePlayer()
     {
+        Vector3 MovementVector;
         Vector2 inputVector = Input1.Move();
-        Vector3 MovementVector = new Vector3(inputVector.x, 0, inputVector.y);
+        
+       
+            MovementVector = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
 
+       
+        
         if (transform.position.y != 1.2f)
         {
             Vector3 temp = new Vector3(transform.position.x, 1.2f, transform.position.z);
