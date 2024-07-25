@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements.Experimental;
 
@@ -10,6 +11,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameOverScript gameOverScript;
     [SerializeField] private GameObject touchPanel;
     [SerializeField] private GameObject Inventory;
+    [SerializeField] private GameObject Player;
+    [SerializeField] private LevelComplete levelComplete;
+    [SerializeField] private GameObject[] images;
     public static LevelManager Instance { get; private set; }
     Chest Chest;
 
@@ -49,6 +53,22 @@ public class LevelManager : MonoBehaviour
         Inventory.SetActive(false);
         touchPanel.SetActive(false);    
         gameOverScript.SetUp();
+    }
+    public void LevelComplete()
+    {
+
+        Inventory.SetActive(false);
+        touchPanel.SetActive(false);
+        initiateStarRetrieval();
+        levelComplete.set();
+        DisplayStars();
+    }
+    private void DisplayStars()
+    {
+        for(int i = 0;i <= starNumber; i++)
+        {
+            images[i].SetActive(true);
+        }
     }
     private void ShowStars()
     {
