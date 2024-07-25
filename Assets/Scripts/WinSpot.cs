@@ -9,7 +9,7 @@ public class WinSpot : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            Debug.Log("player has won the Game!");
+            LevelManager.Instance.LevelComplete();
         }
     }
 }

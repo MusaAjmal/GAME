@@ -4,12 +4,13 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 public class Items : MonoBehaviour
 {
     [SerializeField] public ItemSO itemSO;
     public bool isOn;
 
-
+    EquipButton bt;
 
     private void pickup()
     {
@@ -28,7 +29,9 @@ public class Items : MonoBehaviour
     private void Start()
     {
         isOn = true;
-
+        bt = EquipButton.Instance;
+        bt.BTCallback += OnMiddleMouseDown;
+        bt.BTCallback += playerToggleItem;
 
     }
 
@@ -68,23 +71,31 @@ public class Items : MonoBehaviour
     }
     private void playerToggleItem()
     {
-        if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
+        if(this != null && gameObject != null)
         {
+            if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
+            {
 
-            toggle();
+                toggle();
 
 
 
+            }
         }
+        
     }
 
 
     private void OnMiddleMouseDown()
     {
-        if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
+        if (this!=null && gameObject!=null)
         {
-            pickup();
+            if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
+            {
+                pickup();
+            }
         }
+        
 
     }
 

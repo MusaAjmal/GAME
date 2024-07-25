@@ -16,7 +16,7 @@ public class Chest : MonoBehaviour
         itemReceived = false;
     }
 
-    private void Interact()
+    public void Interact()
     {
         if (item!= null)
         {

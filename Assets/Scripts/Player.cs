@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private bool isDashing = false;
     private bool canDash = true;
     private float dashCooldown = 3f;
-    private bool canMove = true; // Flag to control movement
+    static public bool canMove = true; // Flag to control movement
     GameObject SlingShot;
 
     private void Awake()

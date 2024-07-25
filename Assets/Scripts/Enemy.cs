@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     private GameObject throwableObject;
     [SerializeField] private float playerDetectDistance;
     private bool spotted;
+    private LevelManager sceneManager;
 
     private enum EnemyState
     {
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        sceneManager = LevelManager.Instance;
         spotted = false;    
         currentState = EnemyState.Patrolling;
         targetPoint = 0;
@@ -223,6 +225,7 @@ public class Enemy : MonoBehaviour
                         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
 
                         spotted = true;
+                        sceneManager.GameOverScreen();
                         Debug.Log("GAME OVER ENEMY SPOTTED YOU");
                         break; // Found the target, no need to continue the loop
                     }
