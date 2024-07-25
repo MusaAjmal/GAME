@@ -135,7 +135,7 @@ public class SlingShot : MonoBehaviour
             {
                 // Adjust position to not intersect with the wall
                 adjustedPosition = hit.point;
-                adjustedPosition.y = landPosition.transform.position.y; // Keep the y position consistent
+                adjustedPosition.y = 0.204f; // Keep the y position consistent
             }
         }
 
