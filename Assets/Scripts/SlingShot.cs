@@ -78,7 +78,7 @@ public class SlingShot : MonoBehaviour
             targetPosition.y = 0;
 
             // Smoothly move the land position towards the target position using Lerp
-            Vector3 boxSize = landPosition.GetComponent<Collider>().bounds.size; // Get the size of the land position
+            Vector3 boxSize = new Vector3(1, 0.16f, 1); // Use provided dimensions
             landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, GetValidLandPosition(targetPosition, boxSize), Time.deltaTime * 7);
         }
 
@@ -111,9 +111,8 @@ public class SlingShot : MonoBehaviour
                     Vector3 targetPosition = transform.position + new Vector3(direction.x, 0, direction.z).normalized * horizontalDistance;
                     targetPosition.y = 0;
 
-                    // Smoothly move the land position towards the target position using Lerp
-                    Vector3 boxSize = landPosition.GetComponent<Collider>().bounds.size; // Get the size of the land position
-                    landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, GetValidLandPosition(targetPosition, boxSize), Time.deltaTime * 7);
+                    // Move the land position directly to the target position
+                    landPosition.transform.position = targetPosition;
                     break;
 
                 case TouchPhase.Ended:
@@ -129,8 +128,9 @@ public class SlingShot : MonoBehaviour
         Vector3 adjustedPosition = desiredPosition;
 
         // BoxCast to detect collisions around the target position
-        if (Physics.BoxCast(desiredPosition, boxSize / 2, Vector3.down, out hit, Quaternion.identity, Mathf.Infinity))
+        if (Physics.BoxCast(desiredPosition, boxSize / 2, Vector3.up, out hit, Quaternion.identity, Mathf.Infinity))
         {
+            Debug.Log("Hit Something! The object is: " + hit.collider.name);
             if (hit.collider != null && hit.collider.gameObject != landPosition)
             {
                 // Adjust position to not intersect with the wall
