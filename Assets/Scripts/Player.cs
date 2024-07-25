@@ -75,14 +75,14 @@ public class Player : MonoBehaviour
         {
             MovePlayer();
         }
-        if (IsMoving())
+       /* if (IsMoving())
         {
             SlingShot.SetActive(false);
         }
         else
         {
             SlingShot.SetActive(true);
-        }
+        }*/
     }
 
     private void MovePlayer()
