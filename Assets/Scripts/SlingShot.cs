@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
 public class SlingShot : MonoBehaviour
 {
@@ -19,14 +16,17 @@ public class SlingShot : MonoBehaviour
     float speed;
     Vector3 direction;
     private bool stoneInFlight = false;
+    private Camera mainCamera;
 
     private void Awake()
     {
-        // Any initialization if needed
+        // Initialize main camera reference
+        mainCamera = Camera.main;
     }
+
     private void Start()
     {
-
+        // Any other initialization code
     }
 
     void Update()
@@ -35,10 +35,33 @@ public class SlingShot : MonoBehaviour
         {
             stonePrefab = Inventory.Instance.defaultItem.prefab.gameObject;
         }
+
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
+        HandleMouseInput(); // Use mouse input for editor, standalone, or web builds
+#endif
+
+#if UNITY_ANDROID || UNITY_IOS || UNITY_WSA
+        HandleTouchInput(); // Use touch input for Android, iOS, or Windows Store Apps
+#endif
+
+        if (currentStone != null && stoneInFlight)
+        {
+            currentVelocity.y -= gravity * Time.deltaTime;
+            characterController.Move(currentVelocity * Time.deltaTime);
+
+            // Check if the stone has landed
+            if (characterController.isGrounded)
+            {
+                LandStone();
+            }
+        }
+    }
+
+    private void HandleMouseInput()
+    {
         // Detect mouse click
         if (Input.GetMouseButtonDown(0))
         {
-            // Get the initial mouse position
             initialMousePosition = Input.mousePosition;
             Debug.Log("initialMousePosition: " + initialMousePosition);
         }
@@ -55,43 +78,95 @@ public class SlingShot : MonoBehaviour
             targetPosition.y = 0;
 
             // Smoothly move the land position towards the target position using Lerp
-            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, targetPosition, Time.deltaTime * 7);
+            Vector3 boxSize = landPosition.GetComponent<Collider>().bounds.size; // Get the size of the land position
+            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, GetValidLandPosition(targetPosition, boxSize), Time.deltaTime * 7);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            // Check if we have the item to throw
-            if (stonePrefab != null)
+            LaunchStone();
+        }
+    }
+
+    private void HandleTouchInput()
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            switch (touch.phase)
             {
-                currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * stoneHeight, Quaternion.identity);
-                characterController = currentStone.GetComponent<CharacterController>();
-                finalMousePosition = Input.mousePosition;
+                case TouchPhase.Began:
+                    initialMousePosition = touch.position;
+                    Debug.Log("Touch Started: " + initialMousePosition);
+                    break;
 
-                direction = initialMousePosition - finalMousePosition;
-                direction.z = direction.y;
-                direction.y = 0;
+                case TouchPhase.Moved:
+                    Vector3 currentTouchPosition = touch.position;
+                    direction = initialMousePosition - currentTouchPosition;
+                    direction.z = direction.y;
+                    direction.y = 0;
 
-                shoot();
-                stonePrefab = null;
-                Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
-                stoneInFlight = true;
+                    horizontalDistance = direction.magnitude * 0.1f; // Adjust this factor to control sensitivity
+                    Vector3 targetPosition = transform.position + new Vector3(direction.x, 0, direction.z).normalized * horizontalDistance;
+                    targetPosition.y = 0;
+
+                    // Smoothly move the land position towards the target position using Lerp
+                    Vector3 boxSize = landPosition.GetComponent<Collider>().bounds.size; // Get the size of the land position
+                    landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, GetValidLandPosition(targetPosition, boxSize), Time.deltaTime * 7);
+                    break;
+
+                case TouchPhase.Ended:
+                    LaunchStone();
+                    break;
             }
-            else
+        }
+    }
+
+    private Vector3 GetValidLandPosition(Vector3 desiredPosition, Vector3 boxSize)
+    {
+        RaycastHit hit;
+        Vector3 adjustedPosition = desiredPosition;
+
+        // BoxCast to detect collisions around the target position
+        if (Physics.BoxCast(desiredPosition, boxSize / 2, Vector3.down, out hit, Quaternion.identity, Mathf.Infinity))
+        {
+            if (hit.collider != null && hit.collider.gameObject != landPosition)
             {
-                Debug.Log("No ITEM in inventory left to YEET");
+                // Adjust position to not intersect with the wall
+                adjustedPosition = hit.point;
+                adjustedPosition.y = landPosition.transform.position.y; // Keep the y position consistent
             }
         }
 
-        if (currentStone != null && stoneInFlight)
-        {
-            currentVelocity.y -= gravity * Time.deltaTime;
-            characterController.Move(currentVelocity * Time.deltaTime);
+        return adjustedPosition;
+    }
 
-            // Check if the stone has landed
-            if (characterController.isGrounded)
+    private void LaunchStone()
+    {
+        if (stonePrefab != null)
+        {
+            currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * stoneHeight, Quaternion.identity);
+            characterController = currentStone.GetComponent<CharacterController>();
+            finalMousePosition = Input.mousePosition; // For mouse fallback
+
+            if (Input.touchCount > 0)
             {
-                LandStone();
+                finalMousePosition = Input.GetTouch(0).position;
             }
+
+            direction = initialMousePosition - finalMousePosition;
+            direction.z = direction.y;
+            direction.y = 0;
+
+            shoot();
+            stonePrefab = null;
+            Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
+            stoneInFlight = true;
+        }
+        else
+        {
+            Debug.Log("No ITEM in inventory left to YEET");
         }
     }
 
@@ -116,13 +191,11 @@ public class SlingShot : MonoBehaviour
     {
         stoneInFlight = false;
         currentVelocity = Vector3.zero;
-        if(currentStone.tag != "Bone")
-        {
-            
 
+        if (currentStone.tag != "Bone")
+        {
             Invoke("DestroyStone", 0.1f);
         }
-        
     }
 
     void DestroyStone()

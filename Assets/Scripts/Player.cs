@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     private bool canDash = true;
     private float dashCooldown = 3f;
     private bool canMove = true; // Flag to control movement
+    GameObject SlingShot;
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        SlingShot = GameObject.FindGameObjectWithTag("SlingShot");
         Input1.OnDash += Input_OnDash;
         rb = GetComponent<Rigidbody>();
     }
@@ -71,52 +73,107 @@ public class Player : MonoBehaviour
     {
         if (canMove)
         {
-            StartCoroutine(MovePlayer());
+            MovePlayer();
         }
-    }
-
-    private IEnumerator MovePlayer()
-    {
-        Vector3 MovementVector;
-        Vector2 inputVector = Input1.Move();
-        
-       
-            MovementVector = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-
-       
-        
-        if (transform.position.y != 1.2f)
+        if (IsMoving())
         {
-            Vector3 temp = new Vector3(transform.position.x, 1.2f, transform.position.z);
-            transform.position = temp;
+            SlingShot.SetActive(false);
         }
         else
         {
-            if (MovementVector.magnitude >= 0.1f)
+            SlingShot.SetActive(true);
+        }
+    }
+
+    private void MovePlayer()
+    {
+        Vector3 MovementVector = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
+
+        if (MovementVector.magnitude >= 0.1f)
+        {
+            // Convert input to isometric movement
+            MovementVector = ConvertToIsometric(MovementVector);
+
+            // Calculate movement distance and character height
+            float moveDistance = moveSpeed * Time.deltaTime;
+            float playerRadius = 0.7f;
+            float playerHeight = 1.156f;
+
+            // Check if movement is possible
+            bool canMove = CanMove(MovementVector, moveDistance, playerRadius, playerHeight);
+
+            if (canMove)
             {
-                TurnUsingBuiltInMethod(MovementVector);
+                // Execute movement
                 characterController.Move(MovementVector * moveSpeed * Time.deltaTime);
+
+                // Adjust player rotation
+                TurnUsingBuiltInMethod(MovementVector);
+
+                // Keep player at a fixed y-level
+                MaintainGroundLevel();
+            }
+        }
+    }
+
+    private bool CanMove(Vector3 movementVector, float moveDistance, float playerRadius, float playerHeight)
+    {
+        // Check for obstacles using CapsuleCast
+        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, movementVector, moveDistance);
+
+        if (!canMove)
+        {
+            // Attempt movement only along the x-axis
+            Vector3 moveX = new Vector3(movementVector.x, 0, 0).normalized;
+            canMove = movementVector.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveX, moveDistance);
+
+            if (canMove)
+            {
+                movementVector = moveX;
+            }
+            else
+            {
+                // Attempt movement only along the z-axis
+                Vector3 moveZ = new Vector3(0, 0, movementVector.z).normalized;
+                canMove = movementVector.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveZ, moveDistance);
+
+                if (canMove)
+                {
+                    movementVector = moveZ;
+                }
             }
         }
 
-        yield return null;
+        return canMove;
     }
 
-    private void TurnUsingBuiltInMethod(Vector3 MovementVector)
+    private Vector3 ConvertToIsometric(Vector3 input)
     {
-        transform.forward = Vector3.Slerp(transform.forward, MovementVector, rotateSpeed * Time.deltaTime);
+        // Rotate the input vector to match isometric perspective
+        Quaternion isometricRotation = Quaternion.Euler(0, 45f, 0);
+        return isometricRotation * input;
     }
 
-    private void TurnUsingMaths(Vector3 directionVector)
+    private void TurnUsingBuiltInMethod(Vector3 movementVector)
     {
-        if (directionVector.magnitude >= 0.1f)
+        // Smoothly rotate the player to face the movement direction
+        transform.forward = Vector3.Slerp(transform.forward, movementVector, rotateSpeed * Time.deltaTime);
+    }
+
+    private void MaintainGroundLevel()
+    {
+        // Ensure player stays on the correct ground level
+        if (Mathf.Abs(transform.position.y - 1.076f) > 0.01f)
         {
-            float targetAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float turnAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotateSpeed, turnSmoothTime);
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            transform.rotation = Quaternion.Euler(0, turnAngle, 0);
-            characterController.Move(moveDir * moveSpeed * Time.deltaTime);
+            Vector3 temp = new Vector3(transform.position.x, 1.076f, transform.position.z);
+            transform.position = temp;
         }
+    }
+
+    public bool IsMoving()
+    {
+        Vector3 movementVector = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
+        return movementVector.magnitude >= 0.1f;
     }
 
     public Vector3 GetPosition()

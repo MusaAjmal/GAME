@@ -9,21 +9,21 @@ public class Items : MonoBehaviour
     [SerializeField] public ItemSO itemSO;
     public bool isOn;
 
-   
+
 
     private void pickup()
     {
         if (itemSO.IsEquipable)
         {
-           
+
             Inventory.Instance.AddItem(itemSO);
-            
+
 
 
             Destroy(gameObject); //instead of destroying we change the parent of the transform
-           
+
         }
-       
+
     }
     private void Start()
     {
@@ -36,8 +36,8 @@ public class Items : MonoBehaviour
 
     private void Update()
     {
-        
-        if (Input.GetMouseButtonDown(2)) // 2 corresponds to the middle mouse button
+
+        if (Input.GetMouseButton(2)) // 2 corresponds to the middle mouse button
         {
             OnMiddleMouseDown();
         }
@@ -45,20 +45,21 @@ public class Items : MonoBehaviour
         {
             playerToggleItem();
         }
-       
+
     }
     private void toggle()
     {
         if (itemSO.canbeToggled)
         {
-            if (isActive()) {
+            if (isActive())
+            {
                 isOn = false;
             }
             else
             {
-                isOn = true; 
+                isOn = true;
             }
-           
+
         }
     }
     public bool isActive()
@@ -69,10 +70,10 @@ public class Items : MonoBehaviour
     {
         if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
         {
-            
+
             toggle();
-            
-           
+
+
 
         }
     }
@@ -80,10 +81,11 @@ public class Items : MonoBehaviour
 
     private void OnMiddleMouseDown()
     {
-        if(Vector3.Distance(Player.Instance.GetPosition(), transform.position)  < Player.Instance.pickupDistance){
+        if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
+        {
             pickup();
         }
-    
+
     }
 
     public override bool Equals(object obj)
@@ -99,8 +101,8 @@ public class Items : MonoBehaviour
     {
         return itemSO.objectName.ToLower().GetHashCode();
     }
-  /*  private void OnCollisionEnter(Collision collision)
-    {
-        Destroy(this);
-    }*/
+    /*  private void OnCollisionEnter(Collision collision)
+      {
+          Destroy(this);
+      }*/
 }
