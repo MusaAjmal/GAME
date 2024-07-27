@@ -32,17 +32,17 @@ public class Player : MonoBehaviour
     private void Start()
     {
         SlingShot = GameObject.FindGameObjectWithTag("SlingShot");
-        Input1.OnDash += Input_OnDash;
+        //Input1.OnDash += Input_OnDash;
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Input_OnDash(object sender, System.EventArgs e)
+   /* private void Input_OnDash(object sender, System.EventArgs e)
     {
         if (canDash && !isDashing)
         {
             StartCoroutine(Dash());
         }
-    }
+    }*/
 
     private IEnumerator Dash()
     {

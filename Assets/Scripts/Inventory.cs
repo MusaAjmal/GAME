@@ -1,11 +1,10 @@
-using System.Collections;
+
 using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using System;
+
 using System.Linq;
-using UnityEngine.Analytics;
-using Unity.VisualScripting.Dependencies.Sqlite;
+
 
 public class Inventory : MonoBehaviour
 {
@@ -21,11 +20,13 @@ public class Inventory : MonoBehaviour
     public ItemSO defaultItem;
 
     public static Inventory Instance;
+    public GameObject SlingShot;
 
     public void Awake()
     {
         Instance = this;
     }
+   
     private void setDefaultItem()
     {
         List<ItemSO> allItems = GetAllItems();
@@ -126,6 +127,7 @@ public class Inventory : MonoBehaviour
 
     public void CycleItems()
     {
+        SlingShot.SetActive(false);
         List<ItemSO> allItems = GetAllItems();
         List<ItemSO> uniqueItems = allItems
             .GroupBy(item => item.objectName)

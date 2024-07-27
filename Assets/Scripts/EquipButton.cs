@@ -10,6 +10,7 @@ public class EquipButton : MonoBehaviour
     public static EquipButton Instance { get; private set; }
     public GameObject SlingShot;
     public Player player;
+    Chest chest;
     private void Awake()
     {
         Instance = this;
@@ -17,6 +18,7 @@ public class EquipButton : MonoBehaviour
 
     private void Start()
     {
+        chest = Chest.Instance;
     SlingShot = GameObject.FindGameObjectWithTag("SlingShot");
     }
 
@@ -24,7 +26,11 @@ public class EquipButton : MonoBehaviour
     {
         SlingShot.SetActive(false);
         BTCallback?.Invoke();
-        Chest.Instance.Interact();
+        if (chest.isPlayerClose())
+        {
+            chest.Interact();
+        }
+        
     }
 
 

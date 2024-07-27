@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements.Experimental;
+
 
 public class LevelManager : MonoBehaviour
 {
@@ -34,13 +34,13 @@ public class LevelManager : MonoBehaviour
         Chest.SPcallback += initiateStarRetrieval;
         
     }
-    private void Update()
+   /* private void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             ShowStars();
         }
-    }
+    }*/
     private void InitialStars()
     {
         for (int i = 0; i < Stars.Length; i++)
@@ -65,7 +65,7 @@ public class LevelManager : MonoBehaviour
     }
     private void DisplayStars()
     {
-        for(int i = 0;i <= starNumber; i++)
+        for(int i = 0;i < starNumber; i++)
         {
             images[i].SetActive(true);
         }
