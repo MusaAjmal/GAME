@@ -33,11 +33,18 @@ public class Chest : MonoBehaviour
         
         
     }
+    public bool isPlayerClose()
+    {
+        return (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance);
+        
 
-    private void Update()
+        
+    }
+
+   /* private void Update()
     {
         if (Input.GetKey(KeyCode.X)) {
             Interact();
         }
-    }
+    }*/
 }
