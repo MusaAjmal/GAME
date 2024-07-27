@@ -3,17 +3,14 @@ using UnityEngine;
 public class SlingShot : MonoBehaviour
 {
     public GameObject stonePrefab;
-    [SerializeField] public GameObject landPosition;
     private Vector3 initialMousePosition;
-    private Vector3 finalMousePosition;
-    public float sensitivity = 1000.0f;
+    public float sensitivity = 100.0f;
     private GameObject currentStone;
     public float stoneHeight = 10.0f;
     [SerializeField] public float angle = 75f, gravity = 20f;
     Vector3 currentVelocity;
     private CharacterController characterController;
     float horizontalDistance;
-    float speed;
     Vector3 direction;
     private bool stoneInFlight = false;
     private Camera mainCamera;
@@ -24,12 +21,7 @@ public class SlingShot : MonoBehaviour
         mainCamera = Camera.main;
     }
 
-    private void Start()
-    {
-        // Any other initialization code
-    }
-
-    void Update()
+    private void Update()
     {
         if (Inventory.Instance.defaultItem != null)
         {
@@ -63,28 +55,12 @@ public class SlingShot : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             initialMousePosition = Input.mousePosition;
-            Debug.Log("initialMousePosition: " + initialMousePosition);
+            CheckForDistraction(); // Check for distractions when mouse is clicked
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonUp(0) && !stoneInFlight)
         {
-            Vector3 currentMousePosition = Input.mousePosition;
-            direction = initialMousePosition - currentMousePosition;
-            direction.z = direction.y;
-            direction.y = 0;
-
-            horizontalDistance = direction.magnitude * 0.1f; // Adjust this factor to control sensitivity
-            Vector3 targetPosition = transform.position + new Vector3(direction.x, 0, direction.z).normalized * horizontalDistance;
-            targetPosition.y = 0;
-
-            // Smoothly move the land position towards the target position using Lerp
-            Vector3 boxSize = new Vector3(1, 0.16f, 1); // Use provided dimensions
-            landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, GetValidLandPosition(targetPosition, boxSize), Time.deltaTime * 7);
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            LaunchStone();
+            LaunchStone(); // Launch the stone if it is not already in flight
         }
     }
 
@@ -98,89 +74,65 @@ public class SlingShot : MonoBehaviour
             {
                 case TouchPhase.Began:
                     initialMousePosition = touch.position;
-                    Debug.Log("Touch Started: " + initialMousePosition);
-                    break;
-
-                case TouchPhase.Moved:
-                    Vector3 currentTouchPosition = touch.position;
-                    direction = initialMousePosition - currentTouchPosition;
-                    direction.z = direction.y;
-                    direction.y = 0;
-
-                    horizontalDistance = direction.magnitude * 0.1f; // Adjust this factor to control sensitivity
-                    Vector3 targetPosition = transform.position + new Vector3(direction.x, 0, direction.z).normalized * horizontalDistance;
-                    targetPosition.y = 0;
-
-                    // Smoothly move the land position towards the target position using Lerp
-                    Vector3 boxSize = new Vector3(1, 0.16f, 1); // Use provided dimensions
-                    landPosition.transform.position = Vector3.Lerp(landPosition.transform.position, GetValidLandPosition(targetPosition, boxSize), Time.deltaTime * 7);
+                    CheckForDistraction(); // Check for distractions on touch began
                     break;
 
                 case TouchPhase.Ended:
-                    LaunchStone();
+                    // Launch the stone if it is not already in flight
+                    if (!stoneInFlight)
+                    {
+                        LaunchStone();
+                    }
                     break;
             }
         }
     }
 
-    private Vector3 GetValidLandPosition(Vector3 desiredPosition, Vector3 boxSize)
+    private void CheckForDistraction()
     {
-        RaycastHit hit;
-        Vector3 adjustedPosition = desiredPosition;
-
-        // BoxCast to detect collisions around the target position
-        if (Physics.BoxCast(desiredPosition, boxSize / 2, Vector3.down, out hit, Quaternion.identity, Mathf.Infinity))
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.collider != null && hit.collider.gameObject != landPosition)
+            if (hit.collider != null && hit.collider.CompareTag("Distraction"))
             {
-                // Adjust position to not intersect with the wall
-                adjustedPosition = hit.point;
-                adjustedPosition.y = 0.204f; // Keep the y position consistent
+                // Set the direction to the distraction's position
+                direction = hit.collider.transform.position - transform.position;
+                direction.y = 0; // Keep the direction flat
+            }
+            else
+            {
+                direction = Vector3.zero; // Reset direction if not a distraction
             }
         }
-
-        return adjustedPosition;
     }
 
     private void LaunchStone()
     {
-        if (stonePrefab != null)
+        if (stonePrefab != null && direction != Vector3.zero) // Check if direction is valid
         {
             currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * stoneHeight, Quaternion.identity);
             characterController = currentStone.GetComponent<CharacterController>();
-            finalMousePosition = Input.mousePosition; // For mouse fallback
-
-            if (Input.touchCount > 0)
-            {
-                finalMousePosition = Input.GetTouch(0).position;
-            }
-
-            direction = initialMousePosition - finalMousePosition;
-            direction.z = direction.y;
-            direction.y = 0;
-
             shoot();
+
             stonePrefab = null;
             Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
             stoneInFlight = true;
         }
         else
         {
-            Debug.Log("No ITEM in inventory left to YEET");
+            Debug.Log("No ITEM in inventory left to YEET or clicked on a non-distraction");
         }
     }
 
     void shoot()
     {
-        horizontalDistance = direction.magnitude * 0.1f; // Adjust this factor to control sensitivity
-        Vector3 targetPosition = transform.position + new Vector3(direction.x, 0, direction.z).normalized * horizontalDistance;
-        targetPosition.y = 0;
-        direction = (targetPosition - transform.position).normalized;
+        horizontalDistance = direction.magnitude; // Set the horizontal distance to the distance to the distraction
+        direction.Normalize(); // Normalize the direction
 
         Debug.Log("direction: " + direction);
         Debug.Log("horizontalDistance: " + horizontalDistance);
 
-        speed = Mathf.Sqrt(horizontalDistance * gravity / Mathf.Sin(2 * angle * Mathf.Deg2Rad));
+        float speed = Mathf.Sqrt(horizontalDistance * gravity / Mathf.Sin(2 * angle * Mathf.Deg2Rad));
         float verticalSpeed = Mathf.Sin(angle * Mathf.Deg2Rad) * speed;
         float horizontalSpeed = Mathf.Cos(angle * Mathf.Deg2Rad) * speed;
 
@@ -192,7 +144,7 @@ public class SlingShot : MonoBehaviour
         stoneInFlight = false;
         currentVelocity = Vector3.zero;
 
-        if (currentStone.tag != "Bone")
+        if (currentStone != null && currentStone.tag != "Bone")
         {
             Invoke("DestroyStone", 0.1f);
         }
