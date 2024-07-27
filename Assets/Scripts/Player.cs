@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     private float dashCooldown = 3f;
     static public bool canMove = true; // Flag to control movement
     GameObject SlingShot;
+    [SerializeField] GameObject LandSpot;
 
     private void Awake()
     {
@@ -82,6 +83,18 @@ public class Player : MonoBehaviour
         else
         {
             SlingShot.SetActive(true);
+        }
+
+        // Check distance between player and LandSpot
+        float distance = Vector3.Distance(transform.position, LandSpot.transform.position);
+        if (distance > 3f)
+        {
+            // Calculate the new position 3 units behind the player
+            Vector3 targetPosition = transform.position - transform.forward * 3f;
+            targetPosition.y = LandSpot.transform.position.y;
+
+            // Smoothly move the LandSpot towards the target position
+            LandSpot.transform.position = Vector3.Lerp(LandSpot.transform.position, targetPosition, Time.deltaTime);
         }
     }
 
