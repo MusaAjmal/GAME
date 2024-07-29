@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 6e386def11a917d4a8a07cade8dd4db5, type: 3}
-  prefab: {fileID: 3053198313883572545, guid: c402d5b483d38514e85f5971b453dcdc, type: 3}
+  prefab: {fileID: 7261698824456725810, guid: 87fd26907ec0abb4f933ca33e275fbf7, type: 3}
   objectName: Stone
   objectCount: 0
   IsEquipable: 1

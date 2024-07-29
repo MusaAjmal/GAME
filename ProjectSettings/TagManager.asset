@@ -9,6 +9,9 @@ TagManager:
   - Distraction
   - SlingShot
   - EquipButton
+  - LandSpot
+  - Wall
+  - Floor
   layers:
   - Default
   - TransparentFX
