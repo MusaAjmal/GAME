@@ -12,6 +12,7 @@ TagManager:
   - LandSpot
   - Wall
   - Floor
+  - Torch
   layers:
   - Default
   - TransparentFX
