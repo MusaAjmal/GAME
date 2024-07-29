@@ -9,7 +9,7 @@ public class BigEnemy : MonoBehaviour
     private float lookDistance = 100f;
     private Vector3 lastInteractDirection;
 
-    [SerializeField] public float noiseRadius;
+    [SerializeField] public float noiseRadius = 6;
     [SerializeField] private LayerMask objectMask;
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] private LayerMask distractionMask;
@@ -19,6 +19,7 @@ public class BigEnemy : MonoBehaviour
     private GameObject throwableObject;
 
     [SerializeField] private float torchCheckRange = 10f;
+    [SerializeField] public GameObject torch;
 
     private enum EnemyState
     {
@@ -39,15 +40,91 @@ public class BigEnemy : MonoBehaviour
 
     private void Update()
     {
-        if (currentState == EnemyState.Idle)
-        {
-            CheckTorch();
-        }
+        CheckTorch();
+        CheckPlayer();
     }
 
     private bool IsMoving()
     {
         return faceDirection != Vector3.zero;
+    }
+
+    public void CheckPlayer()
+    {
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius);
+        if (rangeChecks.Length != 0)
+        {
+            GameObject targetObject = null;
+            Vector3 targetPosition = Vector3.zero;
+
+            foreach (Collider collider in rangeChecks)
+            {
+                if (collider.gameObject.tag == "Player")
+                {
+                    Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
+                    float distanceToTarget = Vector3.Distance(transform.position, collider.transform.position);
+
+                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                    {
+                        targetObject = collider.gameObject;
+                        targetPosition = collider.transform.position;
+                        break;
+                    }
+                    else
+                    {
+                        Debug.Log("Wall detected in front of the enemy while checking for player.");
+                    }
+                }
+            }
+
+            if (targetObject != null)
+            {
+                StopAllCoroutines();
+                StartCoroutine(MoveToPlayer(targetObject));
+            }
+        }
+    }
+
+    public IEnumerator MoveToPlayer(GameObject playerObject)
+    {
+        currentState = EnemyState.Alerted;
+        float playerDistance = Vector3.Distance(transform.position, playerObject.transform.position);
+
+        if (playerDistance < noiseRadius)
+        {
+            if (!Physics.Raycast(transform.position, (playerObject.transform.position - transform.position).normalized, playerDistance, obstructionMask))
+            {
+                Vector3 noisePosition = playerObject.transform.position;
+
+                while (Vector3.Distance(transform.position, noisePosition) > 2f)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed * Time.deltaTime);
+                    faceDirection = (noisePosition - transform.position).normalized;
+                    transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+                    yield return null;
+                }
+
+                if (Vector3.Distance(transform.position, noisePosition) < 2f)
+                {
+                    Debug.Log("Player caught");
+                    // Game over logic here
+                }
+            }
+        }
+
+        if (transform.position != initialPosition)
+        {
+            while (Vector3.Distance(transform.position, initialPosition) > 0f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, initialPosition, moveSpeed * Time.deltaTime);
+                faceDirection = (initialPosition - transform.position).normalized;
+                transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+                yield return null;
+            }
+        }
+
+        transform.rotation = initialRotation;
+        currentState = EnemyState.Idle;
     }
 
     public IEnumerator MoveToNoise(Vector3 noisePosition, GameObject throwableObject)
@@ -73,7 +150,6 @@ public class BigEnemy : MonoBehaviour
         }
 
         transform.rotation = initialRotation;
-
         currentState = EnemyState.Idle;
     }
 
@@ -98,8 +174,11 @@ public class BigEnemy : MonoBehaviour
                     {
                         targetObject = collider.gameObject;
                         targetPosition = collider.transform.position;
-                        Debug.Log("Target object found: " + targetObject.name); // Debug log for target object found
                         break;
+                    }
+                    else
+                    {
+                        Debug.Log("Wall detected in front of the enemy while checking for distractions.");
                     }
                 }
             }
@@ -109,14 +188,6 @@ public class BigEnemy : MonoBehaviour
                 StopAllCoroutines();
                 StartCoroutine(MoveToNoise(targetPosition, targetObject));
             }
-            else
-            {
-                Debug.Log("No target object found"); // Debug log for no target object found
-            }
-        }
-        else
-        {
-            Debug.Log("No distractions in range"); // Debug log for no distractions in range
         }
     }
 
@@ -168,27 +239,26 @@ public class BigEnemy : MonoBehaviour
 
         while (Vector3.Distance(transform.position, torchPosition) > 2f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, torchPosition, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, torchPosition, moveSpeed / 10 * Time.deltaTime);
             faceDirection = (torchPosition - transform.position).normalized;
-            transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+            transform.forward = Vector3.Lerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
             yield return null;
         }
 
-        // Toggle the torch off
+        // Toggle the torch on
         torchComponent.Toggle(true);
 
         yield return new WaitForSeconds(noiseAttentionTime);
 
         while (Vector3.Distance(transform.position, initialPosition) > 0.1f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, initialPosition, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, initialPosition, moveSpeed / 10 * Time.deltaTime);
             faceDirection = (initialPosition - transform.position).normalized;
-            transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+            transform.forward = Vector3.Lerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
             yield return null;
         }
 
         transform.rotation = initialRotation;
-
         currentState = EnemyState.Idle;
     }
 }
