@@ -15,9 +15,14 @@ public class Stone : MonoBehaviour
             Debug.Log("Works");
             Vector3 noisePosition = collision.contacts[0].point;
             Enemy[] enemyControllers = FindObjectsOfType<Enemy>();
+            BigEnemy[] bigEnemies = FindObjectsOfType<BigEnemy>();
             foreach (Enemy enemyController in enemyControllers)
             {
                 enemyController.CheckDistraction(noisePosition, gameObject);
+            }
+            foreach (BigEnemy bigEnemy in bigEnemies)
+            {
+                bigEnemy.CheckDistraction(noisePosition, gameObject);
             }
             Destroy(collision.gameObject);
         }

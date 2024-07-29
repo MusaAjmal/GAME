@@ -254,11 +254,12 @@ public class Enemy : MonoBehaviour
         isChasingPlayer = false;
     }
 
+
     public IEnumerator MoveToNoise(Vector3 noisePosition, GameObject throwableObject)
     {
         currentState = EnemyState.Alerted;
 
-        while (Vector3.Distance(transform.position, noisePosition) > 1f)
+        while (Vector3.Distance(transform.position, noisePosition) > 2f)
         {
             transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed * Time.deltaTime);
             faceDirection = (noisePosition - transform.position).normalized;
@@ -266,9 +267,7 @@ public class Enemy : MonoBehaviour
             yield return null;
         }
 
-        /*        yield return new WaitForSeconds(2f);
-        */
-        Destroy(throwableObject);
+        yield return new WaitForSeconds(noiseAttentionTime);
 
         while (Vector3.Distance(transform.position, patrolReturnPosition) > 0.1f)
         {
