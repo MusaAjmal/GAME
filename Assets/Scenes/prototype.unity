@@ -14807,6 +14807,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5218260243805128267, guid: 9d19b6765bddc2d4794adbc52423acf9,
         type: 3}
+      propertyPath: torch
+      value: 
+      objectReference: {fileID: 263113303}
+    - target: {fileID: -5218260243805128267, guid: 9d19b6765bddc2d4794adbc52423acf9,
+        type: 3}
       propertyPath: moveSpeed
       value: 1.26
       objectReference: {fileID: 0}
