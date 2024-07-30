@@ -19,7 +19,7 @@ public class BigEnemy : MonoBehaviour
     private GameObject throwableObject;
 
     [SerializeField] private float torchCheckRange = 10f;
-    [SerializeField] public GameObject torch;
+    [SerializeField] public Items torch;
 
     private enum EnemyState
     {
@@ -51,7 +51,7 @@ public class BigEnemy : MonoBehaviour
 
     public void CheckPlayer()
     {
-        if (torch != null && torch.GetComponent<Torch>().IsToggledOn)
+        if (torch.isActive())
         {
             Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius);
             if (rangeChecks.Length != 0)
@@ -217,7 +217,7 @@ public class BigEnemy : MonoBehaviour
             return;
         }
 
-        Torch torchComponent = torch.GetComponent<Torch>();
+        Items torchComponent = torch.GetComponent<Items>();
 
         if (torchComponent == null)
         {
@@ -225,7 +225,7 @@ public class BigEnemy : MonoBehaviour
             return;
         }
 
-        if (torchComponent.IsToggledOn)
+        if (torchComponent.isActive())
         {
             Debug.Log("Torch is already on");
             return;
@@ -242,7 +242,7 @@ public class BigEnemy : MonoBehaviour
         StartCoroutine(MoveToTorch(torchPosition, torchComponent));
     }
 
-    private IEnumerator MoveToTorch(Vector3 torchPosition, Torch torchComponent)
+    private IEnumerator MoveToTorch(Vector3 torchPosition, Items torchComponent)
     {
         currentState = EnemyState.Alerted;
 
@@ -255,7 +255,7 @@ public class BigEnemy : MonoBehaviour
         }
 
         // Toggle the torch on
-        torchComponent.Toggle(true);
+        torchComponent.toggle();
 
         yield return new WaitForSeconds(noiseAttentionTime);
 

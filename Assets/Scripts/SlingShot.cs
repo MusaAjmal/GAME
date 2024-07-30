@@ -27,31 +27,34 @@ public class SlingShot : MonoBehaviour
         {
             stonePrefab = Inventory.Instance.defaultItem.prefab.gameObject;
         }
-
+        if (ToggleButton.isSlingshotActive) {
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-        HandleMouseInput(); // Use mouse input for editor, standalone, or web builds
+            HandleMouseInput(); // Use mouse input for editor, standalone, or web builds
 #endif
 
 #if UNITY_ANDROID || UNITY_IOS || UNITY_WSA
-        HandleTouchInput(); // Use touch input for Android, iOS, or Windows Store Apps
+            HandleTouchInput(); // Use touch input for Android, iOS, or Windows Store Apps
 #endif
 
-        if (currentStone != null && stoneInFlight)
-        {
-            currentVelocity.y -= gravity * Time.deltaTime;
-            characterController.Move(currentVelocity * Time.deltaTime);
-
-            // Check if the stone has landed
-            if (characterController.isGrounded)
+            if (currentStone != null && stoneInFlight)
             {
-                LandStone();
+                currentVelocity.y -= gravity * Time.deltaTime;
+                characterController.Move(currentVelocity * Time.deltaTime);
+
+                // Check if the stone has landed
+                if (characterController.isGrounded)
+                {
+                    LandStone();
+                }
             }
         }
+
+
     }
 
     private void HandleMouseInput()
     {
-      /*  // Detect mouse click
+        // Detect mouse click
         if (Input.GetMouseButtonDown(0))
         {
             initialMousePosition = Input.mousePosition;
@@ -60,8 +63,9 @@ public class SlingShot : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && !stoneInFlight)
         {
-            LaunchStone(); // Launch the stone if it is not already in flight
-        }*/
+            LaunchStone();
+            // Launch the stone if it is not already in flight
+        }
     }
 
     private void HandleTouchInput()
@@ -82,6 +86,8 @@ public class SlingShot : MonoBehaviour
                     if (!stoneInFlight)
                     {
                         LaunchStone();
+                       /* ToggleButton.isSlingshotActive = false;
+                        Debug.Log(ToggleButton.isSlingshotActive);*/
                     }
                     break;
             }
@@ -108,6 +114,7 @@ public class SlingShot : MonoBehaviour
 
     private void LaunchStone()
     {
+       
         if (stonePrefab != null && direction != Vector3.zero) // Check if direction is valid
         {
             currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * stoneHeight, Quaternion.identity);
@@ -117,11 +124,15 @@ public class SlingShot : MonoBehaviour
             stonePrefab = null;
             Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
             stoneInFlight = true;
+            /*new WaitForSeconds(5);
+            ToggleButton.isSlingshotActive = false;
+            Debug.Log(ToggleButton.isSlingshotActive);*/
         }
         else
         {
             Debug.Log("No ITEM in inventory left to YEET or clicked on a non-distraction");
         }
+        
     }
 
     void shoot()

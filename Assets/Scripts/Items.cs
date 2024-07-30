@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Items : MonoBehaviour
 {
     [SerializeField] public ItemSO itemSO;
-    public bool isOn;
+   [SerializeField] public bool isOn;
 
     EquipButton bt;
 
@@ -50,7 +50,7 @@ public class Items : MonoBehaviour
         }
 
     }
-    private void toggle()
+    public void toggle()
     {
         if (itemSO.canbeToggled)
         {

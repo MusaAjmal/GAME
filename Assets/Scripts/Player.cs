@@ -22,13 +22,7 @@ public class Player : MonoBehaviour
     private float dashCooldown = 3f;
     static public bool canMove = true; // Flag to control movement
     GameObject SlingShot;
-<<<<<<< Updated upstream
-/*    [SerializeField] GameObject LandSpot;
-*/
-=======
-    //[SerializeField] GameObject LandSpot;
 
->>>>>>> Stashed changes
     private void Awake()
     {
         Instance = this;
@@ -77,7 +71,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (canMove)
+        /*if (canMove)
         {
             MovePlayer();
         }
@@ -88,28 +82,13 @@ public class Player : MonoBehaviour
         else
         {
             SlingShot.SetActive(true);
-        }
-
-        // Check distance between player and LandSpot
-<<<<<<< Updated upstream
-/*        float distance = Vector3.Distance(transform.position, LandSpot.transform.position);
-        if (distance > 3f)
-        {
-            // Calculate the new position 3 units behind the player
-            Vector3 targetPosition = transform.position - transform.forward * 3f;
-            targetPosition.y = LandSpot.transform.position.y;
-
-            // Smoothly move the LandSpot towards the target position
-            LandSpot.transform.position = Vector3.Lerp(LandSpot.transform.position, targetPosition, Time.deltaTime);
         }*/
-=======
-       
->>>>>>> Stashed changes
-    }
 
+
+    }
     private void MovePlayer()
     {
-        Vector3 MovementVector = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
+        Vector3 MovementVector = new Vector3(0, 0,0);
 
         if (MovementVector.magnitude >= 0.1f)
         {
@@ -194,7 +173,7 @@ public class Player : MonoBehaviour
 
     public bool IsMoving()
     {
-        Vector3 movementVector = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
+        Vector3 movementVector = new Vector3(0, 0, 0);
         return movementVector.magnitude >= 0.1f;
     }
 

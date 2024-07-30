@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using UnityEngine.UI;
+
 public class PlayerTraverse : MonoBehaviour
 {
     /* [SerializeField] private GameObject[] points; // Array of points to interact with
@@ -232,9 +236,32 @@ public class PlayerTraverse : MonoBehaviour
     void Update()
     {
         // Check for mouse input using the legacy input system
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
+        HandleMouseInput(); // Use mouse input for editor, standalone, or web builds
+#endif
+
+#if UNITY_ANDROID || UNITY_IOS || UNITY_WSA
+        HandleTouchInput(); // Use touch input for Android, iOS, or Windows Store Apps
+#endif
+
+        // Move the player towards the target position
+        if (isMoving)
+        {
+            MovePlayer();
+        }
+    }
+
+    private void HandleMouseInput()
+    {
         if (Input.GetMouseButtonDown(0)) // 0 corresponds to the left mouse button
         {
-            // Get the mouse position in screen space
+            // Check if the click was on a UI element or if the slingshot is active
+            if (IsPointerOverUIElement() || ToggleButton.isSlingshotActive)
+            {
+                Debug.Log("Clicked on a UI element or slingshot is active, not moving the player.");
+                return; // Do nothing if the click was on a UI element or slingshot is active
+            }
+
             Vector3 mousePosition = Input.mousePosition;
 
             // Convert the screen position to world position, keeping the Y fixed
@@ -244,30 +271,46 @@ public class PlayerTraverse : MonoBehaviour
             // Find the closest point to the clicked position
             GameObject closestPoint = GetClosestPoint(worldPosition);
 
-            // If a point was found and path is clear, set it as the target position
+            // If a point was found and the path is clear, set it as the target position
             if (closestPoint != null && IsPathClear(player.transform.position, closestPoint.transform.position))
             {
                 targetPosition = closestPoint.transform.position;
                 isMoving = true;
             }
         }
+    }
 
-        // Move the player towards the target position
-        if (isMoving)
+    private void HandleTouchInput()
+    {
+        if (Input.touchCount > 0) // Check if there are any touches
         {
-            float step = moveSpeed * Time.deltaTime;
+            Touch touch = Input.GetTouch(0); // Get the first touch
 
-            // Calculate the next position while keeping the Y position fixed
-            Vector3 nextPosition = Vector3.MoveTowards(player.transform.position, targetPosition, step);
-            nextPosition.y = fixedYPosition; // Ensure Y position remains fixed
-
-            // Use the player instance to move the player
-            player.transform.position = nextPosition;
-
-            // Check if the player has reached the target position
-            if (Vector3.Distance(player.transform.position, targetPosition) < 0.001f)
+            // Check if the touch is at the start phase
+            if (touch.phase == UnityEngine.TouchPhase.Began)
             {
-                isMoving = false;
+                // Check if the touch was on a UI element or if the slingshot is active
+                if (IsPointerOverUIElement(touch.fingerId) || ToggleButton.isSlingshotActive)
+                {
+                    Debug.Log("Touched on a UI element or slingshot is active, not moving the player.");
+                    return; // Do nothing if the touch was on a UI element or slingshot is active
+                }
+
+                Vector3 touchPosition = touch.position;
+
+                // Convert the screen position to world position, keeping the Y fixed
+                Vector3 worldPosition = ScreenToWorldPositionOrthographic(touchPosition);
+                worldPosition.y = fixedYPosition; // Ensure Y position remains fixed
+
+                // Find the closest point to the touched position
+                GameObject closestPoint = GetClosestPoint(worldPosition);
+
+                // If a point was found and the path is clear, set it as the target position
+                if (closestPoint != null && IsPathClear(player.transform.position, closestPoint.transform.position))
+                {
+                    targetPosition = closestPoint.transform.position;
+                    isMoving = true;
+                }
             }
         }
     }
@@ -294,7 +337,7 @@ public class PlayerTraverse : MonoBehaviour
     // Method to convert screen position to world position for an orthographic camera with rotation
     Vector3 ScreenToWorldPositionOrthographic(Vector3 screenPosition)
     {
-        // Adjust the Z coordinate based on camera's perspective for correct depth
+        // Adjust the Z coordinate based on the camera's perspective for correct depth
         screenPosition.z = Camera.main.farClipPlane;
 
         // Get world point using raycast to ensure the position is on the correct plane
@@ -326,5 +369,74 @@ public class PlayerTraverse : MonoBehaviour
 
         // Path is clear
         return true;
+    }
+
+    // Improved UI Detection Method
+    private bool IsPointerOverUIElement(int fingerId = -1)
+    {
+        // Create a new PointerEventData to simulate touch
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+
+        if (fingerId >= 0)
+        {
+            eventData.position = Input.GetTouch(fingerId).position;
+        }
+        else
+        {
+            eventData.position = Input.mousePosition;
+        }
+
+        // List to store Raycast results
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        // Iterate over all canvases and perform raycast
+        foreach (Canvas canvas in FindObjectsOfType<Canvas>())
+        {
+            // Get the GraphicRaycaster attached to the current canvas
+            GraphicRaycaster raycaster = canvas.GetComponent<GraphicRaycaster>();
+
+            // Check if the canvas and raycaster exist
+            if (canvas == null || raycaster == null)
+                continue;
+
+            // Perform the raycast
+            raycaster.Raycast(eventData, results);
+
+            // If any results are found, a UI element was touched
+            if (results.Count > 0)
+                return true;
+        }
+
+        // Return false if no UI element was found
+        return false;
+    }
+
+    // Method to move the player towards the target
+    private void MovePlayer()
+    {
+        float step = moveSpeed * Time.deltaTime;
+
+        // Calculate the next position while keeping the Y position fixed
+        Vector3 nextPosition = Vector3.MoveTowards(player.transform.position, targetPosition, step);
+        nextPosition.y = fixedYPosition; // Ensure Y position remains fixed
+
+        // Calculate the direction to the target position, keeping Y as zero
+        Vector3 targetDirection = (targetPosition - player.transform.position);
+        targetDirection.y = 0; // Ensure the Y component is zero to maintain the fixed height
+
+        // Calculate the rotation needed to look at the target direction
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+
+        // Smoothly rotate the player towards the target direction
+        player.transform.rotation = Quaternion.Slerp(player.transform.rotation, targetRotation, 10 * Time.deltaTime);
+
+        // Move the player to the next position
+        player.transform.position = nextPosition;
+
+        // Check if the player has reached the target position
+        if (Vector3.Distance(player.transform.position, targetPosition) < 0.001f)
+        {
+            isMoving = false;
+        }
     }
 }

@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
     public ItemSO defaultItem;
 
     public static Inventory Instance;
-    public GameObject SlingShot;
+    //public GameObject SlingShot;
 
     public void Awake()
     {
@@ -127,7 +127,7 @@ public class Inventory : MonoBehaviour
 
     public void CycleItems()
     {
-        SlingShot.SetActive(false);
+       // SlingShot.SetActive(false);
         List<ItemSO> allItems = GetAllItems();
         List<ItemSO> uniqueItems = allItems
             .GroupBy(item => item.objectName)
