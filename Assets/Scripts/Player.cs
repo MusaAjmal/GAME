@@ -22,8 +22,13 @@ public class Player : MonoBehaviour
     private float dashCooldown = 3f;
     static public bool canMove = true; // Flag to control movement
     GameObject SlingShot;
+<<<<<<< Updated upstream
 /*    [SerializeField] GameObject LandSpot;
 */
+=======
+    //[SerializeField] GameObject LandSpot;
+
+>>>>>>> Stashed changes
     private void Awake()
     {
         Instance = this;
@@ -35,14 +40,14 @@ public class Player : MonoBehaviour
         //Input1.OnDash += Input_OnDash;
         rb = GetComponent<Rigidbody>();
     }
-
-   /* private void Input_OnDash(object sender, System.EventArgs e)
+    
+    private void Input_OnDash(object sender, System.EventArgs e)
     {
         if (canDash && !isDashing)
         {
             StartCoroutine(Dash());
         }
-    }*/
+    }
 
     private IEnumerator Dash()
     {
@@ -86,6 +91,7 @@ public class Player : MonoBehaviour
         }
 
         // Check distance between player and LandSpot
+<<<<<<< Updated upstream
 /*        float distance = Vector3.Distance(transform.position, LandSpot.transform.position);
         if (distance > 3f)
         {
@@ -96,6 +102,9 @@ public class Player : MonoBehaviour
             // Smoothly move the LandSpot towards the target position
             LandSpot.transform.position = Vector3.Lerp(LandSpot.transform.position, targetPosition, Time.deltaTime);
         }*/
+=======
+       
+>>>>>>> Stashed changes
     }
 
     private void MovePlayer()

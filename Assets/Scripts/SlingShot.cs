@@ -51,7 +51,7 @@ public class SlingShot : MonoBehaviour
 
     private void HandleMouseInput()
     {
-        // Detect mouse click
+      /*  // Detect mouse click
         if (Input.GetMouseButtonDown(0))
         {
             initialMousePosition = Input.mousePosition;
@@ -61,7 +61,7 @@ public class SlingShot : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && !stoneInFlight)
         {
             LaunchStone(); // Launch the stone if it is not already in flight
-        }
+        }*/
     }
 
     private void HandleTouchInput()
