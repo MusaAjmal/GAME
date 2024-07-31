@@ -199,6 +199,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   collisionRange: 10
+  enemyVision: {fileID: 0}
   noiseDetected: 0
   noiseAttentionTime: 2
   playerDetectDistance: 4

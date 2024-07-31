@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] private LayerMask distractionMask;
     [SerializeField] private float collisionRange = 10f;
+    [SerializeField] private EnemyVision enemyVision;
     public bool noiseDetected = false;
     [SerializeField] private float noiseAttentionTime = 2f;
     private GameObject throwableObject;
@@ -24,6 +25,7 @@ public class Enemy : MonoBehaviour
     private bool spotted;
     private LevelManager sceneManager;
     private bool isChasingPlayer; // To track if the coroutine is already running
+    
 
     private enum EnemyState
     {
