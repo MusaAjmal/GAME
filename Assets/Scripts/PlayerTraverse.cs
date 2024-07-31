@@ -235,6 +235,7 @@ public class PlayerTraverse : MonoBehaviour
 
     void Update()
     {
+        
         // Check for mouse input using the legacy input system
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
         HandleMouseInput(); // Use mouse input for editor, standalone, or web builds
@@ -270,10 +271,11 @@ public class PlayerTraverse : MonoBehaviour
 
             // Find the closest point to the clicked position
             GameObject closestPoint = GetClosestPoint(worldPosition);
-
+           
             // If a point was found and the path is clear, set it as the target position
             if (closestPoint != null && IsPathClear(player.transform.position, closestPoint.transform.position))
             {
+                
                 targetPosition = closestPoint.transform.position;
                 isMoving = true;
             }
