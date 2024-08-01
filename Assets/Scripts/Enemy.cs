@@ -48,6 +48,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+
         CheckNoise();
         if (!isChasingPlayer) // Only check if not already chasing
         {
