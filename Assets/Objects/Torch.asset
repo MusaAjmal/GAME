@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Torch
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 597d6b150fc1c5d49bbde5d1b0b79b07, type: 3}
-  prefab: {fileID: 7454456054228736401, guid: e257fb8be61f96b43abf5931df836fb4, type: 3}
+  prefab: {fileID: 6621173160983818908, guid: 6efb1860217d72445b1b6d7cfb4f8979, type: 3}
   objectName: Torch
   objectCount: 0
   IsEquipable: 0
   IsDecoration: 0
   canbeToggled: 1
-  isActive: 0
