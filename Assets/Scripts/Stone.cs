@@ -6,37 +6,35 @@ public class Stone : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // Ensure the collision is only processed if this stone is the one involved in the collision
-        if (collision.gameObject == gameObject)
+        if (collision.gameObject.CompareTag("Stone"))
         {
-            Debug.Log("Collision Happened!" + gameObject.tag);
+            Debug.Log("Collision Happened!" + gameObject.tag + gameObject.name);
             Debug.Log(collision.gameObject.layer);
 
-            if (collision.gameObject.CompareTag("Stone"))
+            Vector3 noisePosition = collision.contacts[0].point; // Get the location of the collision
+            Debug.Log("Collision Point: " + noisePosition);
+
+            Enemy[] enemyControllers = FindObjectsOfType<Enemy>();
+            BigEnemy[] bigEnemies = FindObjectsOfType<BigEnemy>();
+
+            // Combine both types of enemies into a single collection
+            List<MonoBehaviour> allEnemies = new List<MonoBehaviour>();
+            allEnemies.AddRange(enemyControllers);
+            allEnemies.AddRange(bigEnemies);
+
+            // Find the nearest enemy
+            MonoBehaviour nearestEnemy = FindNearestEnemy(allEnemies, noisePosition);
+            if (nearestEnemy is Enemy)
             {
-                Debug.Log("Works");
-                Vector3 noisePosition = collision.contacts[0].point;
-                Enemy[] enemyControllers = FindObjectsOfType<Enemy>();
-                BigEnemy[] bigEnemies = FindObjectsOfType<BigEnemy>();
-
-                // Combine both types of enemies into a single collection
-                List<MonoBehaviour> allEnemies = new List<MonoBehaviour>();
-                allEnemies.AddRange(enemyControllers);
-                allEnemies.AddRange(bigEnemies);
-
-                // Find the nearest enemy
-                MonoBehaviour nearestEnemy = FindNearestEnemy(allEnemies, noisePosition);
-                if (nearestEnemy is Enemy)
-                {
-                    (nearestEnemy as Enemy).CheckDistraction(noisePosition, gameObject);
-                }
-                else if (nearestEnemy is BigEnemy)
-                {
-                    (nearestEnemy as BigEnemy).CheckDistraction(noisePosition, gameObject);
-                }
-
-                // Destroy the stone object after the collision
-                Destroy(gameObject);
+                (nearestEnemy as Enemy).CheckDistraction(noisePosition, gameObject);
             }
+            else if (nearestEnemy is BigEnemy)
+            {
+                (nearestEnemy as BigEnemy).CheckDistraction(noisePosition, gameObject);
+            }
+
+            // Destroy the stone object after the collision
+           // Destroy(gameObject);
         }
     }
 

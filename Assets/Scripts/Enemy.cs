@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         CheckNoise();
+       
         if (!isChasingPlayer) // Only check if not already chasing
         {
             StartCoroutine(CheckPlayer());
@@ -257,96 +258,99 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public IEnumerator MoveToNoise(Vector3 noisePosition, GameObject throwableObject)
-    {
-        currentState = EnemyState.Alerted;
+     public IEnumerator MoveToNoise(Vector3 noisePosition, GameObject throwableObject)
+     {
+         currentState = EnemyState.Alerted;
 
-        while (Vector3.Distance(transform.position, noisePosition) > 2f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed * Time.deltaTime);
-            faceDirection = (noisePosition - transform.position).normalized;
-            transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
-            yield return null;
-        }
+         while (Vector3.Distance(transform.position, noisePosition) > 2f)
+         {
+             transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed * Time.deltaTime);
+             faceDirection = (noisePosition - transform.position).normalized;
+             transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+             yield return null;
+         }
 
-        yield return new WaitForSeconds(noiseAttentionTime);
+         yield return new WaitForSeconds(noiseAttentionTime);
 
-        while (Vector3.Distance(transform.position, patrolReturnPosition) > 0.1f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, patrolReturnPosition, moveSpeed * Time.deltaTime);
-            faceDirection = (patrolReturnPosition - transform.position).normalized;
-            transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
-            yield return null;
-        }
+         while (Vector3.Distance(transform.position, patrolReturnPosition) > 0.1f)
+         {
+             transform.position = Vector3.MoveTowards(transform.position, patrolReturnPosition, moveSpeed * Time.deltaTime);
+             faceDirection = (patrolReturnPosition - transform.position).normalized;
+             transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+             yield return null;
+         }
 
-        currentState = EnemyState.Patrolling;
-        patrolReturnPosition = Vector3.zero;
-    }
+         currentState = EnemyState.Patrolling;
+         patrolReturnPosition = Vector3.zero;
+     }
+
+   
 
     public void CheckDistraction(Vector3 noisePosition, GameObject throwableObject)
-    {
-        // Collider array to hold all colliders within the noiseRadius and on the distractionMask layer
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, distractionMask);
+     {
+         // Collider array to hold all colliders within the noiseRadius and on the distractionMask layer
+         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, distractionMask);
 
-        // Check if any colliders were found
-        if (rangeChecks.Length != 0)
-        {
-            GameObject targetObject = null;
-            Vector3 targetPosition = Vector3.zero;
+         // Check if any colliders were found
+         if (rangeChecks.Length != 0)
+         {
+             GameObject targetObject = null;
+             Vector3 targetPosition = Vector3.zero;
 
-            foreach (Collider collider in rangeChecks)
-            {
-                // Debug.Log("Object found in range: " + collider.gameObject.name);
+             foreach (Collider collider in rangeChecks)
+             {
+                 // Debug.Log("Object found in range: " + collider.gameObject.name);
 
-                // Check if the collider's gameObject is in the Distraction layer
-                if (collider.gameObject.layer == LayerMask.NameToLayer("Distraction"))
-                {
-                    Vector3 directionToTarget = collider.transform.position - transform.position;
-                    float distanceToTarget = directionToTarget.magnitude;
-                    directionToTarget.Normalize();
+                 // Check if the collider's gameObject is in the Distraction layer
+                 if (collider.gameObject.layer == LayerMask.NameToLayer("Distraction"))
+                 {
+                     Vector3 directionToTarget = collider.transform.position - transform.position;
+                     float distanceToTarget = directionToTarget.magnitude;
+                     directionToTarget.Normalize();
 
-                    // Check if there's no obstruction between the enemy and the target
-                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
-                    {
-                        targetObject = collider.gameObject;
-                        targetPosition = collider.transform.position;
-                        break;
-                    }
-                    else
-                    {
-                        // Debug.Log("Obstruction found between enemy and distraction: " + collider.gameObject.name);
-                    }
-                }
-                else
-                {
-                    //  Debug.Log("Object not in Distraction layer: " + collider.gameObject.name);
-                }
-            }
+                     // Check if there's no obstruction between the enemy and the target
+                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                     {
+                         targetObject = collider.gameObject;
+                         targetPosition = collider.transform.position;
+                         break;
+                     }
+                     else
+                     {
+                         // Debug.Log("Obstruction found between enemy and distraction: " + collider.gameObject.name);
+                     }
+                 }
+                 else
+                 {
+                     //  Debug.Log("Object not in Distraction layer: " + collider.gameObject.name);
+                 }
+             }
 
-            if (targetObject != null)
-            {
-                // Debug.Log("Distraction detected at: " + targetPosition);
+             if (targetObject != null)
+             {
+                 // Debug.Log("Distraction detected at: " + targetPosition);
 
-                if (patrolReturnPosition == Vector3.zero)
-                {
-                    patrolReturnPosition = transform.position;
-                    // Debug.Log("Setting patrolReturnPosition to: " + patrolReturnPosition);
-                }
+                 if (patrolReturnPosition == Vector3.zero)
+                 {
+                     patrolReturnPosition = transform.position;
+                     // Debug.Log("Setting patrolReturnPosition to: " + patrolReturnPosition);
+                 }
 
-                StopAllCoroutines();
-                StartCoroutine(MoveToNoise(targetPosition, targetObject));
-            }
-            else
-            {
-                // Debug.Log("No valid distraction target found.");
-            }
-        }
-        else
-        {
-            // Debug.Log("No objects found in range.");
-        }
-    }
-
+                 StopAllCoroutines();
+                 StartCoroutine(MoveToNoise(targetPosition, targetObject));
+             }
+             else
+             {
+                 // Debug.Log("No valid distraction target found.");
+             }
+         }
+         else
+         {
+             // Debug.Log("No objects found in range.");
+         }
+     }
+ 
+   
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("alooooooooooooooooooo");

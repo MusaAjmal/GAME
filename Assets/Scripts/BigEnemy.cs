@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class BigEnemy : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float moveSpeed = 2f; // Reduced speed for smoother movement
     private Vector3 faceDirection;
-    private float rotateSpeed = 5f;
+    private float rotateSpeed = 2f; // Adjusted for smoother rotation
     private float lookDistance = 100f;
     private Vector3 lastInteractDirection;
 
-    [SerializeField] public float noiseRadius = 6;
+    [SerializeField] public float noiseRadius = 6f;
     [SerializeField] private LayerMask objectMask;
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] private LayerMask distractionMask;
@@ -19,13 +19,14 @@ public class BigEnemy : MonoBehaviour
     private GameObject throwableObject;
 
     [SerializeField] private float torchCheckRange = 10f;
-    [SerializeField] public GameObject torch;
+    [SerializeField] public Items[] torches;
 
     private enum EnemyState
     {
         Idle,
         Alerted
     }
+
     private EnemyState currentState;
 
     private Vector3 initialPosition;
@@ -51,38 +52,41 @@ public class BigEnemy : MonoBehaviour
 
     public void CheckPlayer()
     {
-        if (torch != null && torch.GetComponent<Torch>().IsToggledOn)
+        foreach (var item in torches)
         {
-            Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius);
-            if (rangeChecks.Length != 0)
+            if (item.isActive())
             {
-                GameObject targetObject = null;
-                Vector3 targetPosition = Vector3.zero;
-
-                foreach (Collider collider in rangeChecks)
+                Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius);
+                if (rangeChecks.Length != 0)
                 {
-                    if (collider.gameObject.tag == "Player")
-                    {
-                        Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
-                        float distanceToTarget = Vector3.Distance(transform.position, collider.transform.position);
+                    GameObject targetObject = null;
+                    Vector3 targetPosition = Vector3.zero;
 
-                        if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                    foreach (Collider collider in rangeChecks)
+                    {
+                        if (collider.gameObject.CompareTag("Player"))
                         {
-                            targetObject = collider.gameObject;
-                            targetPosition = collider.transform.position;
-                            break;
-                        }
-                        else
-                        {
-                            Debug.Log("Wall detected in front of the enemy while checking for player.");
+                            Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
+                            float distanceToTarget = Vector3.Distance(transform.position, collider.transform.position);
+
+                            if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                            {
+                                targetObject = collider.gameObject;
+                                targetPosition = collider.transform.position;
+                                break;
+                            }
+                            else
+                            {
+                                Debug.Log("Wall detected in front of the enemy while checking for player.");
+                            }
                         }
                     }
-                }
 
-                if (targetObject != null)
-                {
-                    StopAllCoroutines();
-                    StartCoroutine(MoveToPlayer(targetObject));
+                    if (targetObject != null)
+                    {
+                        StopAllCoroutines();
+                        StartCoroutine(MoveToPlayer(targetObject));
+                    }
                 }
             }
         }
@@ -117,6 +121,7 @@ public class BigEnemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, noisePosition) < 2f)
                 {
                     Debug.Log("Player caught");
+                    LevelManager.Instance.GameOverScreen();
                     // Game over logic here
                 }
             }
@@ -209,53 +214,56 @@ public class BigEnemy : MonoBehaviour
 
     public void CheckTorch()
     {
-        GameObject torch = GameObject.FindGameObjectWithTag("Torch");
-
-        if (torch == null)
+        foreach (var torch in torches)
         {
-            Debug.Log("Torch not found");
-            return;
+            if (torch == null)
+            {
+                Debug.Log("Torch not found");
+                return;
+            }
+
+            Items torchComponent = torch.GetComponent<Items>();
+
+            if (torchComponent == null)
+            {
+                Debug.Log("Torch component not found");
+                return;
+            }
+
+            if (torchComponent.isActive())
+            {
+                Debug.Log(torch.name + " is already on");
+                return;
+            }
+
+            Vector3 torchPosition = torch.transform.position;
+
+            if (Vector3.Distance(transform.position, torchPosition) > torchCheckRange)
+            {
+                Debug.Log("Torch is out of range");
+                return;
+            }
+
+            StopAllCoroutines(); // Stop any other movement
+            StartCoroutine(MoveToTorch(torchPosition, torchComponent));
         }
-
-        Torch torchComponent = torch.GetComponent<Torch>();
-
-        if (torchComponent == null)
-        {
-            Debug.Log("Torch component not found");
-            return;
-        }
-
-        if (torchComponent.IsToggledOn)
-        {
-            Debug.Log("Torch is already on");
-            return;
-        }
-
-        Vector3 torchPosition = torch.transform.position;
-
-        if (Vector3.Distance(transform.position, torchPosition) > torchCheckRange)
-        {
-            Debug.Log("Torch is out of range");
-            return;
-        }
-
-        StartCoroutine(MoveToTorch(torchPosition, torchComponent));
     }
 
-    private IEnumerator MoveToTorch(Vector3 torchPosition, Torch torchComponent)
+    private IEnumerator MoveToTorch(Vector3 torchPosition, Items torchComponent)
     {
         currentState = EnemyState.Alerted;
 
         while (Vector3.Distance(transform.position, torchPosition) > 2f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, torchPosition, moveSpeed / 50 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, torchPosition, moveSpeed * Time.deltaTime);
             faceDirection = (torchPosition - transform.position).normalized;
-            transform.forward = Vector3.Lerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(faceDirection), rotateSpeed * Time.deltaTime);
+
             yield return null;
         }
 
         // Toggle the torch on
-        torchComponent.Toggle(true);
+        torchComponent.toggle();
 
         yield return new WaitForSeconds(noiseAttentionTime);
 

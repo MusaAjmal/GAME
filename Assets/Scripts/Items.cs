@@ -9,6 +9,7 @@ public class Items : MonoBehaviour
 {
     [SerializeField] public ItemSO itemSO;
    [SerializeField] public bool isOn;
+    public Light light;
 
     EquipButton bt;
 
@@ -32,7 +33,7 @@ public class Items : MonoBehaviour
         bt = EquipButton.Instance;
         bt.BTCallback += OnMiddleMouseDown;
         bt.BTCallback += playerToggleItem;
-
+         light = GetComponentInChildren<Light>();
     }
 
 
@@ -57,10 +58,19 @@ public class Items : MonoBehaviour
             if (isActive())
             {
                 isOn = false;
+                if(light != null)
+                {
+                    light.enabled = false;
+                }
+               
             }
             else
             {
                 isOn = true;
+                if (light != null)
+                {
+                    light.enabled = true;
+                }
             }
 
         }
