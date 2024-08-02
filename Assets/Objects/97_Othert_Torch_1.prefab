@@ -44,8 +44,8 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.972549, g: 0.7647059, b: 0.46666667, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.9411765, g: 0.7058824, b: 0.47058824, a: 1}
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -87,7 +87,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 10
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -218,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSO: {fileID: 11400000, guid: 81f031359541d9b41a7dfc7d2e4a0de2, type: 2}
   isOn: 0
+  light: {fileID: 0}
 --- !u!65 &8844849648539708538
 BoxCollider:
   m_ObjectHideFlags: 0
