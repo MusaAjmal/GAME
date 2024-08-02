@@ -130,7 +130,7 @@ public class Dog : MonoBehaviour
 
     public void CheckNoise()
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, objectMask);
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius);
 
         if (rangeChecks.Length != 0)
         {
@@ -165,8 +165,8 @@ public class Dog : MonoBehaviour
                 throwableObject = targetObject;
 /*                Debug.Log("Noise detected at: " + targetPosition + " from " + targetObject.tag);
 */                // Check if the target position is below the current object's position
-                if (targetPosition.y < transform.position.y)
-                {
+                /*if (targetPosition.y < transform.position.y)
+                {*/
 
 
 
@@ -179,7 +179,7 @@ public class Dog : MonoBehaviour
 
                     StopAllCoroutines();
                     StartCoroutine(MoveToNoise(targetPosition, throwableObject));
-                }
+                //}
             }
             else
             {
