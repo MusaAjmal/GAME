@@ -11,6 +11,7 @@ public class Stone : MonoBehaviour
             Debug.Log("Collision Happened!" + gameObject.tag + gameObject.name);
             Debug.Log(collision.gameObject.layer);
 
+            // Vector3 noisePosition = collision.gameObject.transform.position; // Get the location of the collision
             Vector3 noisePosition = collision.contacts[0].point; // Get the location of the collision
             Debug.Log("Collision Point: " + noisePosition);
 
@@ -26,15 +27,15 @@ public class Stone : MonoBehaviour
             MonoBehaviour nearestEnemy = FindNearestEnemy(allEnemies, noisePosition);
             if (nearestEnemy is Enemy)
             {
-                (nearestEnemy as Enemy).CheckDistraction(noisePosition, gameObject);
+                (nearestEnemy as Enemy).CheckDistraction(noisePosition,gameObject);
             }
             else if (nearestEnemy is BigEnemy)
             {
-                (nearestEnemy as BigEnemy).CheckDistraction(noisePosition, gameObject);
+                (nearestEnemy as BigEnemy).CheckDistraction(noisePosition,gameObject);
             }
 
             // Destroy the stone object after the collision
-           // Destroy(gameObject);
+            // Destroy(gameObject);
         }
     }
 

@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stonePrefab: {fileID: 7822764563616565532, guid: d8ef51c87a45fbd45b02af87a82d5a20,
     type: 3}
-  landPosition: {fileID: 0}
   sensitivity: 229
   stoneHeight: 1
   angle: 75
@@ -69,7 +68,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &959479310025778962
 Transform:
   m_ObjectHideFlags: 0
@@ -174,7 +173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3017177454473120841
 Transform:
   m_ObjectHideFlags: 0

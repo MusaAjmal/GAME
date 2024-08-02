@@ -178,7 +178,7 @@ public class BigEnemy : MonoBehaviour
 
             foreach (Collider collider in rangeChecks)
             {
-                if (collider.gameObject.layer == LayerMask.NameToLayer("Distraction"))
+                if (collider.gameObject.layer == LayerMask.NameToLayer("Distraction") && collider.gameObject == throwableObject )
                 {
                     Vector3 directionToTarget = collider.transform.position - transform.position;
                     float distanceToTarget = directionToTarget.magnitude;
