@@ -303,7 +303,7 @@ public class Enemy : MonoBehaviour
                  // Debug.Log("Object found in range: " + collider.gameObject.name);
 
                  // Check if the collider's gameObject is in the Distraction layer
-                 if (collider.gameObject.layer == LayerMask.NameToLayer("Distraction"))
+                 if (collider.gameObject.layer == LayerMask.NameToLayer("Distraction") && collider.gameObject == throwableObject)
                  {
                      Vector3 directionToTarget = collider.transform.position - transform.position;
                      float distanceToTarget = directionToTarget.magnitude;

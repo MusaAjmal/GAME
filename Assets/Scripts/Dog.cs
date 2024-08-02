@@ -224,6 +224,7 @@ public class Dog : MonoBehaviour
 
                         spotted = true;
                         Debug.Log("GAME OVER ENEMY SPOTTED YOU");
+                        LevelManager.Instance.GameOverScreen();
                         break; // Found the target, no need to continue the loop
                     }
                 }
