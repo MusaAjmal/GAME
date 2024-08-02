@@ -15,6 +15,7 @@ public class BigEnemy : MonoBehaviour
     [SerializeField] private LayerMask distractionMask;
     [SerializeField] private float collisionRange = 10f;
     public bool noiseDetected = false;
+    [Range(0f, 100f)]
     [SerializeField] private float noiseAttentionTime = 2f;
     private GameObject throwableObject;
 

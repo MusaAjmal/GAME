@@ -11,9 +11,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameOverScript gameOverScript;
     [SerializeField] private GameObject touchPanel;
     [SerializeField] private GameObject Inventory;
-    [SerializeField] private GameObject Player;
+    //[SerializeField] private GameObject Player;
     [SerializeField] private LevelComplete levelComplete;
     [SerializeField] private GameObject[] images;
+    [SerializeField] private Checkpoint Checkpoint;
     public static LevelManager Instance { get; private set; }
     Chest Chest;
 
@@ -33,6 +34,11 @@ public class LevelManager : MonoBehaviour
         Chest = Chest.Instance;
         Chest.SPcallback += initiateStarRetrieval;
         
+        if (Checkpoint != null)
+        {
+            Debug.Log("checkpoint exists and player reached : " + Checkpoint.checkpointReached);
+        }
+
     }
    /* private void Update()
     {
@@ -78,7 +84,13 @@ public class LevelManager : MonoBehaviour
     }
     public void Retry()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+       
+       
+        
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
+        
+        
 
     }
     public void Quit()

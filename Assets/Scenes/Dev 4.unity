@@ -3822,6 +3822,56 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: noiseRadius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: objectMask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: playerDetectDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: movePoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: distractionMask.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: obstructionMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: movePoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 186639319}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: movePoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 1674240362}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: movePoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 976746197}
     - target: {fileID: 8743360957869047760, guid: 2dfcbed84059d224b85afc1950c9107e,
         type: 3}
       propertyPath: movePoints.Array.size
@@ -28972,6 +29022,56 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: noiseRadius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: objectMask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: playerDetectDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: movePoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: distractionMask.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: obstructionMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: movePoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 295418500}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: movePoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 711237407}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: movePoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 618923154}
     - target: {fileID: 8743360957869047760, guid: 2dfcbed84059d224b85afc1950c9107e,
         type: 3}
       propertyPath: movePoints.Array.size

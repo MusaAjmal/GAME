@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     public bool noiseDetected = false;
     [SerializeField] private float noiseAttentionTime = 2f;
     private GameObject throwableObject;
+    [Range(0f, 100f)]
     [SerializeField] private float playerDetectDistance;
     private bool spotted;
     private LevelManager sceneManager;

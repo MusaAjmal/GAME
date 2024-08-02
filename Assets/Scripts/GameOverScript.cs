@@ -8,4 +8,8 @@ public class GameOverScript : MonoBehaviour
     {
     gameObject.SetActive(true); 
     }
+    public void setDown()
+    {
+        gameObject.SetActive(false);
+    }
 }

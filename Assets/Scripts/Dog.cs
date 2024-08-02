@@ -21,6 +21,7 @@ public class Dog : MonoBehaviour
     public bool noiseDetected = false;
     [SerializeField] private float noiseAttentionTime = 2f;
     private GameObject throwableObject;
+    [Range(0f,100f)]
     [SerializeField] private float playerDetectDistance;
     private bool spotted;
 
@@ -219,7 +220,7 @@ public class Dog : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(noiseAttentionTime); // Optional wait time after reaching noise position
+      //  yield return new WaitForSeconds(noiseAttentionTime); // Optional wait time after reaching noise position
 
         Destroy(throwableObject);
 
