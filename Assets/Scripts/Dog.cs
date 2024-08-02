@@ -35,7 +35,7 @@ public class Dog : MonoBehaviour
 
     private void Start()
     {
-        spotted = false;    
+        spotted = false;
         currentState = EnemyState.Patrolling;
         targetPoint = 0;
         patrolReturnPosition = transform.position;
@@ -43,29 +43,31 @@ public class Dog : MonoBehaviour
 
     private void Update()
     {
-        CheckNoise();
-        CheckPlayer();
+        if (!spotted)
+        {
+            CheckNoise();
+            CheckPlayer();
+        }
 
         switch (currentState)
         {
             case EnemyState.Patrolling:
-                if (!spotted) {
+                if (!spotted)
+                {
                     Patrol();
                 }
-                
                 break;
 
             case EnemyState.Alerted:
                 // Handle any specific behavior for the Alerted state
                 break;
         }
-
-       // ChasePlayer();
-
     }
 
     private void Patrol()
     {
+        if (movePoints.Length == 0) return; // Handle edge case if there are no move points
+
         Vector3 targetPosition = new Vector3(movePoints[targetPoint].transform.position.x, constantY, movePoints[targetPoint].transform.position.z);
         Vector3 currentPosition = new Vector3(transform.position.x, constantY, transform.position.z);
 
@@ -88,18 +90,6 @@ public class Dog : MonoBehaviour
         {
             lastInteractDirection = transform.position;
             transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
-        }
-    }
-
-    private void ChasePlayer()
-    {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit raycastHit, lookDistance))
-        {
-            if (raycastHit.transform.TryGetComponent(out Player player))
-            {
-               // Debug.Log("Chasing");
-                // Implement chasing logic here
-            }
         }
     }
 
@@ -130,85 +120,70 @@ public class Dog : MonoBehaviour
 
     public void CheckNoise()
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius);
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, objectMask);
 
         if (rangeChecks.Length != 0)
         {
-
             GameObject targetObject = null;
             Vector3 targetPosition = Vector3.zero;
 
             foreach (Collider collider in rangeChecks)
             {
-
-               
-                if (collider.gameObject.layer == LayerMask.NameToLayer("Object")) // Replace "YourLayerName" with the actual layer name
+                Debug.Log(collider.tag);
+                if (collider.tag == "Bone" && collider.gameObject.layer == 9) // Replace 9 with your actual layer value
                 {
-                    //Debug.Log("Noise Detected");
-                    // Check if there is no obstruction between the current object and the detected object
                     Vector3 directionToTarget = collider.transform.position - transform.position;
                     float distanceToTarget = directionToTarget.magnitude;
                     directionToTarget.Normalize();
 
                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
-                        //Debug.Log("Object in range !!!!");
                         targetObject = collider.gameObject;
                         targetPosition = collider.transform.position;
+                        targetPosition.y = constantY;
                         break; // Found the target, no need to continue the loop
                     }
                 }
             }
 
-            if (targetObject != null && targetObject.tag == "Bone")
+            if (targetObject != null)
             {
                 throwableObject = targetObject;
-/*                Debug.Log("Noise detected at: " + targetPosition + " from " + targetObject.tag);
-*/                // Check if the target position is below the current object's position
-                /*if (targetPosition.y < transform.position.y)
-                {*/
-
-
-
+                Debug.Log("Noise detected at: " + targetPosition + " from " + targetObject.tag);
+                if (targetObject.transform.position.y < 3)
+                {
                     if (patrolReturnPosition == Vector3.zero)
                     {
                         patrolReturnPosition = transform.position;
-/*                        Debug.Log("Setting patrolReturnPosition to: " + patrolReturnPosition);
-*/                    }
-
+                    }
 
                     StopAllCoroutines();
                     StartCoroutine(MoveToNoise(targetPosition, throwableObject));
-                //}
+                }
             }
             else
             {
-/*                Debug.Log("No unobstructed noise source found.");
-*/            }
+                Debug.Log("No unobstructed noise source found.");
+            }
         }
         else
         {
-/*            Debug.Log("No noise detected.");
-*/        }
+            Debug.Log("No noise detected.");
+        }
     }
 
     public void CheckPlayer()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, playerDetectDistance);
-        Debug.Log(rangeChecks);
 
         if (rangeChecks.Length != 0)
         {
-            GameObject targetObject = null;
-            Vector3 targetPosition = Vector3.zero;
-
             foreach (Collider collider in rangeChecks)
             {
                 if (collider.CompareTag("Player"))
                 {
                     Debug.Log("Player found");
-                    targetObject = collider.gameObject;
-                    targetPosition = collider.transform.position;
+                    Vector3 targetPosition = collider.transform.position;
                     float distanceToTarget = Vector3.Distance(targetPosition, transform.position);
 
                     if (!Physics.Raycast(transform.position, targetPosition - transform.position, distanceToTarget, obstructionMask))
@@ -232,11 +207,9 @@ public class Dog : MonoBehaviour
         }
     }
 
-
-    public IEnumerator MoveToNoise(Vector3 noisePosition , GameObject throwableObject)
+    public IEnumerator MoveToNoise(Vector3 noisePosition, GameObject throwableObject)
     {
         currentState = EnemyState.Alerted;
-
 
         while (Vector3.Distance(transform.position, noisePosition) > 1f)
         {
@@ -246,10 +219,11 @@ public class Dog : MonoBehaviour
             yield return null;
         }
 
-/*        yield return new WaitForSeconds(2f);
-*/        
+        yield return new WaitForSeconds(noiseAttentionTime); // Optional wait time after reaching noise position
+
         Destroy(throwableObject);
 
+        // Return to patrol position
         while (Vector3.Distance(transform.position, patrolReturnPosition) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, patrolReturnPosition, moveSpeed * Time.deltaTime);
@@ -262,13 +236,10 @@ public class Dog : MonoBehaviour
         patrolReturnPosition = Vector3.zero;
     }
 
-
-  
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("alooooooooooooooooooo");
+        Debug.Log("Collision detected");
     }
 
     public static bool ObjectIsInLayerMask(GameObject obj, LayerMask mask) => (mask.value & (1 << obj.layer)) != 0;
-
 }
