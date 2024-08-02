@@ -164,9 +164,9 @@ public class Player : MonoBehaviour
     private void MaintainGroundLevel()
     {
         // Ensure player stays on the correct ground level
-        if (Mathf.Abs(transform.position.y - 1.076f) > 0.01f)
+        if (Mathf.Abs(transform.position.y - 0.076f) > 0.01f)
         {
-            Vector3 temp = new Vector3(transform.position.x, 1.076f, transform.position.z);
+            Vector3 temp = new Vector3(transform.position.x, 0.076f, transform.position.z);
             transform.position = temp;
         }
     }

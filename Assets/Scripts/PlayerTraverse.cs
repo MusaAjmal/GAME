@@ -224,7 +224,7 @@ public class PlayerTraverse : MonoBehaviour
     private bool isMoving = false;  // Flag to determine if the player is moving
     private Player player; // Reference to the Player singleton
 
-    private const float fixedYPosition = 1.076f; // Fixed Y position for the player
+    private const float fixedYPosition = 0.076f; // Fixed Y position for the player
     private LayerMask wallLayer; // Layer mask for walls
 
     private void Start()
