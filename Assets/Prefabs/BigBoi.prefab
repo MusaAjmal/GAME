@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BigBoi
       objectReference: {fileID: 0}
+    - target: {fileID: 1717060852387219049, guid: 8b70092c95e67034f904725cc7b31abe,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.76
+      objectReference: {fileID: 0}
     - target: {fileID: 5287552455547150715, guid: 8b70092c95e67034f904725cc7b31abe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -63,6 +68,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6826377594480550524, guid: 8b70092c95e67034f904725cc7b31abe,
+        type: 3}
+      propertyPath: radius
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe, type: 3}
     m_RemovedGameObjects: []
@@ -105,5 +115,6 @@ MonoBehaviour:
   collisionRange: 10
   noiseDetected: 0
   noiseAttentionTime: 2
+  playerDetectDistance: 2.7
   torchCheckRange: 10
-  torch: {fileID: 1083292963578813097, guid: 6efb1860217d72445b1b6d7cfb4f8979, type: 3}
+  torches: []

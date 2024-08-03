@@ -15,6 +15,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private LevelComplete levelComplete;
     [SerializeField] private GameObject[] images;
     [SerializeField] private Checkpoint Checkpoint;
+
+    public PlayerTraverse points;
     public static LevelManager Instance { get; private set; }
     Chest Chest;
 
@@ -33,6 +35,7 @@ public class LevelManager : MonoBehaviour
         InitialStars();
         Chest = Chest.Instance;
         Chest.SPcallback += initiateStarRetrieval;
+        points = new PlayerTraverse();
         
         if (Checkpoint != null)
         {
@@ -84,10 +87,17 @@ public class LevelManager : MonoBehaviour
     }
     public void Retry()
     {
-       
-       
-        
+
+        if (Checkpoint.checkpointReached)
+        {
+            Respawn.instance.RespawnPlayer();
+            points.OnPlayerRespawn();
+        }
+        else
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+            
         
         
         

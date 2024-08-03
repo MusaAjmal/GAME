@@ -10,19 +10,20 @@ public class Checkpoint : MonoBehaviour
      {
          instance = this;
      }*/
+    public SphereCollider collider; 
     public bool checkpointReached;
     public Vector3 lastpoint;
     private void Start()
     {
         checkpointReached = false;
+        collider = GetComponent<SphereCollider>();
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Player")
-        {
-            checkpointReached = true;
-            lastpoint = transform.position;
+        Respawn.instance.transform.position = transform.position;
+        Debug.Log("Checkpoint Added !");
+        collider.enabled = false;
+        checkpointReached = true;   
 
-        }
     }
 }

@@ -416,6 +416,11 @@ public class PlayerTraverse : MonoBehaviour
         // Return false if no UI element was found
         return false;
     }
+    public void OnPlayerRespawn()
+    {
+        //targetPosition = respawnPosition; // Reset the target position to the respawn position
+        isMoving = false; // Ensure that the player is not moving after respawn
+    }
 
     // Method to move the player towards the target
     private void MovePlayer()

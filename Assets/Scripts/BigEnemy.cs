@@ -18,7 +18,8 @@ public class BigEnemy : MonoBehaviour
     [Range(0f, 100f)]
     [SerializeField] private float noiseAttentionTime = 2f;
     private GameObject throwableObject;
-
+    [Range(0f, 100f)]
+    [SerializeField] private float playerDetectDistance;
     [SerializeField] private float torchCheckRange = 10f;
     [SerializeField] public Items[] torches;
 
@@ -57,7 +58,7 @@ public class BigEnemy : MonoBehaviour
         {
             if (item.isActive())
             {
-                Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius);
+                Collider[] rangeChecks = Physics.OverlapSphere(transform.position, playerDetectDistance);
                 if (rangeChecks.Length != 0)
                 {
                     GameObject targetObject = null;
