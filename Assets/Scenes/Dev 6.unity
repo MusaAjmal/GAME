@@ -414,6 +414,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
         type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 246605604}
+    - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
+        type: 3}
+      propertyPath: Checkpoint2
+      value: 
+      objectReference: {fileID: 267444966}
+    - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
+        type: 3}
       propertyPath: torches.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -2516,6 +2526,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
+        type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 246605604}
+    - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
+        type: 3}
+      propertyPath: Checkpoint2
+      value: 
+      objectReference: {fileID: 267444966}
     - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
         type: 3}
       propertyPath: torches.Array.size
@@ -19600,6 +19620,16 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 246605604}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: Checkpoint2
+      value: 
+      objectReference: {fileID: 267444966}
     - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
         type: 3}
       propertyPath: noiseRadius
@@ -44808,6 +44838,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
         type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 246605604}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: Checkpoint2
+      value: 
+      objectReference: {fileID: 267444966}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
       propertyPath: noiseRadius
       value: 10
       objectReference: {fileID: 0}
@@ -46708,6 +46748,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
         type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 246605604}
+    - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
+        type: 3}
+      propertyPath: Checkpoint2
+      value: 
+      objectReference: {fileID: 267444966}
+    - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
+        type: 3}
       propertyPath: torches.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -47369,8 +47419,18 @@ PrefabInstance:
     - target: {fileID: 986358951772481868, guid: 8b70092c95e67034f904725cc7b31abe,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
+        type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 246605604}
+    - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
+        type: 3}
+      propertyPath: Checkpoint2
+      value: 
+      objectReference: {fileID: 267444966}
     - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
         type: 3}
       propertyPath: movePoints.Array.data[0]
@@ -55024,6 +55084,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'Enemy 2 '
       objectReference: {fileID: 0}
+    - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
+        type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 246605604}
+    - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
+        type: 3}
+      propertyPath: Checkpoint2
+      value: 
+      objectReference: {fileID: 267444966}
     - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
         type: 3}
       propertyPath: movePoints.Array.data[0]

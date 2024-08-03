@@ -22,7 +22,7 @@ public class BigEnemy : MonoBehaviour
     [SerializeField] private float playerDetectDistance;
     [SerializeField] private float torchCheckRange = 10f;
     [SerializeField] public Items[] torches;
-
+    [SerializeField] private Checkpoint Checkpoint2;
     private enum EnemyState
     {
         Idle,
@@ -45,7 +45,7 @@ public class BigEnemy : MonoBehaviour
     {
         CheckTorch();
         CheckPlayer();
-        if (Checkpoint != null && Checkpoint.checkpointReached)
+        if (Checkpoint != null && Checkpoint.checkpointReached || Checkpoint2 != null && Checkpoint2.checkpointReached) 
         {
             
             CheckTorch();

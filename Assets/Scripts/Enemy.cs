@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
     private LevelManager sceneManager;
     private bool isChasingPlayer; // To track if the coroutine is already running
     [SerializeField] private Checkpoint Checkpoint;
-
+    [SerializeField] private Checkpoint Checkpoint2;
     private enum EnemyState
     {
         Patrolling,
@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.Patrolling:
-                if (Checkpoint != null && Checkpoint.checkpointReached && spotted)
+                if (Checkpoint != null && Checkpoint.checkpointReached && spotted || Checkpoint2!=null && Checkpoint2.checkpointReached && spotted)
                 {
                     Patrol();
                    

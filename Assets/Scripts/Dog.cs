@@ -27,6 +27,8 @@ public class Dog : MonoBehaviour
 
     [SerializeField] private Checkpoint Checkpoint;
 
+    [SerializeField] private Checkpoint Checkpoint2;
+
     private enum EnemyState
     {
         Patrolling,
@@ -58,7 +60,7 @@ public class Dog : MonoBehaviour
             switch (currentState)
             {
                 case EnemyState.Patrolling:
-                    if (Checkpoint!= null && Checkpoint.checkpointReached && spotted)
+                    if (Checkpoint != null && Checkpoint.checkpointReached && spotted || Checkpoint2!=null && Checkpoint2.checkpointReached && spotted)
                     {
                         Patrol();
                         CheckNoise();

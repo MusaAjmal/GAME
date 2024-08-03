@@ -15,7 +15,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private LevelComplete levelComplete;
     [SerializeField] private GameObject[] images;
     [SerializeField] private Checkpoint Checkpoint;
-   // [SerializeField] private Checkpoint Checkpoint2;
+    [SerializeField] private Checkpoint Checkpoint2;
+    // [SerializeField] private Checkpoint Checkpoint2;
 
     [SerializeField] public PlayerTraverse points;
     public static LevelManager Instance { get; private set; }
@@ -92,24 +93,52 @@ public class LevelManager : MonoBehaviour
         {
             if (Checkpoint.checkpointReached)
             {
+               
                 Respawn.instance.RespawnPlayer();
                 points.OnPlayerRespawn();
-                
+
                 gameOverScript.setDown();
                 Inventory.SetActive(true);
                 touchPanel.SetActive(true);
+                starNumber = 0;
+
+
             }
+            
             else
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                starNumber = 0;
             }
 
 
+        }
+        else if(Checkpoint2!= null)
+        {
+            if (Checkpoint2.checkpointReached)
+            {
+
+                Respawn.instance.RespawnPlayer();
+                points.OnPlayerRespawn();
+
+                gameOverScript.setDown();
+                Inventory.SetActive(true);
+                touchPanel.SetActive(true);
+                starNumber = 0;
+
+            }
+
+            else
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                starNumber = 0;
+            }
         }
         
         else
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            starNumber = 0;
         }
 
         /////GPT

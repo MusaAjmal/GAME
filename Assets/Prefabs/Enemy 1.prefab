@@ -322,7 +322,9 @@ MonoBehaviour:
   enemyVision: {fileID: 0}
   noiseDetected: 0
   noiseAttentionTime: 2
-  playerDetectDistance: 3
+  playerDetectDistance: 2.5
+  Checkpoint: {fileID: 0}
+  Checkpoint2: {fileID: 0}
 --- !u!114 &6826377594480550524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,7 +511,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f0764fd3e8542f245923e1b4eb10af3e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.2053032
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0764fd3e8542f245923e1b4eb10af3e,
         type: 3}

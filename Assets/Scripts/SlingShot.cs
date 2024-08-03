@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SlingShot : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class SlingShot : MonoBehaviour
     Vector3 direction;
     private bool stoneInFlight = false;
     private Camera mainCamera;
-
+    public Button Sbutton;
     private void Awake()
     {
         // Initialize main camera reference
@@ -44,6 +45,7 @@ public class SlingShot : MonoBehaviour
                 // Check if the stone has landed
                 if (characterController.isGrounded)
                 {
+                    
                     LandStone();
                 }
             }
