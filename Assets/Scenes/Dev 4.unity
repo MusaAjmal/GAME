@@ -39515,7 +39515,7 @@ MonoBehaviour:
   - {fileID: 717451898}
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!4 &2019185048
 Transform:
   m_ObjectHideFlags: 0

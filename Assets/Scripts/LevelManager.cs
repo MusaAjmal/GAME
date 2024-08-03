@@ -87,12 +87,16 @@ public class LevelManager : MonoBehaviour
     }
     public void Retry()
     {
-
-        if (Checkpoint.checkpointReached)
+        if(Checkpoint != null)
         {
-            Respawn.instance.RespawnPlayer();
-            points.OnPlayerRespawn();
+            if (Checkpoint.checkpointReached)
+            {
+                Respawn.instance.RespawnPlayer();
+                points.OnPlayerRespawn();
+            }
         }
+
+        
         else
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
