@@ -25,6 +25,8 @@ public class Dog : MonoBehaviour
     [SerializeField] private float playerDetectDistance;
     private bool spotted;
 
+    [SerializeField] private Checkpoint Checkpoint;
+
     private enum EnemyState
     {
         Patrolling,
@@ -36,6 +38,7 @@ public class Dog : MonoBehaviour
 
     private void Start()
     {
+       
         spotted = false;
         currentState = EnemyState.Patrolling;
         targetPoint = 0;
@@ -44,25 +47,37 @@ public class Dog : MonoBehaviour
 
     private void Update()
     {
-        if (!spotted)
+        if (gameObject != null)
         {
-            CheckNoise();
-            CheckPlayer();
+            if (!spotted)
+            {
+                CheckNoise();
+                CheckPlayer();
+            }
+
+            switch (currentState)
+            {
+                case EnemyState.Patrolling:
+                    if (Checkpoint!= null && Checkpoint.checkpointReached && spotted)
+                    {
+                        Patrol();
+                        CheckNoise();
+                        CheckPlayer();
+                    }
+                    if (!spotted)
+                    {
+                        Patrol();
+                    }
+                    
+                    break;
+
+                case EnemyState.Alerted:
+                    // Handle any specific behavior for the Alerted state
+                    break;
+            }
         }
 
-        switch (currentState)
-        {
-            case EnemyState.Patrolling:
-                if (!spotted)
-                {
-                    Patrol();
-                }
-                break;
-
-            case EnemyState.Alerted:
-                // Handle any specific behavior for the Alerted state
-                break;
-        }
+       
     }
 
     private void Patrol()
@@ -200,7 +215,11 @@ public class Dog : MonoBehaviour
 
                         spotted = true;
                         Debug.Log("GAME OVER ENEMY SPOTTED YOU");
+                        
                         LevelManager.Instance.GameOverScreen();
+                       
+                       
+                        
                         break; // Found the target, no need to continue the loop
                     }
                 }

@@ -8,4 +8,10 @@ public class LevelComplete : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
+    public void unset()
+    {
+
+    gameObject.SetActive(false); 
+    }
 }
+

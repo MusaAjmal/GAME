@@ -22,8 +22,9 @@ public class Checkpoint : MonoBehaviour
     {
         Respawn.instance.transform.position = transform.position;
         Debug.Log("Checkpoint Added !");
+        checkpointReached = true;
         collider.enabled = false;
-        checkpointReached = true;   
+          
 
     }
 }

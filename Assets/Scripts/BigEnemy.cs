@@ -33,7 +33,7 @@ public class BigEnemy : MonoBehaviour
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
-
+    [SerializeField] private Checkpoint Checkpoint;
     private void Start()
     {
         currentState = EnemyState.Idle;
@@ -45,6 +45,12 @@ public class BigEnemy : MonoBehaviour
     {
         CheckTorch();
         CheckPlayer();
+        if (Checkpoint != null && Checkpoint.checkpointReached)
+        {
+            
+            CheckTorch();
+            CheckPlayer();
+        }
     }
 
     private bool IsMoving()

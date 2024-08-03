@@ -250,6 +250,10 @@ public class PlayerTraverse : MonoBehaviour
             MovePlayer();
         }
     }
+    public void disablemove()
+    {
+        isMoving = false;
+    }
 
     private void HandleMouseInput()
     {

@@ -1060,6 +1060,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
         type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 1603903821}
+    - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
+        type: 3}
       propertyPath: movePoints.Array.data[0]
       value: 
       objectReference: {fileID: 2106555931}
@@ -20673,7 +20678,7 @@ Transform:
   m_GameObject: {fileID: 840428961}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.1487117, y: 21.374996, z: -26.80484}
+  m_LocalPosition: {x: 0, y: 0, z: -24.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21079,6 +21084,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dog 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3300490800625954080, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4136341542757389370, guid: 2dfcbed84059d224b85afc1950c9107e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -21134,6 +21144,11 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 1603903821}
     - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
         type: 3}
       propertyPath: noiseRadius
@@ -23606,6 +23621,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 1
       objectReference: {fileID: 0}
+    - target: {fileID: 986358951772481868, guid: 8b70092c95e67034f904725cc7b31abe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
+        type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 1603903821}
     - target: {fileID: 2424586576611040211, guid: 8b70092c95e67034f904725cc7b31abe,
         type: 3}
       propertyPath: movePoints.Array.data[0]
@@ -27516,7 +27541,7 @@ MonoBehaviour:
   - {fileID: 1801791204}
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1001 &1075879611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44367,6 +44392,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
         type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 1603903821}
+    - target: {fileID: 7045042391596175885, guid: 2dfcbed84059d224b85afc1950c9107e,
+        type: 3}
       propertyPath: noiseRadius
       value: 10
       objectReference: {fileID: 0}
@@ -49444,8 +49474,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
         type: 3}
+      propertyPath: Checkpoint
+      value: 
+      objectReference: {fileID: 1603903821}
+    - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
+        type: 3}
       propertyPath: torches.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
+        type: 3}
+      propertyPath: playerDetectDistance
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -3026761445321545879, guid: 363cf42a199773848b93dc1f32a3525e,
         type: 3}
@@ -49475,7 +49515,7 @@ PrefabInstance:
     - target: {fileID: 8020141783876502801, guid: 363cf42a199773848b93dc1f32a3525e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.6647534
+      value: 6.618291
       objectReference: {fileID: 0}
     - target: {fileID: 8020141783876502801, guid: 363cf42a199773848b93dc1f32a3525e,
         type: 3}
@@ -49485,7 +49525,7 @@ PrefabInstance:
     - target: {fileID: 8020141783876502801, guid: 363cf42a199773848b93dc1f32a3525e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -54.35139
+      value: -52.831295
       objectReference: {fileID: 0}
     - target: {fileID: 8020141783876502801, guid: 363cf42a199773848b93dc1f32a3525e,
         type: 3}
