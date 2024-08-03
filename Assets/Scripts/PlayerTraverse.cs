@@ -225,12 +225,11 @@ public class PlayerTraverse : MonoBehaviour
     private Player player; // Reference to the Player singleton
 
     private const float fixedYPosition = 0.076f; // Fixed Y position for the player
-    private LayerMask wallLayer; // Layer mask for walls
+    public LayerMask wallLayer; // Layer mask for walls
 
     private void Start()
     {
         player = Player.Instance; // Get the singleton instance of the player
-        wallLayer = LayerMask.GetMask("Obstruction"); // Set the layer mask for walls
     }
 
     void Update()
@@ -313,6 +312,10 @@ public class PlayerTraverse : MonoBehaviour
                     targetPosition = closestPoint.transform.position;
                     isMoving = true;
                 }
+                else
+                {
+
+                }
             }
         }
     }
@@ -365,6 +368,7 @@ public class PlayerTraverse : MonoBehaviour
         // Check if the ray intersects with any colliders on the wall layer
         if (Physics.Raycast(ray, distance, wallLayer))
         {
+            Debug.Log("Path is blocked by a wall.");
             // Path is blocked
             return false;
         }
