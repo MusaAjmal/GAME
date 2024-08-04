@@ -157,7 +157,7 @@ public class SlingShot : MonoBehaviour
         stoneInFlight = false;
         currentVelocity = Vector3.zero;
 
-        if (currentStone != null && currentStone.tag != "Bone")
+        if (currentStone != null)
         {
             Invoke("DestroyStone", 0.1f);
         }

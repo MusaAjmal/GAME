@@ -21,7 +21,7 @@ public class Dog : MonoBehaviour
     public bool noiseDetected = false;
     [SerializeField] private float noiseAttentionTime = 2f;
     private GameObject throwableObject;
-    [Range(0f,100f)]
+    [Range(0f, 100f)]
     [SerializeField] private float playerDetectDistance;
     private bool spotted;
 
@@ -40,7 +40,6 @@ public class Dog : MonoBehaviour
 
     private void Start()
     {
-       
         spotted = false;
         currentState = EnemyState.Patrolling;
         targetPoint = 0;
@@ -60,7 +59,7 @@ public class Dog : MonoBehaviour
             switch (currentState)
             {
                 case EnemyState.Patrolling:
-                    if (Checkpoint != null && Checkpoint.checkpointReached && spotted || Checkpoint2!=null && Checkpoint2.checkpointReached && spotted)
+                    if (Checkpoint != null && Checkpoint.checkpointReached && spotted || Checkpoint2 != null && Checkpoint2.checkpointReached && spotted)
                     {
                         Patrol();
                         CheckNoise();
@@ -70,7 +69,7 @@ public class Dog : MonoBehaviour
                     {
                         Patrol();
                     }
-                    
+
                     break;
 
                 case EnemyState.Alerted:
@@ -78,8 +77,6 @@ public class Dog : MonoBehaviour
                     break;
             }
         }
-
-       
     }
 
     private void Patrol()
@@ -168,7 +165,8 @@ public class Dog : MonoBehaviour
             {
                 throwableObject = targetObject;
                 Debug.Log("Noise detected at: " + targetPosition + " from " + targetObject.tag);
-                if (targetObject.transform.position.y < 3)
+
+                if (targetObject.transform.position.y < transform.position.y)
                 {
                     if (patrolReturnPosition == Vector3.zero)
                     {
@@ -217,11 +215,9 @@ public class Dog : MonoBehaviour
 
                         spotted = true;
                         Debug.Log("GAME OVER ENEMY SPOTTED YOU");
-                        
+
                         LevelManager.Instance.GameOverScreen();
-                       
-                       
-                        
+
                         break; // Found the target, no need to continue the loop
                     }
                 }
@@ -241,9 +237,14 @@ public class Dog : MonoBehaviour
             yield return null;
         }
 
-      //  yield return new WaitForSeconds(noiseAttentionTime); // Optional wait time after reaching noise position
+        // Wait at the object for 2 seconds
+        yield return new WaitForSeconds(2f);
 
-        Destroy(throwableObject);
+        // Destroy the object after the wait time
+        if (throwableObject != null)
+        {
+            Destroy(throwableObject);
+        }
 
         // Return to patrol position
         while (Vector3.Distance(transform.position, patrolReturnPosition) > 0.1f)
