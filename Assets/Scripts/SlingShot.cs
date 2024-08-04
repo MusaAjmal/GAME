@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,14 +40,21 @@ public class SlingShot : MonoBehaviour
 
             if (currentStone != null && stoneInFlight)
             {
+                Sbutton.enabled = false;
                 currentVelocity.y -= gravity * Time.deltaTime;
                 characterController.Move(currentVelocity * Time.deltaTime);
+                if(currentStone.transform.position.y < 0)
+                {
+                    Sbutton.enabled = true;
+                   
+                }
 
                 // Check if the stone has landed
                 if (characterController.isGrounded)
                 {
                     
                     LandStone();
+                    Sbutton.enabled = true;    
                 }
             }
         }
@@ -160,6 +168,7 @@ public class SlingShot : MonoBehaviour
         if (currentStone != null)
         {
             Invoke("DestroyStone", 0.1f);
+          
         }
     }
 
