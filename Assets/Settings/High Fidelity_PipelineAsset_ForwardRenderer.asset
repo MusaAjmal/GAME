@@ -56,7 +56,7 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 0
+  m_RenderingMode: 1
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 1
   m_AccurateGbufferNormals: 0
@@ -80,12 +80,12 @@ MonoBehaviour:
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 0.5
+    Intensity: 0.49
     DirectLightingStrength: 0.23
-    Radius: 0.33
+    Radius: 0.62
     Samples: 1
     BlurQuality: 0
-    Falloff: 99.97
+    Falloff: 94.77
     SampleCount: -1
   m_BlueNoise256Textures:
   - {fileID: 2800000, guid: 36f118343fc974119bee3d09e2111500, type: 3}
