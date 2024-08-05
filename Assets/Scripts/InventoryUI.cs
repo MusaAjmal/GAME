@@ -13,7 +13,15 @@ public class InventoryUI : MonoBehaviour
     public int iterator;
     public ItemSO boneItem;
     public ItemSO stoneItem;
-   
+   public static InventoryUI instance {  get; private set; }
+    private void Awake()
+    {
+        instance = this;
+    }
+    public void restoreItems(Inventory inventory)
+    {
+        Inventory = inventory; 
+    }
 
     public void Start()
     {

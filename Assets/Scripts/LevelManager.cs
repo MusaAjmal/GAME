@@ -10,13 +10,14 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameOverScript gameOverScript;
     [SerializeField] private GameObject touchPanel;
-    [SerializeField] private GameObject Inventory;
+    [SerializeField] private GameObject inventory;
     //[SerializeField] private GameObject Player;
     [SerializeField] private LevelComplete levelComplete;
     [SerializeField] private GameObject[] images;
     [SerializeField] private Checkpoint Checkpoint;
     [SerializeField] private Checkpoint Checkpoint2;
-    // [SerializeField] private Checkpoint Checkpoint2;
+    
+    
 
     [SerializeField] public PlayerTraverse points;
     public static LevelManager Instance { get; private set; }
@@ -32,6 +33,7 @@ public class LevelManager : MonoBehaviour
     }
     private void Start()
     {
+        
         // gameOverScript = GetComponent<GameOverScript>();
         starNumber = 0;
         InitialStars();
@@ -61,14 +63,14 @@ public class LevelManager : MonoBehaviour
     }
     public void GameOverScreen()
     {
-        Inventory.SetActive(false);
+        inventory.SetActive(false);
         touchPanel.SetActive(false);
         gameOverScript.SetUp();
     }
     public void LevelComplete()
     {
 
-        Inventory.SetActive(false);
+        inventory.SetActive(false);
         touchPanel.SetActive(false);
         initiateStarRetrieval();
         levelComplete.set();
@@ -87,6 +89,11 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Number of Stars for this Level " + starNumber);
         // starNumber = 0;
     }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
     public void Retry()
     {
         if (Checkpoint != null)
@@ -98,7 +105,7 @@ public class LevelManager : MonoBehaviour
                 points.OnPlayerRespawn();
 
                 gameOverScript.setDown();
-                Inventory.SetActive(true);
+                inventory.SetActive(true);
                 touchPanel.SetActive(true);
                 starNumber = 0;
 
@@ -117,12 +124,12 @@ public class LevelManager : MonoBehaviour
         {
             if (Checkpoint2.checkpointReached)
             {
-
+               
                 Respawn.instance.RespawnPlayer();
                 points.OnPlayerRespawn();
 
                 gameOverScript.setDown();
-                Inventory.SetActive(true);
+                inventory.SetActive(true);
                 touchPanel.SetActive(true);
                 starNumber = 0;
 

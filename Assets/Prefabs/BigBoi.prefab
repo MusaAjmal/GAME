@@ -118,3 +118,6 @@ MonoBehaviour:
   playerDetectDistance: 2.7
   torchCheckRange: 10
   torches: []
+  Checkpoint2: {fileID: 0}
+  multiplier: 1
+  Checkpoint: {fileID: 0}

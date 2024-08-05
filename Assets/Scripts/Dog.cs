@@ -144,7 +144,7 @@ public class Dog : MonoBehaviour
 
             foreach (Collider collider in rangeChecks)
             {
-                Debug.Log(collider.tag);
+               // Debug.Log(collider.tag);
                 if (collider.tag == "Bone" && collider.gameObject.layer == 9) // Replace 9 with your actual layer value
                 {
                     Vector3 directionToTarget = collider.transform.position - transform.position;

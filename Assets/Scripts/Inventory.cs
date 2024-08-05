@@ -48,6 +48,10 @@ public class Inventory : MonoBehaviour
                 Inventory.Instance.RemoveItem(Inventory.Instance.defaultItem);
             }
         }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Instance.DisplayItems();
+        }
             
         setDefaultItem();
     }

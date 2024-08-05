@@ -13,17 +13,25 @@ public class Checkpoint : MonoBehaviour
     public SphereCollider collider; 
     public bool checkpointReached;
     public Vector3 lastpoint;
+  
     private void Start()
-    {
+    {  
+       
         checkpointReached = false;
         collider = GetComponent<SphereCollider>();
     }
     public void OnTriggerEnter(Collider other)
     {
-        Respawn.instance.transform.position = transform.position;
-        Debug.Log("Checkpoint Added !");
-        checkpointReached = true;
-        collider.enabled = false;
+        
+        if(other.name == "Player")
+        {
+           
+            Respawn.instance.transform.position = transform.position;
+            Debug.Log("Checkpoint Added !");
+            checkpointReached = true;
+            collider.enabled = false;
+        }
+       
           
 
     }
