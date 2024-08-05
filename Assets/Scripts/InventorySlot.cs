@@ -8,8 +8,8 @@ public class InventorySlot : MonoBehaviour
     // Optional: Count icon
     public Text text; // Optional: Text for count display
     int count = 1; // Count of items (optional)
-    public Button button;
-    private ColorBlock defaultColor;
+    /* public Button button;
+     private ColorBlock defaultColor;*/
     // Increment count of items (optional)
     public void IncrementCount()
     {
@@ -25,16 +25,16 @@ public class InventorySlot : MonoBehaviour
     }
     public void Start()
     {
-        button = GetComponentInChildren<Button>();
-        if (button != null)
-        {
-            // Store the original ColorBlock
-            defaultColor = button.colors;
-        }
-        else
-        {
-            Debug.LogError("Button component not found on the GameObject.");
-        }
+        /* button = GetComponentInChildren<Button>();
+         if (button != null)
+         {
+             // Store the original ColorBlock
+             defaultColor = button.colors;
+         }
+         else
+         {
+             Debug.LogError("Button component not found on the GameObject.");
+         }*/
     }
 
     // Add an item to the slot
@@ -59,7 +59,8 @@ public class InventorySlot : MonoBehaviour
             text.enabled = false;
         }
     }
-    public void changeButtonColor()
+}
+   /* public void changeButtonColor()
     {
        
         if (button != null)
@@ -72,8 +73,8 @@ public class InventorySlot : MonoBehaviour
         {
             Debug.LogError("Button component not found on the GameObject." + this.name);
         }
-    }
-    public void ResetColor()
+    }*/
+   /* public void ResetColor()
     {
         if (button != null)
         {
@@ -85,3 +86,4 @@ public class InventorySlot : MonoBehaviour
         }
     }
 }
+*/
