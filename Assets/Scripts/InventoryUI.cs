@@ -26,13 +26,14 @@ public class InventoryUI : MonoBehaviour
     public void Start()
     {
         Inventory = Inventory.Instance;
+        
         isBoneSet = false;
         isStoneSet = false;
         iterator = 0;
         Inventory.OnItemChangedcallBack += UpdateUIonEquip;
         Inventory.OnItemRemovedcallBack += UpdateUIonRemove;
 
-        inventorySlots = objectsParent.GetComponentsInChildren<InventorySlot>();
+         //objectsParent.GetComponentsInChildren<InventorySlot>();
         ClearCount();
     }
 
@@ -48,7 +49,7 @@ public class InventoryUI : MonoBehaviour
 
         }
     }
-    private void changeUIonSelectedItem()
+    /*private void changeUIonSelectedItem()
     {
         for (int i = 0; i < inventorySlots.Length; i++)
         {
@@ -71,10 +72,10 @@ public class InventoryUI : MonoBehaviour
 
 
         }
-    }
+    }*/
     private void Update()
     {
-        changeUIonSelectedItem();
+       // changeUIonSelectedItem();
     }
     
 

@@ -14,8 +14,13 @@ public class Inventory : MonoBehaviour
     public delegate void OnItemRemoved();
     public OnItemRemoved OnItemRemovedcallBack;
 
-    public Stack<ItemSO> stoneStack = new Stack<ItemSO>();
-    public Stack<ItemSO> otherItemsStack = new Stack<ItemSO>();
+    public Stack<ItemSO> stoneStack;
+    public Stack<ItemSO> otherItemsStack;
+    public void Start()
+    {
+        stoneStack = new Stack<ItemSO>();
+        otherItemsStack = new Stack<ItemSO>();
+    }
 
     public ItemSO defaultItem;
 
