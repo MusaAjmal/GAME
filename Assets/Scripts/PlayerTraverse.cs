@@ -248,6 +248,7 @@ public class PlayerTraverse : MonoBehaviour
         if (isMoving)
         {
             MovePlayer();
+
         }
     }
     public void disablemove()
@@ -374,6 +375,7 @@ public class PlayerTraverse : MonoBehaviour
         {
             Debug.Log("Path is blocked by a wall.");
             // Path is blocked
+            SoundPlayer.PlaySound("wrong");
             return false;
         }
 

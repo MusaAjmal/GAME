@@ -31,8 +31,10 @@ public class EquipButton : MonoBehaviour
 
     public void buttonPressed()
     {
-       
+
         //SlingShot.SetActive(false);
+        SoundPlayer.PlaySound("click");
+
         BTCallback?.Invoke();
         if (chest.isPlayerClose())
         {
