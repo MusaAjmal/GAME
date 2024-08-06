@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BigEnemy : MonoBehaviour
@@ -46,26 +45,40 @@ public class BigEnemy : MonoBehaviour
         currentState = EnemyState.Idle;
         initialPosition = transform.position;
         initialRotation = transform.rotation;
+        StartCheckPlayerCoroutine();
     }
 
     private void Update()
     {
         CheckTorch();
 
-        if (playerCheckCoroutine == null) // Only start if not already running
+        if ((Checkpoint != null && Checkpoint.checkpointReached) || (Checkpoint2 != null && Checkpoint2.checkpointReached))
+        {
+            RestartCheckPlayerCoroutine();
+        }
+    }
+
+    private void StartCheckPlayerCoroutine()
+    {
+        if (playerCheckCoroutine == null)
         {
             playerCheckCoroutine = StartCoroutine(CheckPlayerCoroutine());
         }
+    }
 
-        if ((Checkpoint != null && Checkpoint.checkpointReached) || (Checkpoint2 != null && Checkpoint2.checkpointReached))
+    private void StopCheckPlayerCoroutine()
+    {
+        if (playerCheckCoroutine != null)
         {
-            CheckTorch();
-
-            if (playerCheckCoroutine == null) // Ensure coroutine is running
-            {
-                playerCheckCoroutine = StartCoroutine(CheckPlayerCoroutine());
-            }
+            StopCoroutine(playerCheckCoroutine);
+            playerCheckCoroutine = null;
         }
+    }
+
+    private void RestartCheckPlayerCoroutine()
+    {
+        StopCheckPlayerCoroutine();
+        StartCheckPlayerCoroutine();
     }
 
     private bool IsMoving()
@@ -111,8 +124,7 @@ public class BigEnemy : MonoBehaviour
 
                         if (targetObject != null)
                         {
-                            StopCoroutine(playerCheckCoroutine); // Stop only the CheckPlayerCoroutine
-                            playerCheckCoroutine = null; // Reset coroutine reference
+                            StopCheckPlayerCoroutine();
                             currentMovementCoroutine = StartCoroutine(MoveToPlayer(targetObject)); // Start moving to player
                         }
                     }
@@ -125,6 +137,7 @@ public class BigEnemy : MonoBehaviour
 
     public IEnumerator MoveToPlayer(GameObject playerObject)
     {
+        bool playerCaught = false;
         currentState = EnemyState.Alerted;
         float playerDistance = Vector3.Distance(transform.position, playerObject.transform.position);
 
@@ -152,11 +165,22 @@ public class BigEnemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, noisePosition) < 2f)
                 {
                     Debug.Log("Player caught");
-                    LevelManager.Instance.GameOverScreen();
+                    playerCaught = true;
 
-                    // Stop coroutines and return to the initial position
-                    StopCurrentMovementCoroutine();
-                    yield break;
+                    if (playerCaught)
+                    {
+                        LevelManager.Instance.GameOverScreen();
+
+                        // Stop all coroutines and return to the initial position
+                        StopAllCoroutines();
+                        transform.position = initialPosition;
+                        transform.rotation = initialRotation;
+                        currentState = EnemyState.Idle;
+
+                        // Restart the CheckPlayerCoroutine if it's not running
+                        StartCheckPlayerCoroutine();
+                        yield break;
+                    }
                 }
             }
             else
@@ -192,10 +216,7 @@ public class BigEnemy : MonoBehaviour
         currentState = EnemyState.Idle;
 
         // Restart the CheckPlayerCoroutine if it's not running
-        if (playerCheckCoroutine == null)
-        {
-            playerCheckCoroutine = StartCoroutine(CheckPlayerCoroutine());
-        }
+        StartCheckPlayerCoroutine();
     }
 
     public IEnumerator MoveToNoise(Vector3 noisePosition, GameObject throwableObject)
@@ -248,8 +269,7 @@ public class BigEnemy : MonoBehaviour
 
             if (targetObject != null)
             {
-                StopCoroutine(playerCheckCoroutine); // Stop only the CheckPlayerCoroutine
-                playerCheckCoroutine = null; // Reset coroutine reference
+                StopCheckPlayerCoroutine();
                 currentMovementCoroutine = StartCoroutine(MoveToNoise(targetPosition, targetObject));
             }
         }
@@ -294,8 +314,7 @@ public class BigEnemy : MonoBehaviour
                 return;
             }
 
-            StopCoroutine(playerCheckCoroutine); // Stop the player check coroutine
-            playerCheckCoroutine = null; // Reset coroutine reference
+            StopCheckPlayerCoroutine();
             currentMovementCoroutine = StartCoroutine(MoveToTorch(torchPosition, torchComponent));
         }
     }

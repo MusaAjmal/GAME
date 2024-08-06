@@ -27,8 +27,8 @@ public class SlingShot : MonoBehaviour
     {
         if (Inventory.Instance.defaultItem != null)
         {
-            stonePrefab = Inventory.Instance.defaultItem.prefab.gameObject;
-        }
+/*            stonePrefab = Inventory.Instance.defaultItem.prefab.gameObject;
+*/        }
         if (ToggleButton.isSlingshotActive) {
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
             HandleMouseInput(); // Use mouse input for editor, standalone, or web builds
@@ -37,9 +37,9 @@ public class SlingShot : MonoBehaviour
 #if UNITY_ANDROID || UNITY_IOS || UNITY_WSA
             HandleTouchInput(); // Use touch input for Android, iOS, or Windows Store Apps
 #endif
-
+/*
             if (currentStone != null && stoneInFlight)
-            {
+            {*/
                 Sbutton.enabled = false;
                 currentVelocity.y -= gravity * Time.deltaTime;
                 characterController.Move(currentVelocity * Time.deltaTime);
@@ -56,7 +56,7 @@ public class SlingShot : MonoBehaviour
                     LandStone();
                     Sbutton.enabled = true;    
                 }
-            }
+/*            }*/
         }
 
 

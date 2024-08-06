@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bone
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 247eac84975088f4385d65cf95d46e1a, type: 3}
-  prefab: {fileID: 3470245971606029268, guid: b5ace4465ad6627488305b5583dc4838, type: 3}
+  prefab: {fileID: 6471430050398717097, guid: 4b52320a3aa15b643b22e46848d02773, type: 3}
   objectName: Bone
   objectCount: 0
   IsEquipable: 1
