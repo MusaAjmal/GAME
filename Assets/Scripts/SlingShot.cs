@@ -127,7 +127,7 @@ public class SlingShot : MonoBehaviour
        
         if (stonePrefab != null && direction != Vector3.zero) // Check if direction is valid
         {
-            SoundPlayer.PlaySound("swipe");
+            SoundPlayer.PlayOneShotSound("swipe");
             currentStone = Instantiate(stonePrefab, transform.position + Vector3.up * stoneHeight, Quaternion.identity);
             characterController = currentStone.GetComponent<CharacterController>();
             shoot();

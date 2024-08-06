@@ -20,7 +20,7 @@ public class ToggleButton : MonoBehaviour
     public void onClick()
     {
         isPointActive = false;
-        SoundPlayer.PlaySound("click");
+        SoundPlayer.PlayOneShotSound("click");
 
         if (isSlingshotActive)
         {

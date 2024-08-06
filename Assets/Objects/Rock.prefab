@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: -961758951650630761}
   - component: {fileID: -8421760004124256336}
   - component: {fileID: -5317630406397807138}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rock
-  m_TagString: Untagged
+  m_TagString: Stone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,6 +192,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Rocks_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b138cb6e6d9cbd345888c83d724eac17,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

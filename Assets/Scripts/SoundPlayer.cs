@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using static SoundPlayer;
 
 public class SoundPlayer : MonoBehaviour
 {
@@ -10,19 +9,16 @@ public class SoundPlayer : MonoBehaviour
         public string name;
         public AudioClip clip;
     }
-    void Start()
-    {
-        AudioClip BGmusic = soundDictionary["BGmusic"];
-
-    }
-    private void Update()
-    {
-        SoundPlayer.PlaySound("BGmusic");
-    }
 
     public List<Sound> sounds; // List of sounds to be set in the Inspector
+
     private static Dictionary<string, AudioClip> soundDictionary;
     private static AudioSource audioSource;
+
+    // Volume control fields
+    private static float minVolume = 0f;  // Minimum volume
+    private static float maxVolume = 1f;  // Maximum volume
+    private static float volumeStep = 0.1f;  // Step for volume increase/decrease
 
     void Awake()
     {
@@ -40,7 +36,29 @@ public class SoundPlayer : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
     }
 
-    public static void PlaySound(string soundName)
+    void Start()
+    {
+        // Play background music once
+        PlaySound("BGmusic", true);
+    }
+
+    // Method to play sound with optional looping
+    public static void PlaySound(string soundName, bool loop = false)
+    {
+        if (soundDictionary.ContainsKey(soundName))
+        {
+            audioSource.clip = soundDictionary[soundName];
+            audioSource.loop = loop;
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("SoundPlayer: Sound not found - " + soundName);
+        }
+    }
+
+    // Method to play a one-shot sound
+    public static void PlayOneShotSound(string soundName)
     {
         if (soundDictionary.ContainsKey(soundName))
         {
@@ -50,5 +68,31 @@ public class SoundPlayer : MonoBehaviour
         {
             Debug.LogWarning("SoundPlayer: Sound not found - " + soundName);
         }
+    }
+
+    // Method to stop currently playing sound
+    public static void StopSound()
+    {
+        audioSource.Stop();
+    }
+
+    // Method to set volume (absolute)
+    public static void SetVolume(float volume)
+    {
+        audioSource.volume = Mathf.Clamp(volume, minVolume, maxVolume);
+    }
+
+    // Method to increase volume
+    public static void IncreaseVolume()
+    {
+        float newVolume = Mathf.Clamp(audioSource.volume + volumeStep, minVolume, maxVolume);
+        audioSource.volume = newVolume;
+    }
+
+    // Method to decrease volume
+    public static void DecreaseVolume()
+    {
+        float newVolume = Mathf.Clamp(audioSource.volume - volumeStep, minVolume, maxVolume);
+        audioSource.volume = newVolume;
     }
 }
