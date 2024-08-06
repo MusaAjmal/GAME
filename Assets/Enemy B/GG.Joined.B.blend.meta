@@ -1,0 +1,299 @@
+fileFormatVersion: 2
+guid: ccd93e16fa9332f4eb422b69359aae7d
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Arm.A
+    second: {fileID: 2100000, guid: 8a4a31f6d25ae6d4c9b7634471dd764c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Arm.B
+    second: {fileID: 2100000, guid: 7c5cda4378db2be4b91f3f4f923c392b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Arm.Robe.A
+    second: {fileID: 2100000, guid: fcbc02b5aa063ee41ab805fed43552a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Arm.Robe.B
+    second: {fileID: 2100000, guid: 5f70498bbe6e935458d0e21b23ed0092, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Arm.Robe.C
+    second: {fileID: 2100000, guid: 5dfa1db9dbd306442ab1dd55b7f62db5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Arm.Robe.D
+    second: {fileID: 2100000, guid: 7dfed835a6b11e0479c9c2a5a040355d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cape.A
+    second: {fileID: 2100000, guid: 6cf9f7dc43e21a8458f5f21d3b226f02, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cape.B
+    second: {fileID: 2100000, guid: 41c705e89f741124c8b0b4188a46bf2b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cape.C
+    second: {fileID: 2100000, guid: fa98f95cbb8e71f4aababddef7413b2b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cape.D
+    second: {fileID: 2100000, guid: 5789a3a80317f984cb0154d018dc8fba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cape.E
+    second: {fileID: 2100000, guid: 159dceffa4b085f4f8445521f2a1c65f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cape.F
+    second: {fileID: 2100000, guid: 043143d6de71d8148b404bd8fbf0bfdf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face.A
+    second: {fileID: 2100000, guid: e35c686354e8d474486b22129b66c121, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face.B
+    second: {fileID: 2100000, guid: f06e2b5686fa9434ca364ed9e31a03ee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face.C
+    second: {fileID: 2100000, guid: f7671c75c4399ed4888bd6944624d7a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face.D
+    second: {fileID: 2100000, guid: d5dc81d82ba4e3149a66c8b8a86fdf75, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face.E
+    second: {fileID: 2100000, guid: d53360fd3800e944c8dd4d986a03a5da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face.F
+    second: {fileID: 2100000, guid: 975f5a7f9d795ea45beff3417aab6e5f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face.G
+    second: {fileID: 2100000, guid: bec4b7434b52e304c947cb53d07d5687, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face.H
+    second: {fileID: 2100000, guid: 09cbc57141039934287a8a19fb8890e1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Head.A
+    second: {fileID: 2100000, guid: 91c28022a9da6574ba2d20f4ed6bae64, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Head.B
+    second: {fileID: 2100000, guid: 402c211ba8bf2654aa5109f2a4f403c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Head.C
+    second: {fileID: 2100000, guid: 07f8eebed29b7274a8a79f56bc87171e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Head.D
+    second: {fileID: 2100000, guid: 8af23dbe19046b7499bc772d7d8dc2fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rib.A
+    second: {fileID: 2100000, guid: 6f597aede2d9a2f4a9220ca85075b2ad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rib.B
+    second: {fileID: 2100000, guid: a87c80dfbf14a264a9eb42fecf54ebdc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rib.C
+    second: {fileID: 2100000, guid: b7d435e49d9bb9642b098a2565adfbd2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rib.D
+    second: {fileID: 2100000, guid: 1b409d93e40b217488bc9a44ff661319, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rib.E
+    second: {fileID: 2100000, guid: 04e971006f323dc46bc665b47dea66df, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Robe.A
+    second: {fileID: 2100000, guid: fc6b6aa161b6476479fa0952fd0e81ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Robe.B
+    second: {fileID: 2100000, guid: 086e020bc58568943838d6f9531518a4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Robe.C
+    second: {fileID: 2100000, guid: 05e6c9695e30dc64eb0bc9a74bc54e66, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Robe.D
+    second: {fileID: 2100000, guid: 6ec6491ef0abc90459ea020fe35b3163, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Robe.E
+    second: {fileID: 2100000, guid: 32988f7631655db4680e2af1a8ade8c0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Robe.F
+    second: {fileID: 2100000, guid: 3aa2233bd0462fb45b6aef03566f0451, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Robe.G
+    second: {fileID: 2100000, guid: c96f4efcf2e9d544cb14fc03daece2f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Spine.A
+    second: {fileID: 2100000, guid: fd1cfbcc100c37049975f756c8554d5b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Spine.B
+    second: {fileID: 2100000, guid: c60f2130ae409c54b8f90dbac009703a, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

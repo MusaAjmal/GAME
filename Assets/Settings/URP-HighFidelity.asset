@@ -20,9 +20,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c40be3174f62c4acf8c1216858c64956, type: 2}
   m_DefaultRendererIndex: 0
   m_RequireDepthTexture: 0
-  m_RequireOpaqueTexture: 0
-  m_OpaqueDownsampling: 1
-  m_SupportsTerrainHoles: 1
+  m_RequireOpaqueTexture: 1
+  m_OpaqueDownsampling: 3
+  m_SupportsTerrainHoles: 0
   m_SupportsHDR: 1
   m_HDRColorBufferPrecision: 0
   m_MSAA: 4
@@ -35,7 +35,7 @@ MonoBehaviour:
   m_ShEvalMode: 0
   m_MainLightRenderingMode: 1
   m_MainLightShadowsSupported: 1
-  m_MainLightShadowmapResolution: 4096
+  m_MainLightShadowmapResolution: 512
   m_AdditionalLightsRenderingMode: 1
   m_AdditionalLightsPerObjectLimit: 8
   m_AdditionalLightShadowsSupported: 1
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_SoftShadowQuality: 2
   m_AdditionalLightsCookieResolution: 4096
   m_AdditionalLightsCookieFormat: 4
-  m_UseSRPBatcher: 1
+  m_UseSRPBatcher: 0
   m_SupportsDynamicBatching: 0
   m_MixedLightingSupported: 1
   m_SupportsLightCookies: 1
