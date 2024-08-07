@@ -29,7 +29,14 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         Stars = new bool[4];
-        Instance = this;
+        if (Instance == null ) {
+            Instance = this;
+        }
+        else
+        {
+            Destroy( Instance );    
+        }
+       
     }
     private void Start()
     {
@@ -89,6 +96,10 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Number of Stars for this Level " + starNumber);
         // starNumber = 0;
     }
+    public void loadNextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 
     public void RestartLevel()
     {
@@ -100,10 +111,10 @@ public class LevelManager : MonoBehaviour
         {
             if (Checkpoint.checkpointReached)
             {
-               
+               Checkpoint.LoadInventory();
                 Respawn.instance.RespawnPlayer();
                 points.OnPlayerRespawn();
-
+                InventoryUI.instance.UpdateUI();
                 gameOverScript.setDown();
                 inventory.SetActive(true);
                 touchPanel.SetActive(true);
@@ -124,10 +135,10 @@ public class LevelManager : MonoBehaviour
         {
             if (Checkpoint2.checkpointReached)
             {
-               
+                Checkpoint2.LoadInventory();
                 Respawn.instance.RespawnPlayer();
                 points.OnPlayerRespawn();
-
+                InventoryUI.instance.UpdateUI();
                 gameOverScript.setDown();
                 inventory.SetActive(true);
                 touchPanel.SetActive(true);

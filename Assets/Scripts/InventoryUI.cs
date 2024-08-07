@@ -20,6 +20,7 @@ public class InventoryUI : MonoBehaviour
     public Stack<ItemSO> boneStack;
     int commonSlotforStone;
     int commonSlotforBone;
+    
     public static InventoryUI instance { get; private set; }
     private void Awake()
     {
@@ -222,11 +223,87 @@ public class InventoryUI : MonoBehaviour
 
         }
     }
+    public void UpdateUI()
+    {
+        // First, clear all the slots.
+        ClearCount();
+
+        // Get the current items from the inventory.
+        List<ItemSO> allItems = Inventory.Instance.GetAllItems();
+
+        // Get the count of stones and bones in the inventory stacks.
+        int stoneCount = Inventory.Instance.stoneStack.Count;
+        int boneCount = Inventory.Instance.otherItemsStack.Count;
+
+        // Find slots containing stone or bone items, if they exist.
+        commonSlotforStone = getCommonSlot("Stone");
+        commonSlotforBone = getCommonSlot("Bone");
+
+        int index = 0;
+
+        // Iterate through each item in the inventory.
+        foreach (var item in allItems)
+        {
+            // Check if the item is Stone.
+            if (item.objectName == "Stone")
+            {
+                // If a slot for Stone already exists, update the count.
+                if (commonSlotforStone != -1)
+                {
+                    inventorySlots[commonSlotforStone].text.text = stoneCount.ToString();
+                }
+                else
+                {
+                    // Otherwise, add Stone to a new slot.
+                    if (index < inventorySlots.Length)
+                    {
+                        inventorySlots[index].addItem(item);
+                        inventorySlots[index].text.text = stoneCount.ToString();
+                        commonSlotforStone = index; // Update the common slot index for Stone.
+                        index++;
+                    }
+                }
+            }
+            // Check if the item is Bone.
+            else if (item.objectName == "Bone")
+            {
+                // If a slot for Bone already exists, update the count.
+                if (commonSlotforBone != -1)
+                {
+                    inventorySlots[commonSlotforBone].text.text = boneCount.ToString();
+                }
+                else
+                {
+                    // Otherwise, add Bone to a new slot.
+                    if (index < inventorySlots.Length)
+                    {
+                        inventorySlots[index].addItem(item);
+                        inventorySlots[index].text.text = boneCount.ToString();
+                        commonSlotforBone = index; // Update the common slot index for Bone.
+                        index++;
+                    }
+                }
+            }
+            // Handle other items.
+            else
+            {
+                // Add the item to the next available slot.
+                if (index < inventorySlots.Length)
+                {
+                    inventorySlots[index].addItem(item);
+                    inventorySlots[index].text.text = "1"; // Default count for other items.
+                    index++;
+                }
+            }
+        }
+    }
+
 
     private void Update()
     {
         // changeUIonSelectedItem();
     }
+   
     private void UpdateUIonRemove()
     {
         // Retrieve current item counts.

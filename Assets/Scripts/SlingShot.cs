@@ -54,7 +54,8 @@ public class SlingShot : MonoBehaviour
                 {
                     
                     LandStone();
-                    Sbutton.enabled = true;    
+                    Sbutton.enabled = true;
+                    //ToggleButton.isSlingshotActive = false;
                 }
             }
         }
