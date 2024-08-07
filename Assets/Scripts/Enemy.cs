@@ -234,6 +234,8 @@ public class Enemy : MonoBehaviour
 
     public void CheckDistraction(Vector3 noisePosition, GameObject throwableObject)
     {
+
+        Debug.Log("Object: " + throwableObject);
         // Collider array to hold all colliders within the noiseRadius and on the distractionMask layer
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, distractionMask);
 
@@ -250,15 +252,15 @@ public class Enemy : MonoBehaviour
                 // Check if the collider's gameObject is in the Distraction layer
                 if (collider.gameObject.layer == LayerMask.NameToLayer("Distraction"))
                 {
-                    Vector3 directionToTarget = collider.transform.position - transform.position;
+                    Vector3 directionToTarget = noisePosition - transform.position;
                     float distanceToTarget = directionToTarget.magnitude;
                     directionToTarget.Normalize();
 
                     // Check if there's no obstruction between the enemy and the target
                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
-                        targetObject = collider.gameObject;
-                        targetPosition = collider.transform.position;
+                        targetObject = throwableObject;
+                        targetPosition = noisePosition;
                         break;
                     }
                     else

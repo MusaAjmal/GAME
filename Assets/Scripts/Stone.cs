@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting.ReorderableList;
 
 public class Stone : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class Stone : MonoBehaviour
             MonoBehaviour nearestEnemy = FindNearestEnemy(allEnemies, noisePosition);
             if (nearestEnemy is Enemy)
             {
+                Debug.Log("Moving to: " +  gameObject.name);
                 (nearestEnemy as Enemy).CheckDistraction(noisePosition,gameObject);
             }
             else if (nearestEnemy is BigEnemy)
