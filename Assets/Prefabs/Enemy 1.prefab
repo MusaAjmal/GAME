@@ -193,7 +193,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   moveSpeed: 2.4
-  noiseRadius: 4
+  noiseRadius: 10
   objectMask:
     serializedVersion: 2
     m_Bits: 512
