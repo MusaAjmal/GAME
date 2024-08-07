@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a4ae15a527d6744a4f915075042360, type: 3}
   m_Name: Star
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 8002180dddb0c4d40a5cb133294cb6e9, type: 3}
+  sprite: {fileID: 21300000, guid: 78dd6e318285ead4bbe0be7de25bec74, type: 3}
   prefab: {fileID: 3727578435644472490, guid: 458a2b1261064dd4cbdda0f6cf1c5765, type: 3}
   objectName: Star
   objectCount: 0

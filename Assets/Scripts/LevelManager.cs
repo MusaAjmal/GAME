@@ -16,10 +16,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject[] images;
     [SerializeField] private Checkpoint Checkpoint;
     [SerializeField] private Checkpoint Checkpoint2;
-    
-    
+    private float elapsedTime = 0f;
+    private float interval = 60f;
+
 
     [SerializeField] public PlayerTraverse points;
+    public bool startRecevied;
     public static LevelManager Instance { get; private set; }
     Chest Chest;
 
@@ -40,7 +42,7 @@ public class LevelManager : MonoBehaviour
     }
     private void Start()
     {
-        
+        startRecevied = true;
         // gameOverScript = GetComponent<GameOverScript>();
         starNumber = 0;
         InitialStars();
@@ -54,13 +56,19 @@ public class LevelManager : MonoBehaviour
         }
 
     }
-    /* private void Update()
+     private void Update()
      {
-         if (Input.GetKeyDown(KeyCode.LeftControl))
-         {
-             ShowStars();
-         }
-     }*/
+        elapsedTime += Time.deltaTime;
+
+        // Check if one minute has elapsed
+        if (elapsedTime >= interval)
+        {
+            // Log a message to the console
+            startRecevied = false;
+
+            
+        }
+     }
     private void InitialStars()
     {
         for (int i = 0; i < Stars.Length; i++)
@@ -76,10 +84,13 @@ public class LevelManager : MonoBehaviour
     }
     public void LevelComplete()
     {
-
+        if (startRecevied) {
+        initiateStarRetrieval();
+        }
         inventory.SetActive(false);
         touchPanel.SetActive(false);
         initiateStarRetrieval();
+        
         levelComplete.set();
         DisplayStars();
     }
