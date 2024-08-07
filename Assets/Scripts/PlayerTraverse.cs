@@ -375,7 +375,7 @@ public class PlayerTraverse : MonoBehaviour
         {
             Debug.Log("Path is blocked by a wall.");
             // Path is blocked
-            SoundPlayer.PlaySound("wrong");
+            SoundPlayer.PlayOneShotSound("wrong");
             return false;
         }
 

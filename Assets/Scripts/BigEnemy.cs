@@ -3,27 +3,40 @@ using UnityEngine;
 
 public class BigEnemy : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 2f; // Reduced speed for smoother movement
-    private Vector3 faceDirection;
-    private float rotateSpeed = 2f; // Adjusted for smoother rotation
-    private float lookDistance = 100f;
-    private Vector3 lastInteractDirection;
+    [Header("Movement Settings")]
+    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float rotateSpeed = 2f;
 
-    [SerializeField] public float noiseRadius = 6f;
+    [Header("Detection Settings")]
+    [SerializeField] private float lookDistance = 100f;
+    [SerializeField] private float noiseRadius = 6f;
+    [SerializeField] private float playerDetectDistance = 20f;
+    [SerializeField] private float torchCheckRange = 10f;
+
+    [Header("Timing Settings")]
+    [Range(0f, 100f)]
+    [SerializeField] private float noiseAttentionTime = 2f;
+
+    [Header("Multipliers")]
+    [SerializeField] private float movementMultiplier = 1f;
+    [SerializeField] private float torchMultiplier = 50f;
+    [SerializeField] private float noiseMultiplier = 1f;
+
+    [Header("Layers")]
     [SerializeField] private LayerMask objectMask;
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] private LayerMask distractionMask;
-    [SerializeField] private float collisionRange = 10f;
-    public bool noiseDetected = false;
-    [Range(0f, 100f)]
-    [SerializeField] private float noiseAttentionTime = 2f;
-    private GameObject throwableObject;
-    [Range(0f, 100f)]
-    [SerializeField] private float playerDetectDistance;
-    [SerializeField] private float torchCheckRange = 10f;
-    [SerializeField] public Items[] torches;
-    [SerializeField] private Checkpoint Checkpoint2;
-    [SerializeField] private float multiplier;
+
+    [Header("References")]
+    [SerializeField] private Checkpoint checkpoint1;
+    [SerializeField] private Checkpoint checkpoint2;
+    [SerializeField] private Items[] torches;
+
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+
+    private Coroutine playerCheckCoroutine;
+    private Coroutine currentMovementCoroutine;
 
     private enum EnemyState
     {
@@ -33,18 +46,11 @@ public class BigEnemy : MonoBehaviour
 
     private EnemyState currentState;
 
-    private Vector3 initialPosition;
-    private Quaternion initialRotation;
-    [SerializeField] private Checkpoint Checkpoint;
-
-    private Coroutine playerCheckCoroutine; // Store the coroutine reference
-    private Coroutine currentMovementCoroutine; // Store the current movement coroutine
-
     private void Start()
     {
-        currentState = EnemyState.Idle;
         initialPosition = transform.position;
         initialRotation = transform.rotation;
+        currentState = EnemyState.Idle;
         StartCheckPlayerCoroutine();
     }
 
@@ -52,7 +58,7 @@ public class BigEnemy : MonoBehaviour
     {
         CheckTorch();
 
-        if ((Checkpoint != null && Checkpoint.checkpointReached) || (Checkpoint2 != null && Checkpoint2.checkpointReached))
+        if ((checkpoint1 != null && checkpoint1.checkpointReached) || (checkpoint2 != null && checkpoint2.checkpointReached))
         {
             RestartCheckPlayerCoroutine();
         }
@@ -83,13 +89,12 @@ public class BigEnemy : MonoBehaviour
 
     private bool IsMoving()
     {
-        return faceDirection != Vector3.zero;
+        return transform.forward != Vector3.zero;
     }
 
-    // Convert CheckPlayer to a Coroutine
-    public IEnumerator CheckPlayerCoroutine()
+    private IEnumerator CheckPlayerCoroutine()
     {
-        while (true) // Run indefinitely; the loop handles checking every frame
+        while (true)
         {
             foreach (var item in torches)
             {
@@ -115,27 +120,23 @@ public class BigEnemy : MonoBehaviour
                                     targetPosition = collider.transform.position;
                                     break;
                                 }
-                                else
-                                {
-                                    Debug.Log("Wall detected in front of the enemy while checking for player.");
-                                }
                             }
                         }
 
                         if (targetObject != null)
                         {
                             StopCheckPlayerCoroutine();
-                            currentMovementCoroutine = StartCoroutine(MoveToPlayer(targetObject)); // Start moving to player
+                            currentMovementCoroutine = StartCoroutine(MoveToPlayer(targetObject));
                         }
                     }
                 }
             }
 
-            yield return null; // Wait for the next frame
+            yield return null;
         }
     }
 
-    public IEnumerator MoveToPlayer(GameObject playerObject)
+    private IEnumerator MoveToPlayer(GameObject playerObject)
     {
         bool playerCaught = false;
         currentState = EnemyState.Alerted;
@@ -149,47 +150,34 @@ public class BigEnemy : MonoBehaviour
 
                 while (Vector3.Distance(transform.position, noisePosition) > 2f)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, noisePosition, (moveSpeed / multiplier) * Time.deltaTime);
-                    faceDirection = (noisePosition - transform.position).normalized;
-                    transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed * Time.deltaTime);
+                    transform.forward = Vector3.Slerp(transform.forward, (noisePosition - transform.position).normalized, rotateSpeed * Time.deltaTime);
                     yield return null;
 
-                    // Check for wall during movement
                     if (Physics.Raycast(transform.position, (playerObject.transform.position - transform.position).normalized, out RaycastHit hit, playerDistance, obstructionMask))
                     {
-                        Debug.Log("Wall detected in front of the enemy while moving to player.");
                         break;
                     }
                 }
 
                 if (Vector3.Distance(transform.position, noisePosition) < 2f)
                 {
-                    Debug.Log("Player caught");
                     playerCaught = true;
 
                     if (playerCaught)
                     {
                         LevelManager.Instance.GameOverScreen();
-
-                        // Stop all coroutines and return to the initial position
                         StopAllCoroutines();
                         transform.position = initialPosition;
                         transform.rotation = initialRotation;
                         currentState = EnemyState.Idle;
-
-                        // Restart the CheckPlayerCoroutine if it's not running
                         StartCheckPlayerCoroutine();
                         yield break;
                     }
                 }
             }
-            else
-            {
-                Debug.Log("Wall detected in front of the enemy while moving to player.");
-            }
         }
 
-        // Move back to the initial position
         yield return ReturnToInitialPosition();
     }
 
@@ -206,16 +194,13 @@ public class BigEnemy : MonoBehaviour
     {
         while (Vector3.Distance(transform.position, initialPosition) > 0.1f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, initialPosition, (moveSpeed / multiplier) * Time.deltaTime);
-            faceDirection = (initialPosition - transform.position).normalized;
-            transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, initialPosition, moveSpeed * movementMultiplier * Time.deltaTime);
+            transform.forward = Vector3.Slerp(transform.forward, (initialPosition - transform.position).normalized, rotateSpeed * Time.deltaTime);
             yield return null;
         }
 
         transform.rotation = initialRotation;
         currentState = EnemyState.Idle;
-
-        // Restart the CheckPlayerCoroutine if it's not running
         StartCheckPlayerCoroutine();
     }
 
@@ -226,14 +211,14 @@ public class BigEnemy : MonoBehaviour
         while (Vector3.Distance(transform.position, noisePosition) > 2f)
         {
             transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed * Time.deltaTime);
-            faceDirection = (noisePosition - transform.position).normalized;
-            transform.forward = Vector3.Slerp(transform.forward, faceDirection, rotateSpeed * Time.deltaTime);
+            transform.forward = Vector3.Slerp(transform.forward, (noisePosition - transform.position).normalized, rotateSpeed * Time.deltaTime);
             yield return null;
         }
 
         yield return new WaitForSeconds(noiseAttentionTime);
 
-        // Move back to the initial position
+        movementMultiplier = noiseMultiplier;
+
         yield return ReturnToInitialPosition();
     }
 
@@ -260,10 +245,6 @@ public class BigEnemy : MonoBehaviour
                         targetPosition = collider.transform.position;
                         break;
                     }
-                    else
-                    {
-                        Debug.Log("Wall detected in front of the enemy while checking for distractions.");
-                    }
                 }
             }
 
@@ -277,12 +258,10 @@ public class BigEnemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision detected"); // Debug log for collision detected
+        Debug.Log("Collision detected");
     }
 
-    public static bool ObjectIsInLayerMask(GameObject obj, LayerMask mask) => (mask.value & (1 << obj.layer)) != 0;
-
-    public void CheckTorch()
+    private void CheckTorch()
     {
         foreach (var torch in torches)
         {
@@ -302,7 +281,6 @@ public class BigEnemy : MonoBehaviour
 
             if (torchComponent.isActive())
             {
-                Debug.Log(torch.name + " is already on");
                 return;
             }
 
@@ -310,7 +288,6 @@ public class BigEnemy : MonoBehaviour
 
             if (Vector3.Distance(transform.position, torchPosition) > torchCheckRange)
             {
-                Debug.Log("Torch is out of range");
                 return;
             }
 
@@ -325,18 +302,16 @@ public class BigEnemy : MonoBehaviour
 
         while (Vector3.Distance(transform.position, torchPosition) > 2f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, torchPosition, (moveSpeed / multiplier) * Time.deltaTime);
-            faceDirection = (torchPosition - transform.position).normalized;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(faceDirection), rotateSpeed * Time.deltaTime);
-
+            transform.position = Vector3.MoveTowards(transform.position, torchPosition, (moveSpeed / torchMultiplier) * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation((torchPosition - transform.position).normalized), rotateSpeed * 5 * Time.deltaTime);
             yield return null;
         }
 
-        // Toggle the torch on
         torchComponent.toggle();
         yield return new WaitForSeconds(noiseAttentionTime);
 
-        // Move back to the initial position
+        movementMultiplier = 0.01f;
+
         yield return ReturnToInitialPosition();
     }
 }

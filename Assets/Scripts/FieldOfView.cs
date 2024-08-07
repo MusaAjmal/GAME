@@ -37,8 +37,8 @@ public class FieldOfView : MonoBehaviour
         if (canseePlayer && timeElapsed >= timeToCheck)
         {
             Debug.Log("GAME OVER !!! Defeated by " + name);
-            LevelManager.Instance.GameOverScreen();
-
+/*            LevelManager.Instance.GameOverScreen();
+*/
 
             timeElapsed = 0f;
         }
