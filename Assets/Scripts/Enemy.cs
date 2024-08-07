@@ -260,7 +260,7 @@ public class Enemy : MonoBehaviour
                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     {
                         targetObject = throwableObject;
-                        targetPosition = noisePosition;
+                        targetPosition = throwableObject.transform.position;
                         break;
                     }
                     else
