@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 public class Checkpoint : MonoBehaviour
 {
@@ -10,16 +11,25 @@ public class Checkpoint : MonoBehaviour
     private List<ItemSO> savedOtherItemsStack;  // Store other items stack here
     public delegate void oncheckpointReached();
     public oncheckpointReached callback;
+    public GameObject checkpointEffect;
+    public Vector3 effectPoint;
     private void Start()
     {
         checkpointReached = false;
         collider = GetComponent<SphereCollider>();
+        effectPoint = transform.GetChild(0).transform.position;
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            SoundPlayer.PlayOneShotSound("checkpoint");
+            checkpointEffect = Instantiate(checkpointEffect, effectPoint, Quaternion.identity);
+            checkpointEffect.transform.Rotate(90, 0, 0);
+            Destroy(checkpointEffect , 0.5f);
+
             SaveInventory();
             
             Respawn.instance.transform.position = transform.position;

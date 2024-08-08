@@ -431,6 +431,8 @@ public class PlayerTraverse : MonoBehaviour
     // Method to move the player towards the target
     private void MovePlayer()
     {
+/*        SoundPlayer.PlayOneShotSound("walk");
+*/
         float step = moveSpeed * Time.deltaTime;
 
         // Calculate the next position while keeping the Y position fixed

@@ -193,6 +193,8 @@ public class Enemy : MonoBehaviour
                         yield return new WaitForSeconds(1f);
 
                         // Trigger the Game Over screen
+                        SoundPlayer.PlayOneShotSound("death");
+
                         sceneManager.GameOverScreen();
                         Debug.Log("GAME OVER: ENEMY SPOTTED YOU");
                         break; // Exit the loop once the player is spotted

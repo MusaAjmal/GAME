@@ -9,6 +9,7 @@ public class WinSpot : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
+            SoundPlayer.PlayOneShotSound("win");
             LevelManager.Instance.LevelComplete();
         }
     }

@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: b3d745bb44dbae441a6368dab82db05b, type: 2}
+  chestEffect: {fileID: 1324616844949988, guid: 313cab92ac1d4f543a1f2ba137c9c128,
+    type: 3}
 --- !u!1001 &218667490055906824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -867,8 +869,56 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7670171143649940076, guid: 7bc40f2a5b27761468e228e387db9d0e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9135179414596858442}
+    - targetCorrespondingSourceObject: {fileID: 7670171143649940076, guid: 7bc40f2a5b27761468e228e387db9d0e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4614341713519813607}
   m_SourcePrefab: {fileID: 100100000, guid: 7bc40f2a5b27761468e228e387db9d0e, type: 3}
+--- !u!1 &2802691926958155533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7670171143649940076, guid: 7bc40f2a5b27761468e228e387db9d0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5518252533069837665}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &9135179414596858442
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802691926958155533}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 01fb786002f21b549ae0e4fcf2d13ef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4614341713519813607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802691926958155533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8321c0c4d6e06d2439969924424a536a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 9135179414596858442}
 --- !u!4 &3291843091471957431 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7005978866154244310, guid: 7bc40f2a5b27761468e228e387db9d0e,

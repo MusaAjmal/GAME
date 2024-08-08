@@ -6,6 +6,7 @@ public class Chest : MonoBehaviour
 {
     private bool itemReceived;
     [SerializeField] private ItemSO item;
+    public GameObject chestEffect;
     public static Chest Instance { get; private set; }
 
     public delegate void SpecialItemReceived();
@@ -22,11 +23,13 @@ public class Chest : MonoBehaviour
         {
             if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
             {
+                SoundPlayer.PlayOneShotSound("chest");
                 itemReceived = true;
-                
-                Debug.Log("Collected Special Item : " + item.objectName);
                 item = null;
                 SPcallback?.Invoke();
+                GameObject chestowo = Instantiate(chestEffect, transform.position, Quaternion.identity);
+                chestowo.transform.Rotate(90, 0, 0);
+                Destroy(chestowo, 0.5f);
             }
         }
         

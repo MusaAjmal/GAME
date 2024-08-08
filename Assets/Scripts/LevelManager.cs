@@ -78,6 +78,8 @@ public class LevelManager : MonoBehaviour
     }
     public void GameOverScreen()
     {
+        SoundPlayer.PlayOneShotSound("death");
+
         inventory.SetActive(false);
         touchPanel.SetActive(false);
         gameOverScript.SetUp();

@@ -66,3 +66,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbfd1892de02924cbc187c491e74f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collider: {fileID: 0}
+  checkpointReached: 0
+  lastPoint: {x: 0, y: 0, z: 0}
+  checkpointEffect: {fileID: 1324616844949988, guid: 313cab92ac1d4f543a1f2ba137c9c128,
+    type: 3}

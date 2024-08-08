@@ -105,6 +105,7 @@ public class Player : MonoBehaviour
 
             if (canMove)
             {
+                SoundPlayer.PlayOneShotSound("walk");
                 // Execute movement
                 characterController.Move(MovementVector * moveSpeed * Time.deltaTime);
 
