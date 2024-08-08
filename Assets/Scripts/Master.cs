@@ -15,7 +15,7 @@ public class Master : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;   
-            DontDestroyOnLoad(gameObject);
+          //  DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -30,24 +30,28 @@ public class Master : MonoBehaviour
     public void OptionsPopup()
     {
         mainMenu.unset();
-        optionMenu.set();
+       
         creditsMenu.unset();
     }
     public void CreditsPopup()
     {
         mainMenu.unset();
-        optionMenu.unset();
+       
         creditsMenu.set();
     }
 
     public void backButtonPressed()
     {
         mainMenu.set();
-        optionMenu.unset();
+        
         creditsMenu.unset();
     }
     public void Quit()
     {
         Application.Quit();
+    }
+    public void loadTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
     }
 }

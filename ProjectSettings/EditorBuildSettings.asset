@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Dev 6.unity
     guid: a541ce53455835e4f8f15322a726b335
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: b9956550be93e4b4fbe98bfc73236e89
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: 181e2c2b0dce4004c83de0e27bda45b4, type: 2}
