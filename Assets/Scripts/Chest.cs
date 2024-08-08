@@ -7,6 +7,7 @@ public class Chest : MonoBehaviour
     private bool itemReceived;
     [SerializeField] private ItemSO item;
     public GameObject chestEffect;
+    public ChestDialogue ChestDialogue;
     public static Chest Instance { get; private set; }
 
     public delegate void SpecialItemReceived();
@@ -27,6 +28,8 @@ public class Chest : MonoBehaviour
                 itemReceived = true;
                 item = null;
                 SPcallback?.Invoke();
+              
+                ChestDialogue.appear();
                 GameObject chestowo = Instantiate(chestEffect, transform.position, Quaternion.identity);
                 chestowo.transform.Rotate(90, 0, 0);
                 Destroy(chestowo, 0.5f);
