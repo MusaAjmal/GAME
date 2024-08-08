@@ -9,7 +9,7 @@ public class ChestAnimator : MonoBehaviour
 
     private void Start()
     {
-       
+       animator = GetComponent<Animator>();
         Chest.Instance.SPcallback += animate;
     }
     public void Update()
