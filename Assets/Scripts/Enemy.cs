@@ -236,7 +236,6 @@ public class Enemy : MonoBehaviour
     public void CheckDistraction(Vector3 noisePosition, GameObject throwableObject)
     {
 
-        Debug.Log("Object: " + throwableObject);
         // Collider array to hold all colliders within the noiseRadius and on the distractionMask layer
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, distractionMask);
 
