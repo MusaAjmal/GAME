@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: checkpoint
-    clip: {fileID: 8300000, guid: e5198787c3899bc47bace4f0b4f052a8, type: 3}
+    clip: {fileID: 8300000, guid: 5d9483705621c8346b680fc611f31839, type: 3}
   - name: click
     clip: {fileID: 8300000, guid: cb8bde254e66624418847418fc145246, type: 3}
   - name: BGmusic
@@ -65,5 +65,5 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: c4e7146913c82b141b88adfe90896c3d, type: 3}
   - name: chest
     clip: {fileID: 8300000, guid: 93b2ebb8bc59c3f4483d89c06f87052b, type: 3}
-  - name: walk
-    clip: {fileID: 8300000, guid: 35db98094b9328844bc6b0806979ced6, type: 3}
+  - name: move
+    clip: {fileID: 8300000, guid: 43be4f7c1343a17439888abe938c9599, type: 3}

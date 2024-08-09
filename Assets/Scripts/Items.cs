@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
 using System;
-using UnityEngine.UI;
+using UnityEngine;
+
 public class Items : MonoBehaviour
 {
     [SerializeField] public ItemSO itemSO;
-   [SerializeField] public bool isOn;
+    [SerializeField] public bool isOn;
     public Light light;
 
     EquipButton bt;
@@ -33,7 +29,8 @@ public class Items : MonoBehaviour
         bt = EquipButton.Instance;
         bt.BTCallback += OnMiddleMouseDown;
         bt.BTCallback += playerToggleItem;
-         light = GetComponentInChildren<Light>();
+        light = GetComponentInChildren<Light>();
+       // light.enabled = false;
     }
 
 
@@ -58,11 +55,11 @@ public class Items : MonoBehaviour
             if (isActive())
             {
                 isOn = false;
-                if(light != null)
+                if (light != null)
                 {
                     light.enabled = false;
                 }
-               
+
             }
             else
             {
@@ -81,7 +78,7 @@ public class Items : MonoBehaviour
     }
     private void playerToggleItem()
     {
-        if(this != null && gameObject != null)
+        if (this != null && gameObject != null)
         {
             if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
             {
@@ -92,20 +89,20 @@ public class Items : MonoBehaviour
 
             }
         }
-        
+
     }
 
 
     private void OnMiddleMouseDown()
     {
-        if (this!=null && gameObject!=null)
+        if (this != null && gameObject != null)
         {
             if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
             {
                 pickup();
             }
         }
-        
+
 
     }
 
@@ -121,9 +118,9 @@ public class Items : MonoBehaviour
     public override int GetHashCode()
     {
         return itemSO.objectName.ToLower().GetHashCode();
-    }
+    } }
+
     /*  private void OnCollisionEnter(Collision collision)
       {
           Destroy(this);
       }*/
-}

@@ -16,7 +16,7 @@ public class SlingShot : MonoBehaviour
     Vector3 direction;
     private bool stoneInFlight = false;
     private Camera mainCamera;
-    public Button Sbutton;
+    //public Button Sbutton;
     private void Awake()
     {
         // Initialize main camera reference
@@ -40,12 +40,12 @@ public class SlingShot : MonoBehaviour
 
             if (currentStone != null && stoneInFlight)
             {
-                Sbutton.enabled = false;
+               // Sbutton.enabled = false;
                 currentVelocity.y -= gravity * Time.deltaTime;
                 characterController.Move(currentVelocity * Time.deltaTime);
                 if(currentStone.transform.position.y < 0)
                 {
-                    Sbutton.enabled = true;
+                   // Sbutton.enabled = true;
                    
                 }
 
@@ -54,7 +54,7 @@ public class SlingShot : MonoBehaviour
                 {
 
                     LandStone();
-                    Sbutton.enabled = true;
+                   // Sbutton.enabled = true;
                     //ToggleButton.isSlingshotActive = false;
                 }
             }

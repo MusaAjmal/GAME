@@ -63,7 +63,9 @@ public class BigEnemy : MonoBehaviour
 
             if ((checkpoint1 != null && checkpoint1.checkpointReached) || (checkpoint2 != null && checkpoint2.checkpointReached))
             {
+                ResetToInitialState();
                 RestartCheckPlayerCoroutine();
+               
             }
         }
     }
@@ -140,7 +142,6 @@ public class BigEnemy : MonoBehaviour
             yield return null;
         }
     }
-
     private IEnumerator MoveToPlayer(GameObject playerObject)
     {
         currentState = EnemyState.Alerted;
@@ -152,31 +153,32 @@ public class BigEnemy : MonoBehaviour
             {
                 Vector3 noisePosition = playerObject.transform.position;
 
-                while (Vector3.Distance(transform.position, noisePosition) > 2f)
+                while (Vector3.Distance(transform.position, noisePosition) > 4f)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed * Time.deltaTime);
                     transform.forward = Vector3.Slerp(transform.forward, (noisePosition - transform.position).normalized, rotateSpeed * Time.deltaTime);
                     yield return null;
 
+                    // Break the loop if the enemy detects an obstruction
                     if (Physics.Raycast(transform.position, (playerObject.transform.position - transform.position).normalized, out RaycastHit hit, playerDistance, obstructionMask))
                     {
-                        break;
+                        yield break; // Exit the coroutine immediately
                     }
                 }
 
-                if (Vector3.Distance(transform.position, noisePosition) < 2f)
+                // Check if the enemy is close enough to catch the player
+                if (Vector3.Distance(transform.position, noisePosition) < 4f)
                 {
                     LevelManager.Instance.GameOverScreen();
                     StopAllCoroutines();
-                    ResetToInitialState();
-                    yield break;
+                   // ResetToInitialState(); // Ensure this resets all necessary states
+                    yield break; // Exit the coroutine to prevent stack overflow
                 }
             }
         }
 
         yield return ReturnToInitialPosition();
     }
-
     private void StopCurrentMovementCoroutine()
     {
         if (currentMovementCoroutine != null)

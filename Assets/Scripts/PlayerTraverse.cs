@@ -277,6 +277,7 @@ public class PlayerTraverse : MonoBehaviour
                 return; // Do nothing if the click was on a UI element or slingshot is active
             }
 
+            SoundPlayer.PlayOneShotSound("move");
             Vector3 mousePosition = Input.mousePosition;
 
             // Convert the screen position to world position, keeping the Y fixed
@@ -311,7 +312,7 @@ public class PlayerTraverse : MonoBehaviour
                     Debug.Log("Touched on a UI element or slingshot is active, not moving the player.");
                     return; // Do nothing if the touch was on a UI element or slingshot is active
                 }
-
+                SoundPlayer.PlayOneShotSound("move");
                 Debug.Log("The distraction click is: " + CheckDistractionTouch());
 
                 Vector3 touchPosition = touch.position;

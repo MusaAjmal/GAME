@@ -217,18 +217,16 @@ MonoBehaviour:
   SkipButton: {fileID: 0}
   NextButton: {fileID: 0}
   Dialogues:
-  - LETS START WITH CONTROLS FIRST , THE WHITE DOTS ON THE GROUND INDICATE WHERE
-    PLAYER CAN MOVE TOUCH ANYWHERE IN SCREEN TO MAKE THE PLAYER MOVE . THE RED BUTTON
-    IS USED TO INTERACT WITH OBJECTS . THE GREEN BUTTON IS THE SLINGSHOT BUTTON THAT
-    CAN HELP YOU SHOOT THE ITEM YOU HAVE IN YOUR INVENTORY.THE PURPLE BUTTON IS TO
-    CYCLE TO THE NEXT ITEM IN THE INVENTORY.
-  - DONOT GET CLOSE TO ENEMIES TO ESCAPE THE DUNGEON YOU NEED TO LOCATE THE ELAVATOR
-    AND MAKE YOUR WAY TOWARDS IT . DISTRACT THE ENEMY WITH NOISE BY THROWING ITEMS
-    AT VASES
-  - 'THE CHEST CONTAINS SPECIAL ITEM : A STAR !!! BUT THE ITS RISKY TO REACH THE
-    CHEST . ONLY THE BRAVE ONES COLLECT THE STAR AND THEN FINISH THE LEVEL THE FIRST
-    STAR IS RECIEVED WHEN LEVEL IS COMPLETED IN A MINUTE SECOND WHEN YOU COMPLETE
-    THE LEVEL AND LAST IS IN THE CHEST'
+  - "See those white dots on the ground? That\u2019s your playground! Tap anywhere
+    on the screen to move. Got it? Now, the red button\u2014it\u2019s your best friend
+    for interacting with objects. And that purple button? It\u2019s your quick switch
+    to cycle through your gear!"
+  - "Stay away from those enemies! Your goal is the elevator\u2014find it, and make
+    your escape! Need to clear a path? Distract the enemy by tossing items at vases
+    or other highlighted objectsto make some noise!"
+  - "See that chest? It holds a special item: a star! But it\u2019s not going to
+    be easy\u2014only the brave will dare to grab the star and make it to the finish!
+    Now lets jump right into the dungeon!!."
   referenceImages:
   - {fileID: 478625194}
   - {fileID: 86253381}
