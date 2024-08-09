@@ -194,7 +194,7 @@ public class BigEnemy : MonoBehaviour
     {
         while (Vector3.Distance(transform.position, initialPosition) > 0.1f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, initialPosition, moveSpeed * movementMultiplier * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, initialPosition, moveSpeed / movementMultiplier * Time.deltaTime);
             transform.forward = Vector3.Slerp(transform.forward, (initialPosition - transform.position).normalized, rotateSpeed * Time.deltaTime);
             yield return null;
         }
@@ -210,7 +210,7 @@ public class BigEnemy : MonoBehaviour
 
         while (Vector3.Distance(transform.position, noisePosition) > 2f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed / movementMultiplier * Time.deltaTime);
             transform.forward = Vector3.Slerp(transform.forward, (noisePosition - transform.position).normalized, rotateSpeed * Time.deltaTime);
             yield return null;
         }
@@ -310,7 +310,7 @@ public class BigEnemy : MonoBehaviour
         torchComponent.toggle();
         yield return new WaitForSeconds(noiseAttentionTime);
 
-        movementMultiplier = 0.01f;
+        movementMultiplier = torchMultiplier;
 
         yield return ReturnToInitialPosition();
     }
