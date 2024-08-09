@@ -51,9 +51,19 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: cb8bde254e66624418847418fc145246, type: 3}
   - name: BGmusic
     clip: {fileID: 8300000, guid: 99f318f3744936f4fb2f6ed51afc225c, type: 3}
-  - name: playedied
+  - name: death
     clip: {fileID: 8300000, guid: 3324d982f760d9c40818fd829d6123de, type: 3}
   - name: swipe
     clip: {fileID: 8300000, guid: 18cb836fffd99084cbca0b4424773fa0, type: 3}
   - name: wrong
     clip: {fileID: 8300000, guid: 2745863c6dfaf0f45bb2f025feab6f40, type: 3}
+  - name: vasebreak
+    clip: {fileID: 8300000, guid: 48489dc2d73fd1b4193c9166a4800cbe, type: 3}
+  - name: bone
+    clip: {fileID: 8300000, guid: e8e2152cae03c1a44bc0da554a0c619c, type: 3}
+  - name: win
+    clip: {fileID: 8300000, guid: c4e7146913c82b141b88adfe90896c3d, type: 3}
+  - name: chest
+    clip: {fileID: 8300000, guid: 93b2ebb8bc59c3f4483d89c06f87052b, type: 3}
+  - name: walk
+    clip: {fileID: 8300000, guid: 35db98094b9328844bc6b0806979ced6, type: 3}

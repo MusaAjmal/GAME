@@ -1,20 +1,26 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting.ReorderableList;
+
 
 public class Stone : MonoBehaviour
 {
+
+    public GameObject particleEffect;
     private void OnCollisionEnter(Collision collision)
     {
+
+        if (collision.gameObject.CompareTag("Bone"))
+        {
+            Instantiate(particleEffect, collision.contacts[0].point, Quaternion.identity);
+            SoundPlayer.PlayOneShotSound("bone");
+        }
         // Ensure the collision is only processed if this stone is the one involved in the collision
         if (collision.gameObject.CompareTag("Stone"))
         {
-            Debug.Log("Collision Happened!" + gameObject.tag + gameObject.name);
-            Debug.Log(collision.gameObject.layer);
-
+            SoundPlayer.PlayOneShotSound("vasebreak");
+            Instantiate(particleEffect, collision.contacts[0].point, Quaternion.identity);
             // Vector3 noisePosition = collision.gameObject.transform.position; // Get the location of the collision
             Vector3 noisePosition = collision.contacts[0].point; // Get the location of the collision
-            Debug.Log("Collision Point: " + noisePosition);
 
             Enemy[] enemyControllers = FindObjectsOfType<Enemy>();
             BigEnemy[] bigEnemies = FindObjectsOfType<BigEnemy>();
@@ -28,7 +34,6 @@ public class Stone : MonoBehaviour
             MonoBehaviour nearestEnemy = FindNearestEnemy(allEnemies, noisePosition);
             if (nearestEnemy is Enemy)
             {
-                Debug.Log("Moving to: " +  gameObject.name);
                 (nearestEnemy as Enemy).CheckDistraction(noisePosition,gameObject);
             }
             else if (nearestEnemy is BigEnemy)

@@ -13,7 +13,7 @@ public class ToggleButton : MonoBehaviour
 
     private void Start()
     {
-        isSlingshotActive = false;
+        isSlingshotActive = true;
         isPointActive = true;
     }
    
@@ -22,7 +22,7 @@ public class ToggleButton : MonoBehaviour
         isPointActive = false;
         SoundPlayer.PlayOneShotSound("click");
 
-        if (isSlingshotActive)
+/*        if (isSlingshotActive)
         {
             isSlingshotActive = false;
             isPointActive = true;
@@ -31,7 +31,7 @@ public class ToggleButton : MonoBehaviour
         else
         {
             isSlingshotActive=true;
-        }
+        }*/
         
 
     }

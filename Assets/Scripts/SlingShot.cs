@@ -52,7 +52,7 @@ public class SlingShot : MonoBehaviour
                 // Check if the stone has landed
                 if (characterController.isGrounded)
                 {
-                    
+
                     LandStone();
                     Sbutton.enabled = true;
                     //ToggleButton.isSlingshotActive = false;

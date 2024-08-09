@@ -193,6 +193,7 @@ public class Enemy : MonoBehaviour
                         yield return new WaitForSeconds(1f);
 
                         // Trigger the Game Over screen
+
                         sceneManager.GameOverScreen();
                         Debug.Log("GAME OVER: ENEMY SPOTTED YOU");
                         break; // Exit the loop once the player is spotted
@@ -235,7 +236,6 @@ public class Enemy : MonoBehaviour
     public void CheckDistraction(Vector3 noisePosition, GameObject throwableObject)
     {
 
-        Debug.Log("Object: " + throwableObject);
         // Collider array to hold all colliders within the noiseRadius and on the distractionMask layer
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, distractionMask);
 

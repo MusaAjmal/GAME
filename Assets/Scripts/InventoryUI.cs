@@ -206,7 +206,7 @@ public class InventoryUI : MonoBehaviour
         //  Inventory.OnItemRemovedcallBack += removeItem;
         // Inventory.OnItemChangedcallBack += UpdateUIonEquip;
         Inventory.OnItemRemovedcallBack += UpdateUIonRemove;
-
+        
         //objectsParent.GetComponentsInChildren<InventorySlot>();
         ClearCount();
     }
@@ -301,7 +301,8 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
-        // changeUIonSelectedItem();
+       // changeUIonSelectedItem();
+       HighlightDefaultItemSlot();
     }
    
     private void UpdateUIonRemove()
@@ -407,7 +408,27 @@ public class InventoryUI : MonoBehaviour
 
 
      }*/
+    public Color selectedSlotColor = Color.yellow;
+    private void HighlightDefaultItemSlot()
+    {
+       
 
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            if (inventorySlots[i].item == Inventory.Instance.defaultItem)
+            {
+                // Highlight the slot containing the default item
+                inventorySlots[i].bkgrndImage.color = new Color(1f, 1f, 1f, 0.1f);
+                inventorySlots[i].bkgrndImage.enabled = true;
+            }
+            else
+            {
+                // Reset the color of other slots
+                //inventorySlots[i].bkgrndImage.color = new Color(1f, 0f, 0f, 0.1f);
+                inventorySlots[i].bkgrndImage.enabled = false;
+            }
+        }
+    }
 
 
     private void UpdateUIonEquip()  // Add Item

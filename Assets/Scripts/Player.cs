@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private CharacterController characterController;
-    [SerializeField] private Joystick joystick;
+   // [SerializeField] private Joystick joystick;
 
     [SerializeField] private Transform cam;
     private float dashDistance = 5f;

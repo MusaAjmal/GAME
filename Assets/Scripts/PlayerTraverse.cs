@@ -7,6 +7,13 @@ using UnityEngine.UI;
 
 public class PlayerTraverse : MonoBehaviour
 {
+    private Camera mainCamera;
+
+    private void Awake()
+    {
+        mainCamera = Camera.main;
+
+    }
     /* [SerializeField] private GameObject[] points; // Array of points to interact with
      private Player player; // Reference to the Player class
 
@@ -226,15 +233,18 @@ public class PlayerTraverse : MonoBehaviour
 
     private const float fixedYPosition = 1.076f; // Fixed Y position for the player
     public LayerMask wallLayer; // Layer mask for walls
+    public GameObject[] distractions;
+    public LayerMask distractionLayer; // Layer for distractions
 
     private void Start()
     {
         player = Player.Instance; // Get the singleton instance of the player
+        distractions = GameObject.FindGameObjectsWithTag("Distraction");
     }
 
     void Update()
     {
-        
+
         // Check for mouse input using the legacy input system
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
         HandleMouseInput(); // Use mouse input for editor, standalone, or web builds
@@ -261,7 +271,7 @@ public class PlayerTraverse : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) // 0 corresponds to the left mouse button
         {
             // Check if the click was on a UI element or if the slingshot is active
-            if (IsPointerOverUIElement() || ToggleButton.isSlingshotActive)
+            if (IsPointerOverUIElement() || CheckDistractionClick()/* || ToggleButton.isSlingshotActive*/)
             {
                 Debug.Log("Clicked on a UI element or slingshot is active, not moving the player.");
                 return; // Do nothing if the click was on a UI element or slingshot is active
@@ -275,11 +285,11 @@ public class PlayerTraverse : MonoBehaviour
 
             // Find the closest point to the clicked position
             GameObject closestPoint = GetClosestPoint(worldPosition);
-           
+
             // If a point was found and the path is clear, set it as the target position
             if (closestPoint != null && IsPathClear(player.transform.position, closestPoint.transform.position))
             {
-                
+
                 targetPosition = closestPoint.transform.position;
                 isMoving = true;
             }
@@ -296,11 +306,13 @@ public class PlayerTraverse : MonoBehaviour
             if (touch.phase == UnityEngine.TouchPhase.Began)
             {
                 // Check if the touch was on a UI element or if the slingshot is active
-                if (IsPointerOverUIElement(touch.fingerId) || ToggleButton.isSlingshotActive)
+                if (IsPointerOverUIElement(touch.fingerId) || CheckDistractionTouch())
                 {
                     Debug.Log("Touched on a UI element or slingshot is active, not moving the player.");
                     return; // Do nothing if the touch was on a UI element or slingshot is active
                 }
+
+                Debug.Log("The distraction click is: " + CheckDistractionTouch());
 
                 Vector3 touchPosition = touch.position;
 
@@ -431,6 +443,8 @@ public class PlayerTraverse : MonoBehaviour
     // Method to move the player towards the target
     private void MovePlayer()
     {
+        /*        SoundPlayer.PlayOneShotSound("walk");
+        */
         float step = moveSpeed * Time.deltaTime;
 
         // Calculate the next position while keeping the Y position fixed
@@ -456,4 +470,57 @@ public class PlayerTraverse : MonoBehaviour
             isMoving = false;
         }
     }
+
+
+    private bool CheckDistractionClick()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        // Perform a raycast that only hits objects in the distraction layer
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, distractionLayer))
+        {
+            // Check if the hit object is within the distractions array
+            foreach (GameObject distraction in distractions)
+            {
+                Debug.Log("Distraction: " + distraction.name);
+                if (distraction != null && hit.collider.gameObject == distraction)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private bool CheckDistractionTouch()
+    {
+        // Ensure there's at least one touch input
+        if (Input.touchCount > 0)
+        {
+            // Get the first touch
+            Touch touch = Input.GetTouch(0);
+
+            // Convert the touch position to a ray
+            Ray ray = mainCamera.ScreenPointToRay(touch.position);
+            RaycastHit hit;
+
+            // Perform a raycast that only hits objects in the distraction layer
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, distractionLayer))
+            {
+                // Check if the hit object is within the distractions array
+                foreach (GameObject distraction in distractions)
+                {
+                    Debug.Log("Distraction: " + distraction.name);
+                    if (distraction != null && hit.collider.gameObject == distraction)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

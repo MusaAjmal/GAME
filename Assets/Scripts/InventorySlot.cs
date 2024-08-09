@@ -1,12 +1,15 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour
 {
-    public ItemSO item; // Current item in the slot
-    public Image icon; // Icon image to display item sprite
+   [SerializeField] public ItemSO item; // Current item in the slot
+    [SerializeField] public Image icon; // Icon image to display item sprite
+    [SerializeField] public TextMeshProUGUI text;
+    [SerializeField] public Image bkgrndImage;
     // Optional: Count icon
-    public Text text; // Optional: Text for count display
+   // public Text text; // Optional: Text for count display
     int count = 1; // Count of items (optional)
     /* public Button button;
      private ColorBlock defaultColor;*/
@@ -17,6 +20,7 @@ public class InventorySlot : MonoBehaviour
         {
             count++;
             text.text = count.ToString();
+            //text.text = count.ToString();
         }
         else
         {
@@ -44,7 +48,9 @@ public class InventorySlot : MonoBehaviour
         icon.sprite = item.sprite;
         icon.enabled = true;
         text.enabled = true;
-        text.text = count.ToString();
+        text.text= count.ToString();
+       /* text.enabled = true;
+        text.text = count.ToString();*/
     }
 
     // Clear the slot (remove item)
