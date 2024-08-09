@@ -7036,7 +7036,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1579099657}
+  m_Father: {fileID: 1497798867}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9330,6 +9330,11 @@ PrefabInstance:
       propertyPath: points.Array.data[10]
       value: 
       objectReference: {fileID: 2004118241}
+    - target: {fileID: 3606434498785538270, guid: 7a378fe322a558445a59ced180b90162,
+        type: 3}
+      propertyPath: distractionLayer.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 4276859090969452727, guid: 7a378fe322a558445a59ced180b90162,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -14573,6 +14578,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83b081522f15df64cb4f8b5416eccdec, type: 3}
+--- !u!224 &1497798867 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 9035827217684891417, guid: adac3ee24ff9fdf47bf15f0bb9ec8a54,
+    type: 3}
+  m_PrefabInstance: {fileID: 5267779915347864611}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1498694534 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3503050870714764490, guid: 0ea02835bff2f6c4f96a65b26e2554ae,
@@ -19236,7 +19247,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031960753}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c6a49c191aeb6e468b744950c76aa31, type: 3}
   m_Name: 
@@ -19246,8 +19257,6 @@ MonoBehaviour:
   litMaterial: {fileID: 2100000, guid: 5decb61421d7da248a5a900d905601c9, type: 2}
   lightIntensity: 2
   proximityThreshold: 2
-  spotlightAngle: 30
-  spotlightRange: 10
 --- !u!4 &2031960758 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 646379340176365232, guid: 7a378fe322a558445a59ced180b90162,
