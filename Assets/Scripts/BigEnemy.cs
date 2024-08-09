@@ -41,7 +41,8 @@ public class BigEnemy : MonoBehaviour
     private enum EnemyState
     {
         Idle,
-        Alerted
+        Alerted,
+        Returning
     }
 
     private EnemyState currentState;
@@ -56,11 +57,14 @@ public class BigEnemy : MonoBehaviour
 
     private void Update()
     {
-        CheckTorch();
-
-        if ((checkpoint1 != null && checkpoint1.checkpointReached) || (checkpoint2 != null && checkpoint2.checkpointReached))
+        if (currentState == EnemyState.Idle)
         {
-            RestartCheckPlayerCoroutine();
+            CheckTorch();
+
+            if ((checkpoint1 != null && checkpoint1.checkpointReached) || (checkpoint2 != null && checkpoint2.checkpointReached))
+            {
+                RestartCheckPlayerCoroutine();
+            }
         }
     }
 
@@ -89,7 +93,7 @@ public class BigEnemy : MonoBehaviour
 
     private bool IsMoving()
     {
-        return transform.forward != Vector3.zero;
+        return currentMovementCoroutine != null;
     }
 
     private IEnumerator CheckPlayerCoroutine()
@@ -126,6 +130,7 @@ public class BigEnemy : MonoBehaviour
                         if (targetObject != null)
                         {
                             StopCheckPlayerCoroutine();
+                            StopCurrentMovementCoroutine();
                             currentMovementCoroutine = StartCoroutine(MoveToPlayer(targetObject));
                         }
                     }
@@ -138,7 +143,6 @@ public class BigEnemy : MonoBehaviour
 
     private IEnumerator MoveToPlayer(GameObject playerObject)
     {
-        bool playerCaught = false;
         currentState = EnemyState.Alerted;
         float playerDistance = Vector3.Distance(transform.position, playerObject.transform.position);
 
@@ -162,18 +166,10 @@ public class BigEnemy : MonoBehaviour
 
                 if (Vector3.Distance(transform.position, noisePosition) < 2f)
                 {
-                    playerCaught = true;
-
-                    if (playerCaught)
-                    {
-                        LevelManager.Instance.GameOverScreen();
-                        StopAllCoroutines();
-                        transform.position = initialPosition;
-                        transform.rotation = initialRotation;
-                        currentState = EnemyState.Idle;
-                        StartCheckPlayerCoroutine();
-                        yield break;
-                    }
+                    LevelManager.Instance.GameOverScreen();
+                    StopAllCoroutines();
+                    ResetToInitialState();
+                    yield break;
                 }
             }
         }
@@ -190,19 +186,7 @@ public class BigEnemy : MonoBehaviour
         }
     }
 
-    private IEnumerator ReturnToInitialPosition()
-    {
-        while (Vector3.Distance(transform.position, initialPosition) > 0.1f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, initialPosition, moveSpeed / movementMultiplier * Time.deltaTime);
-            transform.forward = Vector3.Slerp(transform.forward, (initialPosition - transform.position).normalized, rotateSpeed * Time.deltaTime);
-            yield return null;
-        }
 
-        transform.rotation = initialRotation;
-        currentState = EnemyState.Idle;
-        StartCheckPlayerCoroutine();
-    }
 
     public IEnumerator MoveToNoise(Vector3 noisePosition, GameObject throwableObject)
     {
@@ -212,12 +196,14 @@ public class BigEnemy : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, noisePosition, moveSpeed / movementMultiplier * Time.deltaTime);
             transform.forward = Vector3.Slerp(transform.forward, (noisePosition - transform.position).normalized, rotateSpeed * Time.deltaTime);
+
+            // Check for torches while moving to noise
+            CheckTorch();
+
             yield return null;
         }
 
         yield return new WaitForSeconds(noiseAttentionTime);
-
-        movementMultiplier = noiseMultiplier;
 
         yield return ReturnToInitialPosition();
     }
@@ -251,14 +237,10 @@ public class BigEnemy : MonoBehaviour
             if (targetObject != null)
             {
                 StopCheckPlayerCoroutine();
+                StopCurrentMovementCoroutine();
                 currentMovementCoroutine = StartCoroutine(MoveToNoise(targetPosition, targetObject));
             }
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Collision detected");
     }
 
     private void CheckTorch()
@@ -267,7 +249,7 @@ public class BigEnemy : MonoBehaviour
         {
             if (torch == null)
             {
-                Debug.Log("Torch not found");
+                Debug.LogWarning("Torch not found");
                 return;
             }
 
@@ -275,7 +257,7 @@ public class BigEnemy : MonoBehaviour
 
             if (torchComponent == null)
             {
-                Debug.Log("Torch component not found");
+                Debug.LogWarning("Torch component not found");
                 return;
             }
 
@@ -292,6 +274,7 @@ public class BigEnemy : MonoBehaviour
             }
 
             StopCheckPlayerCoroutine();
+            StopCurrentMovementCoroutine();
             currentMovementCoroutine = StartCoroutine(MoveToTorch(torchPosition, torchComponent));
         }
     }
@@ -300,18 +283,59 @@ public class BigEnemy : MonoBehaviour
     {
         currentState = EnemyState.Alerted;
 
+        // Move towards the torch
         while (Vector3.Distance(transform.position, torchPosition) > 2f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, torchPosition, (moveSpeed / torchMultiplier) * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, torchPosition, (moveSpeed /*/ torchMultiplier*/) * Time.deltaTime);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation((torchPosition - transform.position).normalized), rotateSpeed * 5 * Time.deltaTime);
             yield return null;
         }
 
-        torchComponent.toggle();
+        // Toggle the torch if it's within reach
+        if (torchComponent != null && Vector3.Distance(transform.position, torchPosition) <= 2f)
+        {
+            torchComponent.toggle();
+        }
+        else
+        {
+            Debug.LogWarning("Torch component not found or not within reach.");
+        }
+
+        // Wait for a moment to simulate attention on the torch
         yield return new WaitForSeconds(noiseAttentionTime);
 
-        movementMultiplier = torchMultiplier;
-
+        // Return to initial position
         yield return ReturnToInitialPosition();
+    }
+
+    private IEnumerator ReturnToInitialPosition()
+    {
+        currentState = EnemyState.Returning;
+
+        while (Vector3.Distance(transform.position, initialPosition) > 0.1f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, initialPosition, moveSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(initialPosition - transform.position), rotateSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        // Reset rotation
+        transform.rotation = initialRotation;
+
+        // Reset state
+        ResetToInitialState();
+    }
+
+    private void ResetToInitialState()
+    {
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
+        currentState = EnemyState.Idle;
+        StartCheckPlayerCoroutine();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collision detected with " + collision.gameObject.name);
     }
 }

@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 109db2fa430119c488b3d20c33896af2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 8
+  radius: 3.3
   angle: 24
   playerRef: {fileID: 0}
   targetMask:
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movePoints: []
-  moveSpeed: 0
-  noiseRadius: 0
+  moveSpeed: 6
+  noiseRadius: 10
   objectMask:
     serializedVersion: 2
     m_Bits: 0
@@ -113,8 +113,8 @@ MonoBehaviour:
     m_Bits: 0
   collisionRange: 10
   noiseDetected: 0
-  noiseAttentionTime: 2
-  playerDetectDistance: 0
+  noiseAttentionTime: 2.5
+  playerDetectDistance: 3
   Checkpoint: {fileID: 0}
   Checkpoint2: {fileID: 0}
 --- !u!1 &8170374083235587902
@@ -340,17 +340,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f0764fd3e8542f245923e1b4eb10af3e,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 3.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0764fd3e8542f245923e1b4eb10af3e,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.02
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0764fd3e8542f245923e1b4eb10af3e,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 3.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0764fd3e8542f245923e1b4eb10af3e,
         type: 3}

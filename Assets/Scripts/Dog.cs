@@ -135,7 +135,7 @@ public class Dog : MonoBehaviour
 
     public void CheckNoise()
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius, objectMask);
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, noiseRadius);
 
         if (rangeChecks.Length != 0)
         {
