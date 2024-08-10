@@ -1254,8 +1254,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: new text hi how is everybody doin this is me making a tutorial for my game
-    hope everyone likes it!
+  m_text: Welcome to Dungeon Breakout ! this is a stealth - DUngeon Escape Based
+    Game Your goal is to escape the duneon Sounds simple right? press the forward
+    button to Continue!!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 633541792f2423f4bb57e8719f8bc7fd, type: 2}
   m_sharedMaterial: {fileID: 1304617611747952703, guid: 633541792f2423f4bb57e8719f8bc7fd,

@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameOverScript gameOverScript;
+    [SerializeField] private GameObject popup;
     [SerializeField] private GameObject touchPanel;
     [SerializeField] private GameObject inventory;
     //[SerializeField] private GameObject Player;
@@ -56,6 +57,20 @@ public class LevelManager : MonoBehaviour
         }
 
     }
+    public void mainMenuLoader()
+    {
+        popup.SetActive(true);
+    }
+    public void tick()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
+    public void cross()
+    {
+        popup.SetActive(false);
+    }
+
+
      private void Update()
      {
         elapsedTime += Time.deltaTime;
@@ -202,6 +217,7 @@ public class LevelManager : MonoBehaviour
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         Application.Quit(); 
     }
+
     public void initiateStarRetrieval()
     {
         for (int i = 0; i < Stars.Length; i++) {
