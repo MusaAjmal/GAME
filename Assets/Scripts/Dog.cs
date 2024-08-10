@@ -166,7 +166,7 @@ public class Dog : MonoBehaviour
                 throwableObject = targetObject;
                 Debug.Log("Noise detected at: " + targetPosition + " from " + targetObject.tag);
 
-                if (targetObject.transform.position.y < transform.position.y)
+                if (targetObject.transform.position.y < 2)
                 {
                     if (patrolReturnPosition == Vector3.zero)
                     {
@@ -174,6 +174,7 @@ public class Dog : MonoBehaviour
                     }
 
                     StopAllCoroutines();
+                    Debug.Log("Moving to " + targetPosition + " for the object: " + throwableObject);
                     StartCoroutine(MoveToNoise(targetPosition, throwableObject));
                 }
             }

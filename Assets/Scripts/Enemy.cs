@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     {
         if (!isChasingPlayer) // Only check if not already chasing
         {
-            StartCoroutine(CheckPlayer());
+            CheckPlayer();
         }
 
         switch (currentState)
@@ -142,68 +142,44 @@ public class Enemy : MonoBehaviour
         return faceDirection != Vector3.zero;
     }
 
-   
 
 
-    public IEnumerator CheckPlayer()
+
+    public void CheckPlayer()
     {
-        // Check for colliders within the player detection radius
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, playerDetectDistance);
 
         if (rangeChecks.Length != 0)
         {
-            GameObject targetObject = null;
-            Vector3 targetPosition = Vector3.zero;
-
             foreach (Collider collider in rangeChecks)
             {
-                if (collider.CompareTag("Player")) // Check if the collider is tagged as Player
+                if (collider.CompareTag("Player"))
                 {
                     Debug.Log("Player found");
-                    targetObject = collider.gameObject;
-                    targetPosition = collider.transform.position;
+                    Vector3 targetPosition = collider.transform.position;
                     float distanceToTarget = Vector3.Distance(targetPosition, transform.position);
 
-                    // Ensure there is no obstruction between the enemy and the player
                     if (!Physics.Raycast(transform.position, targetPosition - transform.position, distanceToTarget, obstructionMask))
                     {
-                        // Set the spotted flag and chasing state
-                        spotted = true;
-                        isChasingPlayer = true;
-
-                        // Calculate the direction to the player
+                        // Calculate the direction to the target
                         Vector3 directionToTarget = (targetPosition - transform.position).normalized;
 
-                        // Calculate the desired rotation towards the player
+                        // Calculate the desired rotation
                         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
 
-                        // Smoothly rotate towards the player
-                        float elapsedTime = 0f; // Initialize the elapsed time
-                        float timeToRotate = 1f; // Duration to complete the rotation
+                        // Smoothly rotate towards the target rotation
+                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
 
-                        // Rotate towards the player for the specified duration
-                        while (elapsedTime < timeToRotate)
-                        {
-                            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, elapsedTime / timeToRotate);
-                            elapsedTime += Time.deltaTime;
-                            yield return null; // Wait for the next frame
-                        }
+                        spotted = true;
+                        Debug.Log("GAME OVER ENEMY SPOTTED YOU");
 
-                        // Wait for an additional 1 second before ending the game
-                        yield return new WaitForSeconds(1f);
+                        LevelManager.Instance.GameOverScreen();
 
-                        // Trigger the Game Over screen
-
-                        sceneManager.GameOverScreen();
-                        Debug.Log("GAME OVER: ENEMY SPOTTED YOU");
-                        break; // Exit the loop once the player is spotted
+                        break; // Found the target, no need to continue the loop
                     }
                 }
             }
         }
-
-        // Reset chasing state after the detection loop
-        isChasingPlayer = false;
     }
 
 
