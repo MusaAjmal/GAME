@@ -241,6 +241,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Large_Plate (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4800612854576410418, guid: 78dc3a91be4594347a40089b6b24e420,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6399716246523419596, guid: 78dc3a91be4594347a40089b6b24e420,
         type: 3}
       propertyPath: m_LocalScale.x
