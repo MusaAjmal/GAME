@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSO: {fileID: 11400000, guid: 0f3ffa0696379eb49b3f0b1ac1204819, type: 2}
   isOn: 0
+  light: {fileID: 0}
 --- !u!143 &2975892475974634335
 CharacterController:
   m_ObjectHideFlags: 0
@@ -255,7 +256,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f8a01d70c4ec79c47b5185f00c4270c8, type: 2}
+      objectReference: {fileID: 2100000, guid: 8e77d7b5327556948abb167794679b21, type: 2}
     - target: {fileID: 2370955606900982069, guid: 00ea8881b0f20774797427ba811f2e66,
         type: 3}
       propertyPath: m_LocalScale.x

@@ -12,8 +12,10 @@ public class TutorialContoller : MonoBehaviour
     [SerializeField] private Button NextButton;
     [SerializeField] private string[] Dialogues;
     [SerializeField] private GameObject[] referenceImages;
+    [SerializeField] private Image referImage;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject finishButton;
+    [SerializeField] private GameObject skiptutorial;
 
     string d1 = "LETS START WITH CONTROLS FIRST , THE WHITE DOTS ON THE GROUND INDICATE WHERE PLAYER CAN MOVE TOUCH ANYWHERE IN SCREEN TO MAKE THE PLAYER MOVE . THE RED BUTTON IS USED TO INTERACT WITH OBJECTS . THE GREEN BUTTON IS THE SLINGSHOT BUTTON THAT CAN HELP YOU SHOOT THE ITEM YOU HAVE IN YOUR INVENTORY.THE PURPLE BUTTON IS TO CYCLE TO THE NEXT ITEM IN THE INVENTORY.";
    string d2 = "DONOT GET CLOSE TO ENEMIES TO ESCAPE THE DUNGEON YOU NEED TO LOCATE THE ELAVATOR AND MAKE YOUR WAY TOWARDS IT . DISTRACT THE ENEMY WITH NOISE BY THROWING ITEMS AT VASES";
@@ -36,20 +38,24 @@ public class TutorialContoller : MonoBehaviour
     public void NextClick()
     {
         iterator++;
+        
 
         if (iterator < referenceImages.Length)
         {
-            // Disable all previous images
-            for (int i = 0; i < iterator; i++)
-            {
-                referenceImages[i].SetActive(false);
-            }
 
-            // Enable the current image
+
+            //refresh Image
+            Debug.Log(GetVariableType(referenceImages[iterator].name));
+            Debug.Log("image id : "+referenceImages[iterator].name);
+            Debug.Log("Iterator: " + iterator);
             if (iterator.ToString().Equals(referenceImages[iterator].name))
             {
                 referenceImages[iterator].SetActive(true);
                 text.text = Dialogues[iterator];
+                if(iterator == 6)
+                {
+                    finishButton.SetActive(true);
+                }
             }
             else
             {
@@ -85,12 +91,23 @@ public class TutorialContoller : MonoBehaviour
     }
     public void loadLevel()
     {
-        LoadNewScene("Dev1 backup 1");
+        LoadNewScene("Dev 1");
     }
     public void Skip()
     {
        // LoadNewScene("Main Menu");
-        SceneManager.LoadScene("Main Menu");
+
+       // SceneManager.LoadScene("Main Menu");
+       skiptutorial.SetActive(true);
+    }
+    public void cross()
+    {
+
+    skiptutorial.SetActive(false); 
+    }
+    public void tick()
+    {
+        LoadNewScene("Dev 1");
     }
 
 }
