@@ -1,18 +1,28 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
+
 
 public class Checkpoint : MonoBehaviour
 {
     public SphereCollider collider;
     public bool checkpointReached;
+    public ChestDialogue dialogue;
     public Vector3 lastPoint;
-    private List<ItemSO> savedStoneStack;  // Store stone stack items here
-    private List<ItemSO> savedOtherItemsStack;  // Store other items stack here
+   [SerializeField] List<ItemSO> savedStoneStack;  // Store stone stack items here
+    [SerializeField] List<ItemSO> savedOtherItemsStack;  // Store other items stack here
     public delegate void oncheckpointReached();
     public oncheckpointReached callback;
     public GameObject checkpointEffect;
     public Vector3 effectPoint;
+    [SerializeField] public GameObject[] items;
+
+    public void resetItems()
+    {
+        foreach (var item in items)
+        {
+            item.SetActive(true);
+        }
+    }
     private void Start()
     {
         checkpointReached = false;
@@ -27,6 +37,7 @@ public class Checkpoint : MonoBehaviour
         {
             SoundPlayer.PlayOneShotSound("checkpoint");
             checkpointEffect = Instantiate(checkpointEffect, effectPoint, Quaternion.identity);
+            dialogue.appear();
             checkpointEffect.transform.Rotate(90, 0, 0);
             Destroy(checkpointEffect , 0.5f);
 
@@ -65,5 +76,6 @@ public class Checkpoint : MonoBehaviour
 
         // Update the default item if needed
         Inventory.Instance.CycleItems();
+        Debug.Log(" method Called");
     }
 }

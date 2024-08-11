@@ -19,12 +19,12 @@ public class FieldOfView : MonoBehaviour
         playerRef = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVRoutine());
     }
-    private void Update()
+   /* private void Update()
     {
         StartCoroutine(CheckBoolForTime());
     }
-
-    private IEnumerator CheckBoolForTime()
+*/
+    /*private IEnumerator CheckBoolForTime()
     {
         timeElapsed = 0f;
 
@@ -37,12 +37,14 @@ public class FieldOfView : MonoBehaviour
         if (canseePlayer && timeElapsed >= timeToCheck)
         {
             Debug.Log("GAME OVER !!! Defeated by " + name);
-/*            LevelManager.Instance.GameOverScreen();
-*/
+            return;
+            ///break;
+*//*            LevelManager.Instance.GameOverScreen();
+*//*
 
-            timeElapsed = 0f;
+            //timeElapsed = 0f;
         }
-    }
+    }*/
 
 
 

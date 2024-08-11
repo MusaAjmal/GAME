@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class InventoryUI : MonoBehaviour
 {
     Inventory Inventory;
+    [SerializeField]
+    private Color highlightColor;//=new Color(200f / 255f, 11f / 255f, 43f / 255f, 0.38f);
     public Transform objectsParent;
     public InventorySlot[] inventorySlots;
     public bool isStoneSet;
@@ -418,7 +420,7 @@ public class InventoryUI : MonoBehaviour
             if (inventorySlots[i].item == Inventory.Instance.defaultItem)
             {
                 // Highlight the slot containing the default item
-                inventorySlots[i].bkgrndImage.color = new Color(1f, 1f, 1f, 0.1f);
+                inventorySlots[i].bkgrndImage.color = highlightColor;
                 inventorySlots[i].bkgrndImage.enabled = true;
             }
             else

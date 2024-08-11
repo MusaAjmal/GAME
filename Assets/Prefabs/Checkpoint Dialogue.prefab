@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7316754598229535061}
   - component: {fileID: 2129776350453927555}
   m_Layer: 5
-  m_Name: Chest Dialogue
+  m_Name: Checkpoint Dialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,8 +150,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16, y: 3.1036}
-  m_SizeDelta: {x: 1062.8069, y: 118.2798}
+  m_AnchoredPosition: {x: 356.12253, y: 3.1036}
+  m_SizeDelta: {x: 1743.0518, y: 118.2798}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2263749632755927302
 CanvasRenderer:
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CHEST RECEIVED!!!!!
+  m_text: CHECKPOINT REACHED !!!!!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

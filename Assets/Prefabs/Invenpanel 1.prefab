@@ -678,11 +678,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -718,6 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b914d75cdfa9a48934082b8fce182a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.6886792, g: 0.07471521, b: 0.07471521, a: 0.14117648}
   objectsParent: {fileID: 6845870236413271321}
   inventorySlots:
   - {fileID: 2958649968725016158}

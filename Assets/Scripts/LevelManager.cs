@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameOverScript gameOverScript;
     [SerializeField] private GameObject popup;
+    [SerializeField] private GameObject popup2;
     [SerializeField] private GameObject touchPanel;
     [SerializeField] private GameObject inventory;
     //[SerializeField] private GameObject Player;
@@ -118,6 +119,23 @@ public class LevelManager : MonoBehaviour
             images[i].SetActive(true);
         }
     }
+
+    public void retrybtnClick()
+    {
+        popup2.SetActive(true);
+    }
+    public void cross2()
+    {
+        popup2.SetActive(false);
+    }
+    public void tick2()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void retrylevelfromScratch()
+    {
+
+    }
     private void ShowStars()
     {
 
@@ -140,8 +158,10 @@ public class LevelManager : MonoBehaviour
             if (Checkpoint.checkpointReached)
             {
                Checkpoint.LoadInventory();
+                Debug.Log("Inventory Loaded !");
                 Respawn.instance.RespawnPlayer();
                 points.OnPlayerRespawn();
+                Checkpoint.resetItems();
                 InventoryUI.instance.UpdateUI();
                 gameOverScript.setDown();
                 inventory.SetActive(true);
@@ -165,6 +185,7 @@ public class LevelManager : MonoBehaviour
             {
                 Checkpoint2.LoadInventory();
                 Respawn.instance.RespawnPlayer();
+                Checkpoint2.resetItems();
                 points.OnPlayerRespawn();
                 InventoryUI.instance.UpdateUI();
                 gameOverScript.setDown();

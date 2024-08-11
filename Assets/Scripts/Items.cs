@@ -16,9 +16,9 @@ public class Items : MonoBehaviour
 
             Inventory.Instance.AddItem(itemSO);
 
+            gameObject.SetActive(false);
 
-
-            Destroy(gameObject); //instead of destroying we change the parent of the transform
+            //Destroy(gameObject); //instead of destroying we change the parent of the transform
 
         }
 
@@ -95,7 +95,7 @@ public class Items : MonoBehaviour
 
     private void OnMiddleMouseDown()
     {
-        if (this != null && gameObject != null)
+        if (this != null && gameObject.activeInHierarchy)
         {
             if (Vector3.Distance(Player.Instance.GetPosition(), transform.position) < Player.Instance.pickupDistance)
             {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChestDialogue : MonoBehaviour
 {
     [SerializeField] public GameObject obj;
+    
     private void Start()
     {
        // obj = GameObject.FindWithTag("Dialogue");
@@ -14,7 +15,7 @@ public class ChestDialogue : MonoBehaviour
         if (obj != null) {
             obj.SetActive(true);
             obj.transform.LeanMoveLocal(new Vector2(57, 479), 1).setEaseOutQuart();
-            StartCoroutine(DisableAfterDelay(1.5f));
+            StartCoroutine(DisableAfterDelay(1.8f));
         }
         else
         {
