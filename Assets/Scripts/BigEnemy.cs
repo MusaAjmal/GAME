@@ -63,9 +63,7 @@ public class BigEnemy : MonoBehaviour
 
             if ((checkpoint1 != null && checkpoint1.checkpointReached) || (checkpoint2 != null && checkpoint2.checkpointReached))
             {
-                ResetToInitialState();
                 RestartCheckPlayerCoroutine();
-               
             }
         }
     }
@@ -142,6 +140,7 @@ public class BigEnemy : MonoBehaviour
             yield return null;
         }
     }
+
     private IEnumerator MoveToPlayer(GameObject playerObject)
     {
         currentState = EnemyState.Alerted;
@@ -171,7 +170,6 @@ public class BigEnemy : MonoBehaviour
                 {
                     LevelManager.Instance.GameOverScreen();
                     StopAllCoroutines();
-                   // ResetToInitialState(); // Ensure this resets all necessary states
                     yield break; // Exit the coroutine to prevent stack overflow
                 }
             }
@@ -179,6 +177,8 @@ public class BigEnemy : MonoBehaviour
 
         yield return ReturnToInitialPosition();
     }
+
+
     private void StopCurrentMovementCoroutine()
     {
         if (currentMovementCoroutine != null)
