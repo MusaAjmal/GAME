@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
     public bool startRecevied;
     public static LevelManager Instance { get; private set; }
     Chest Chest;
+    private BigEnemy[] bigEnemy;
 
     public bool[] Stars;
     private int starNumber;
@@ -44,6 +45,8 @@ public class LevelManager : MonoBehaviour
     }
     private void Start()
     {
+        bigEnemy = FindObjectsOfType<BigEnemy>();
+
         startRecevied = true;
         // gameOverScript = GetComponent<GameOverScript>();
         starNumber = 0;
@@ -168,6 +171,11 @@ public class LevelManager : MonoBehaviour
                 touchPanel.SetActive(true);
                 starNumber = 0;
 
+                foreach(BigEnemy enemy in bigEnemy)
+                {
+                    enemy.RestartCheckPlayerCoroutine();
+                }
+
 
             }
             
@@ -192,6 +200,12 @@ public class LevelManager : MonoBehaviour
                 inventory.SetActive(true);
                 touchPanel.SetActive(true);
                 starNumber = 0;
+
+                foreach (BigEnemy enemy in bigEnemy)
+                {
+                    enemy.RestartCheckPlayerCoroutine();
+                }
+
 
             }
 

@@ -14324,6 +14324,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6999736291906511929, guid: 00104c871859c1b4fb5aa1488807e8a6,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2500349b65ef89c4db37b0825e157352, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16080,6 +16085,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlowPoint 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5287341775855141260, guid: 5913810bc89b2b44ba907f8a3e0df870,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 04e971006f323dc46bc665b47dea66df, type: 2}
     - target: {fileID: 8394786272634251081, guid: 5913810bc89b2b44ba907f8a3e0df870,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25716,8 +25726,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.84313726, b: 0, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.75
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -26168,8 +26178,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.11764706, g: 0.5647059, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.7971698, g: 0.80375326, b: 1, a: 1}
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

@@ -23,7 +23,7 @@ public class TutorialContoller : MonoBehaviour
         public  int iterator;
     public void Start()
     {
-        iterator = -1;
+        iterator = 0;
     }
     public string GetVariableType(object variable)
     {

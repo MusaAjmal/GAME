@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static Checkpoint;
 
 public class BigEnemy : MonoBehaviour
 {
@@ -45,10 +46,13 @@ public class BigEnemy : MonoBehaviour
         Returning
     }
 
+    private bool checkpointReached;
+
     private EnemyState currentState;
 
     private void Start()
     {
+        checkpointReached = false;
         initialPosition = transform.position;
         initialRotation = transform.rotation;
         currentState = EnemyState.Idle;
@@ -63,8 +67,9 @@ public class BigEnemy : MonoBehaviour
 
             if ((checkpoint1 != null && checkpoint1.checkpointReached) || (checkpoint2 != null && checkpoint2.checkpointReached))
             {
-                RestartCheckPlayerCoroutine();
-            }
+
+/*                RestartCheckPlayerCoroutine();
+*/            }
         }
     }
 
@@ -85,7 +90,7 @@ public class BigEnemy : MonoBehaviour
         }
     }
 
-    private void RestartCheckPlayerCoroutine()
+    public void RestartCheckPlayerCoroutine()
     {
         StopCheckPlayerCoroutine();
         StartCheckPlayerCoroutine();
