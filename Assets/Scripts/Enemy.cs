@@ -49,8 +49,8 @@ public class Enemy : MonoBehaviour
     }
 
     private void Update()
-    {
-        if (!isChasingPlayer) // Only check if not already chasing
+    { 
+        if (!spotted) // Only check if not already chasing
         {
             CheckPlayer();
         }
@@ -145,6 +145,42 @@ public class Enemy : MonoBehaviour
 
 
 
+    /* public void CheckPlayer()
+     {
+         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, playerDetectDistance);
+
+         if (rangeChecks.Length != 0)
+         {
+             foreach (Collider collider in rangeChecks)
+             {
+                 if (collider.CompareTag("Player"))
+                 {
+                     Debug.Log("Player found");
+                     Vector3 targetPosition = collider.transform.position;
+                     float distanceToTarget = Vector3.Distance(targetPosition, transform.position);
+
+                     if (!Physics.Raycast(transform.position, targetPosition - transform.position, distanceToTarget, obstructionMask))
+                     {
+                         // Calculate the direction to the target
+                         Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+
+                         // Calculate the desired rotation
+                         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+
+                         // Smoothly rotate towards the target rotation
+                         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+
+                         spotted = true;
+                         Debug.Log("GAME OVER ENEMY SPOTTED YOU");
+
+                         LevelManager.Instance.GameOverScreen();
+
+                         break; // Found the target, no need to continue the loop
+                     }
+                 }
+             }
+         }
+     }*/
     public void CheckPlayer()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, playerDetectDistance);
